@@ -4,32 +4,11 @@ import { useState } from "react";
 
 const testimonials = [
   {
-    id: 1,
-    name: "Sarah Jansen",
-    company: "Event Director @ ONETICETLEFT",
-    text: "Luca is een rots in de branding tijdens onze grootste producties. Zijn oog voor detail en vermogen om rust te bewaren backstage is ongeëvenaard.",
-    image: "https://picsum.photos/seed/sarah/200/200"
-  },
-  {
-    id: 2,
-    name: "Mark de Vries",
-    company: "Project Manager @ NJI",
-    text: "De samenwerking met Luca voor de DiscoverEU meet-ups was fantastisch. Hij begrijpt de doelgroep en vertaalt dit naar een vlekkeloze uitvoering.",
-    image: "https://picsum.photos/seed/mark/200/200"
-  },
-  {
     id: 3,
     name: "Laura Adèr",
     company: "Co-Founder and Executive Director @ Fairspace",
     text: "De samenwerking met Luca was ontzettend prettig. Met zijn oog voor detail, ruime ervaring en het vermogen om onder tijdsdruk het overzicht te bewaren, zorgt hij ervoor dat je een sterk en professioneel event neerzet.",
     image: "/testimonial-laura.jpg"
-  },
-  {
-    id: 4,
-    name: "Thomas van Gelder",
-    company: "Producer @ ONETICETLEFT",
-    text: "De passie voor het vak spat er vanaf bij WE THE CROWD. Een absolute aanrader voor elk grootschalig event dat vraagt om scherpte.",
-    image: "https://picsum.photos/seed/thomas/200/200"
   }
 ];
 
