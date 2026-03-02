@@ -38,12 +38,16 @@ export default function Services() {
   const containerRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const [dragLeft, setDragLeft] = useState(0);
+  const [isMobile, setIsMobile] = useState(() => window.innerWidth < 768);
+  const [activeCard, setActiveCard] = useState<number | null>(null);
+  const [isDragging, setIsDragging] = useState(false);
   const dragX = useMotionValue(0);
-  // Indicator thumb: verschuift van 0% naar 50% (2 van 4 kaarten zichtbaar)
-  const indicatorLeft = useTransform(dragX, [dragLeft, 0], ["50%", "0%"]);
+  const indicatorLeftDesktop = useTransform(dragX, [dragLeft || -1, 0], ["50%", "0%"]);
+  const indicatorLeftMobile = useTransform(dragX, [dragLeft || -1, 0], ["75%", "0%"]);
 
   useEffect(() => {
     const update = () => {
+      setIsMobile(window.innerWidth < 768);
       if (trackRef.current && containerRef.current) {
         setDragLeft(-(trackRef.current.scrollWidth - containerRef.current.offsetWidth));
       }
@@ -77,55 +81,61 @@ export default function Services() {
             dragElastic={0.05}
             dragTransition={{ bounceStiffness: 300, bounceDamping: 30 }}
             style={{ x: dragX }}
+            onDragStart={() => setIsDragging(true)}
+            onDragEnd={() => setTimeout(() => setIsDragging(false), 50)}
             className="flex gap-6"
           >
-            {services.map((service, index) => (
-              <motion.div
-                key={index}
-                className="relative aspect-square rounded-[2rem] overflow-hidden group shadow-lg shrink-0"
-                style={{ minWidth: "calc(50% - 12px)" }}
-              >
-                {/* Background Image */}
-                <img
-                  src={service.image}
-                  alt={service.title}
-                  className={`absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 ${service.imagePosition}`}
-                  referrerPolicy="no-referrer"
-                  draggable={false}
-                />
+            {services.map((service, index) => {
+              const isActive = activeCard === index;
+              return (
+                <motion.div
+                  key={index}
+                  onClick={() => { if (!isDragging) setActiveCard(isActive ? null : index); }}
+                  className="relative aspect-square rounded-[2rem] overflow-hidden group shadow-lg shrink-0 cursor-pointer"
+                  style={{ minWidth: isMobile ? "100%" : "calc(50% - 12px)" }}
+                >
+                  {/* Background Image */}
+                  <img
+                    src={service.image}
+                    alt={service.title}
+                    className={`absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 ${isActive ? "scale-110" : ""} ${service.imagePosition}`}
+                    referrerPolicy="no-referrer"
+                    draggable={false}
+                  />
 
-                {/* Dark Overlay */}
-                <div className="absolute inset-0 bg-black/30 group-hover:bg-black/75 transition-colors duration-500" />
+                  {/* Dark Overlay */}
+                  <div className={`absolute inset-0 transition-colors duration-500 group-hover:bg-black/75 ${isActive ? "bg-black/75" : "bg-black/30"}`} />
 
-                {/* Default state: title at bottom */}
-                <div className="absolute inset-x-0 bottom-0 p-8 group-hover:opacity-0 transition-opacity duration-300">
-                  <div className="w-12 h-12 rounded-xl bg-brand-accent text-white flex items-center justify-center mb-4">
-                    {service.icon}
+                  {/* Default state: title at bottom */}
+                  <div className={`absolute inset-x-0 bottom-0 p-8 transition-opacity duration-300 group-hover:opacity-0 ${isActive ? "opacity-0" : "opacity-100"}`}>
+                    <div className="w-12 h-12 rounded-xl bg-brand-accent text-white flex items-center justify-center mb-4">
+                      {service.icon}
+                    </div>
+                    <h3 className="text-3xl font-bold text-white">{service.title}</h3>
                   </div>
-                  <h3 className="text-3xl font-bold text-white">{service.title}</h3>
-                </div>
 
-                {/* Hover state: title top, description below */}
-                <div className="absolute inset-0 p-8 flex flex-col justify-start opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
-                  <div className="w-10 h-10 rounded-xl bg-brand-accent text-white flex items-center justify-center mb-4">
-                    {service.icon}
+                  {/* Hover/tap state: title top, description below */}
+                  <div className={`absolute inset-0 p-8 flex flex-col justify-start transition-opacity duration-500 group-hover:opacity-100 ${isActive ? "opacity-100" : "opacity-0"}`}>
+                    <div className="w-10 h-10 rounded-xl bg-brand-accent text-white flex items-center justify-center mb-4">
+                      {service.icon}
+                    </div>
+                    <h3 className="text-2xl font-bold text-white mb-4">{service.title}</h3>
+                    <div className="w-12 h-1 bg-brand-accent rounded-full mb-4" />
+                    <p className="text-white/90 leading-relaxed text-base">
+                      {service.description}
+                    </p>
                   </div>
-                  <h3 className="text-2xl font-bold text-white mb-4">{service.title}</h3>
-                  <div className="w-12 h-1 bg-brand-accent rounded-full mb-4" />
-                  <p className="text-white/90 leading-relaxed text-base">
-                    {service.description}
-                  </p>
-                </div>
-              </motion.div>
-            ))}
+                </motion.div>
+              );
+            })}
           </motion.div>
         </div>
 
         {/* Scroll indicator */}
         <div className="relative mt-6 mx-auto w-32 h-1 rounded-full bg-gray-200">
           <motion.div
-            className="absolute top-0 left-0 h-full w-1/2 rounded-full bg-brand-accent"
-            style={{ left: indicatorLeft }}
+            className={`absolute top-0 left-0 h-full rounded-full bg-brand-accent ${isMobile ? "w-1/4" : "w-1/2"}`}
+            style={{ left: isMobile ? indicatorLeftMobile : indicatorLeftDesktop }}
           />
         </div>
         <p className="text-center text-sm text-gray-400 italic mt-4">Swipe to see more.</p>
