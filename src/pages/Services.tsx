@@ -91,7 +91,7 @@ export default function Services() {
                 <motion.div
                   key={index}
                   onClick={() => { if (!isDragging) setActiveCard(isActive ? null : index); }}
-                  className="relative aspect-square rounded-[2rem] overflow-hidden group shadow-lg shrink-0 cursor-pointer"
+                  className="relative aspect-[4/5] md:aspect-square rounded-[2rem] overflow-hidden group shadow-lg shrink-0 cursor-pointer"
                   style={{ minWidth: isMobile ? "100%" : "calc(50% - 12px)" }}
                 >
                   {/* Background Image */}
@@ -107,21 +107,21 @@ export default function Services() {
                   <div className={`absolute inset-0 transition-colors duration-500 group-hover:bg-black/75 ${isActive ? "bg-black/75" : "bg-black/30"}`} />
 
                   {/* Default state: title at bottom */}
-                  <div className={`absolute inset-x-0 bottom-0 p-8 transition-opacity duration-300 group-hover:opacity-0 ${isActive ? "opacity-0" : "opacity-100"}`}>
-                    <div className="w-12 h-12 rounded-xl bg-brand-accent text-white flex items-center justify-center mb-4">
+                  <div className={`absolute inset-x-0 bottom-0 p-5 md:p-8 transition-opacity duration-300 group-hover:opacity-0 ${isActive ? "opacity-0" : "opacity-100"}`}>
+                    <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-brand-accent text-white flex items-center justify-center mb-3">
                       {service.icon}
                     </div>
-                    <h3 className="text-3xl font-bold text-white">{service.title}</h3>
+                    <h3 className="text-2xl md:text-3xl font-bold text-white">{service.title}</h3>
                   </div>
 
                   {/* Hover/tap state: title top, description below */}
-                  <div className={`absolute inset-0 p-8 flex flex-col justify-start transition-opacity duration-500 group-hover:opacity-100 ${isActive ? "opacity-100" : "opacity-0"}`}>
-                    <div className="w-10 h-10 rounded-xl bg-brand-accent text-white flex items-center justify-center mb-4">
+                  <div className={`absolute inset-0 p-5 md:p-8 flex flex-col justify-start transition-opacity duration-500 group-hover:opacity-100 ${isActive ? "opacity-100" : "opacity-0"}`}>
+                    <div className="w-9 h-9 md:w-10 md:h-10 rounded-xl bg-brand-accent text-white flex items-center justify-center mb-3">
                       {service.icon}
                     </div>
-                    <h3 className="text-2xl font-bold text-white mb-4">{service.title}</h3>
-                    <div className="w-12 h-1 bg-brand-accent rounded-full mb-4" />
-                    <p className="text-white/90 leading-relaxed text-base">
+                    <h3 className="text-lg md:text-2xl font-bold text-white mb-2 md:mb-4">{service.title}</h3>
+                    <div className="w-10 h-1 bg-brand-accent rounded-full mb-2 md:mb-4" />
+                    <p className="text-white/90 leading-relaxed text-sm md:text-base">
                       {service.description}
                     </p>
                   </div>
