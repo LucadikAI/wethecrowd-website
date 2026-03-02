@@ -1,0 +1,64 @@
+import { motion } from "motion/react";
+import { Link } from "react-router-dom";
+import { ArrowRight } from "lucide-react";
+
+export default function Introduction() {
+  return (
+    <section className="py-24 bg-gray-50 overflow-hidden">
+      <div className="container mx-auto px-6 grid lg:grid-cols-2 gap-16 items-center">
+        {/* Left Side: Portrait */}
+        <motion.div 
+          initial={{ opacity: 0, x: -50 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="relative"
+        >
+          <div className="aspect-[3/4] rounded-3xl overflow-hidden shadow-2xl relative z-10">
+            <img 
+              src="/luca-portret.jpg"
+              alt="Luca Portrait"
+              className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
+              referrerPolicy="no-referrer"
+            />
+          </div>
+          {/* Decorative element */}
+          <div className="absolute -bottom-6 -right-6 w-48 h-48 bg-brand-accent rounded-full -z-0 opacity-20 blur-3xl"></div>
+        </motion.div>
+
+        {/* Right Side: Text */}
+        <motion.div 
+          initial={{ opacity: 0, x: 50 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+        >
+          <span className="text-sm font-bold tracking-widest uppercase text-brand-accent mb-4 block">
+            Over WE THE CROWD
+          </span>
+          <h2 className="text-4xl md:text-5xl font-bold mb-8 leading-tight">
+            Ik ben Luca. <br />
+            Eventprofessional met oog voor detail.
+          </h2>
+          <div className="space-y-6 text-lg text-gray-600 leading-relaxed mb-10">
+            <p>
+              Al jaren werk ik achter de schermen van festivals, concerten en grootschalige producties. Wat mij drijft is het moment waarop alles samenkomt: techniek, artiest, publiek en timing.
+            </p>
+            <p>
+              Ik combineer creatieve visie met operationele scherpte, zodat ideeën niet alleen bedacht worden, maar ook perfect worden uitgevoerd. Voor mij draait een sterk event niet om het draaiboek alleen, maar om wat het publiek uiteindelijk voelt.
+            </p>
+          </div>
+          <Link 
+            to="/over-luca" 
+            className="inline-flex items-center gap-2 text-black font-bold text-lg group"
+          >
+            Meer over mij
+            <div className="w-10 h-10 rounded-full bg-brand-accent text-white flex items-center justify-center group-hover:translate-x-2 transition-transform">
+              <ArrowRight className="w-5 h-5" />
+            </div>
+          </Link>
+        </motion.div>
+      </div>
+    </section>
+  );
+}
