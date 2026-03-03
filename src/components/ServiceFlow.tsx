@@ -8,7 +8,7 @@ const flowItems = [
     id: "concepting",
     title: "Concepting",
     short: "Opzoek naar een pakkend concept of de juiste manier om je doelgroep te bereiken? Laten we starten met bouwen!",
-    detail: "Van kernboodschap tot creatieve uitwerking: ik help je de juiste toon te vinden voor jouw event. Samen bepalen we de richting, bouwen we een concept dat aansluit bij je doelgroep en zorgen we dat het verhaal klopt — vóór er ook maar één decibel klinkt.",
+    detail: "Van kernboodschap tot creatieve uitwerking: ik help je de juiste toon te vinden voor jouw event. Samen bepalen we de richting, bouwen we een concept dat aansluit bij je doelgroep en zorgen we dat het verhaal klopt; vóór er ook maar één decibel klinkt.",
     dotColor: "#f97316",
     cta: "Plan een gesprek",
     palette: [
@@ -20,8 +20,8 @@ const flowItems = [
   {
     id: "ondersteuning",
     title: "Ondersteuning",
-    short: "Hulp nodig op een specifiek gebied? Zowel tijdens de voorbereidingen als op het event zelf help ik je graag waar nodig.",
-    detail: "Of je nu een extra paar handen nodig hebt tijdens de opbouw, iemand die de communicatie richting leveranciers stroomlijnt, of een stagemanager die op de dag zelf alles in goede banen leidt — ik schakel in waar jij mij nodig hebt, precies op het moment dat het telt.",
+    short: "Een eventkracht nodig op een specifiek gebied? Zowel tijdens de voorbereidingen als op het event zelf help ik je graag waar nodig.",
+    detail: "Of je nu een extra paar handen nodig hebt tijdens de opbouw, iemand die de communicatie richting leveranciers stroomlijnt, of een showcaller die op de dag zelf alles in goede banen leidt; ik schakel in waar jij mij nodig hebt.",
     dotColor: "#1ea4f2",
     cta: "Neem contact op",
     palette: [
@@ -33,8 +33,8 @@ const flowItems = [
   {
     id: "organisatie",
     title: "Organisatie",
-    short: "Hulp nodig bij het volledig neerzetten van een event? Tijd voor actie.",
-    detail: "Van eerste briefing tot het moment dat het publiek naar huis gaat: ik neem de volledige organisatie op me. Planning, locatie, crew, leveranciers, draaiboek — ik coördineer elk onderdeel zodat jij je kunt focussen op wat écht telt.",
+    short: "De volledige organisatie van je event uit handen geven? Tijd om aan de slag te gaan!",
+    detail: "Van eerste briefing tot het moment dat het publiek naar huis gaat: ik neem de volledige organisatie op me. Planning, locatie, crew, leveranciers, draaiboek - of juist een selectie daaruit. Ik coördineer het geheel, schakel m'n netwerk in en jij houdt je handen vrij voor wat je het belangrijkst vindt.",
     dotColor: "#0d9488",
     cta: "Plan een gesprek",
     palette: [
