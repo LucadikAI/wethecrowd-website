@@ -27,7 +27,7 @@ export default function FeaturedProjects() {
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {featuredProjects.map((project, index) => (
             <motion.div
               key={project.id}
@@ -35,7 +35,7 @@ export default function FeaturedProjects() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
-              className="group flex flex-col h-full"
+              className={`group flex flex-col h-full rounded-3xl p-6 border ${index % 2 === 0 ? "border-gray-200" : "border-[#c9e8f9]"}`}
             >
               <Link to={`/projecten/${project.slug}`}>
                 <div className="aspect-[4/3] rounded-3xl overflow-hidden mb-8 shadow-lg relative shrink-0 cursor-pointer">
