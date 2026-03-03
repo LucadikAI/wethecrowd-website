@@ -17,21 +17,21 @@ const services = [
     title: "Artiestenbegeleiding",
     icon: <Users className="w-8 h-8" />,
     image: "/dienst-artiesten.jpg",
-    imagePosition: "object-top",
+    imagePosition: "object-bottom",
     description: "Zowel in de voorbereiding als tijdens het live moment ben ik het vaste aanspreekpunt voor artiest en management. Van riders en hospitality tot repetities en showflow. Ik werk in kleine settings én grote venues, en zorg dat artiesten zich volledig kunnen focussen op hun performance."
   },
   {
     title: "Stagemanagement",
     icon: <Zap className="w-8 h-8" />,
     image: "/dienst-stagemanagement.jpg",
-    imagePosition: "object-top",
+    imagePosition: "object-bottom",
     description: "Op de vloer draait alles om timing en overzicht. Als stagemanager bewaak ik de planning, stuur ik crew aan en zorg ik dat wissels, cues en technische momenten naadloos in elkaar overlopen. Ik creëer rust backstage zodat het op het podium klopt."
   },
   {
     title: "Showcalling",
     icon: <Mic2 className="w-8 h-8" />,
     image: "/dienst-showcalling.jpg",
-    imagePosition: "object-top",
+    imagePosition: "object-bottom",
     description: "Tijdens de show houd ik het totaaloverzicht. Ik geef cues aan licht, geluid, video en artiesten en zorg dat het programma exact volgens planning verloopt. Strak waar het moet, flexibel waar het kan. Zodat publiek en performers een vloeiende, professionele beleving ervaren."
   }
 ];
