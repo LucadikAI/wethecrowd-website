@@ -42,10 +42,10 @@ export default function Introduction() {
           </h2>
           <div className="space-y-6 text-lg text-gray-600 leading-relaxed mb-10">
             <p>
-              Al jaren werk ik achter de schermen van festivals, concerten en grootschalige producties. Wat mij drijft is het moment waarop alles samenkomt: techniek, artiest, publiek en timing.
+              Ik werk al jaren achter de schermen van festivals, concerten en grote producties. Wat mij drijft is dat moment waarop alles samenkomt: de techniek klopt, de artiest staat er, het publiek gaat erin mee en de timing zit goed.
             </p>
             <p>
-              Ik combineer creatieve visie met operationele scherpte, zodat ideeën niet alleen bedacht worden, maar ook perfect worden uitgevoerd. Voor mij draait een sterk event niet om het draaiboek alleen, maar om wat het publiek uiteindelijk voelt.
+              Ik ben iemand die creatief denkt maar ook goed weet wat er praktisch nodig is om het neer te zetten. Ideeën bedenken is één ding, ze ook goed uitvoeren is waar het voor mij om draait. Een sterk event gaat verder dan een goed draaiboek. Het gaat om wat de bezoeker uiteindelijk voelt.
             </p>
           </div>
           <Link 
