@@ -87,7 +87,7 @@ export const projects: Project[] = [
     title: "Post-NL Sinterklaasviering",
     role: "Eventmanager op locatie",
     client: "The Groundbreakers",
-    impact: "Een groot en geslaagd kinderfeest voor PostNL in Assen, met twee shows op één dag.",
+    impact: "Een geslaagd kinderfeest georganiseerd door The Groundbreakers, met twee shows op één dag in Assen.",
     description: "Voor The Groundbreakers was ik als eventmanager aanwezig in Assen. Ik zorgde dat de op- en afbouw strak verliep, dat de twee shows volgens planning werden gedraaid en dat hosts en techniek goed werden aangestuurd. Daarnaast deed ik de afstemming met de enige echte Sinterklaas, zodat alles achter de schermen soepel liep. Het resultaat was een groot en geslaagd kinderfeest.",
     image: "/postnl-sinterklaas.jpg",
     year: "2025",
