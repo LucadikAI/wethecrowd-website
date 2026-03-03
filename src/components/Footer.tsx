@@ -31,7 +31,7 @@ export default function Footer() {
             <h4 className="font-bold mb-6 uppercase text-xs tracking-widest text-gray-500">Menu</h4>
             <ul className="space-y-4">
               <li><Link to="/" className="text-gray-400 hover:text-white transition-colors">Home</Link></li>
-              <li><Link to="/over-luca" className="text-gray-400 hover:text-white transition-colors">Over Luca</Link></li>
+              <li><Link to="/over-luca" className="text-gray-400 hover:text-white transition-colors">Over mij</Link></li>
               <li><Link to="/dit-doe-ik-graag" className="text-gray-400 hover:text-white transition-colors">Diensten</Link></li>
               <li><Link to="/projecten" className="text-gray-400 hover:text-white transition-colors">Projecten</Link></li>
               <li><Link to="/contact" className="text-gray-400 hover:text-white transition-colors">Contact</Link></li>

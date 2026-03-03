@@ -21,7 +21,7 @@ export default function Navbar() {
   }, [location]);
 
   const navLinks = [
-    { name: "Over Luca", path: "/over-luca" },
+    { name: "Over mij", path: "/over-luca" },
     { name: "Diensten", path: "/dit-doe-ik-graag" },
     { name: "Projecten", path: "/projecten" },
     { name: "Contact", path: "/contact" },
