@@ -9,6 +9,13 @@ const testimonials = [
     company: "Co-Founder and Executive Director @ Fairspace",
     text: "De samenwerking met Luca was ontzettend prettig. Met zijn oog voor detail, ruime ervaring en het vermogen om onder tijdsdruk het overzicht te bewaren, zorgt hij ervoor dat je een sterk en professioneel event neerzet.",
     image: "/testimonial-laura.jpg"
+  },
+  {
+    id: 4,
+    name: "Joram Kaat",
+    company: "Presentator & Creative @ EO",
+    text: "Luca heeft sowieso de skills en expertise, maar bovenal - en dat maakt het verschil - enorme passie voor zijn werk. En dat voel je in alles! Fijn om mee samen te werken.",
+    image: ""
   }
 ];
 
@@ -39,7 +46,13 @@ export default function Testimonials() {
               <Quote className="absolute top-6 right-6 w-8 h-8 text-brand-accent opacity-10" />
               <div className="flex items-center gap-3 mb-6">
                 <div className="w-12 h-12 rounded-full overflow-hidden shadow-sm shrink-0">
-                  <img src={t.image} alt={t.name} className="w-full h-full object-cover object-top" referrerPolicy="no-referrer" />
+                  {t.image ? (
+                    <img src={t.image} alt={t.name} className="w-full h-full object-cover object-top" referrerPolicy="no-referrer" />
+                  ) : (
+                    <div className="w-full h-full bg-brand-accent flex items-center justify-center text-white font-bold text-sm">
+                      {t.name.split(" ").map(n => n[0]).join("").slice(0, 2)}
+                    </div>
+                  )}
                 </div>
                 <div>
                   <h4 className="font-bold text-sm leading-tight">{t.name}</h4>
