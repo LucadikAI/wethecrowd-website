@@ -40,7 +40,7 @@ function MarqueeLine({ text, duration, reverse = false, highlightWord }: Marquee
           repeat: Infinity, 
           ease: "linear" 
         }}
-        className="flex text-[10vw] md:text-[7vw] font-bold uppercase tracking-tighter text-gray-900 leading-none"
+        className="flex text-[14vw] md:text-[7vw] font-bold uppercase tracking-tighter text-gray-900 leading-none"
       >
         {/* Repeat enough times to cover the screen width twice */}
         {[...Array(10)].map((_, i) => (
