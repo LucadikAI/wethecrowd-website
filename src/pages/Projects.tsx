@@ -20,8 +20,8 @@ export default function Projects() {
           {Array.from({ length: Math.ceil(projects.length / 3) }).map((_, rowIndex) => {
             const isEven = rowIndex % 2 === 0;
             const rowClass = isEven
-              ? "bg-gray-50 border border-gray-100 rounded-3xl p-8"
-              : "bg-[#ebf6fe] border border-[#c9e8f9] rounded-3xl p-8";
+              ? "border border-gray-200 rounded-3xl p-8"
+              : "border border-[#c9e8f9] rounded-3xl p-8";
             return (
               <div key={rowIndex} className={rowClass}>
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
