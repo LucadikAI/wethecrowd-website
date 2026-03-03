@@ -15,7 +15,7 @@ const testimonials = [
     name: "Joram Kaat",
     company: "Presentator & Creative @ EO",
     text: "Luca heeft sowieso de skills en expertise, maar bovenal - en dat maakt het verschil - enorme passie voor zijn werk. En dat voel je in alles! Fijn om mee samen te werken.",
-    image: ""
+    image: "/testimonial-joram.jpg"
   }
 ];
 
