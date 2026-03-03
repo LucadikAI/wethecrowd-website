@@ -5,6 +5,7 @@ import { useState } from "react";
 
 export default function AboutLuca() {
   const [revealedFact, setRevealedFact] = useState<number | null>(null);
+  const [showChild, setShowChild] = useState(false);
 
   return (
     <motion.div
@@ -22,21 +23,24 @@ export default function AboutLuca() {
             transition={{ duration: 0.8 }}
             className="relative"
           >
-            <div className="rounded-[3rem] overflow-hidden shadow-2xl aspect-[4/5] bg-gray-100 group relative cursor-pointer">
+            <div
+              className="rounded-[3rem] overflow-hidden shadow-2xl aspect-[4/5] bg-gray-100 group relative cursor-pointer"
+              onClick={() => setShowChild(prev => !prev)}
+            >
               {/* Adult Photo (Standard) */}
               <img
                 src="/luca-nu.jpg"
                 alt="Luca nu"
-                className="w-full h-full object-cover transition-opacity duration-700 group-hover:opacity-0"
+                className={`w-full h-full object-cover transition-opacity duration-700 group-hover:opacity-0 ${showChild ? "opacity-0" : ""}`}
               />
-              {/* Child Photo (Hover) */}
+              {/* Child Photo (Hover / Tap) */}
               <img
                 src="/luca-kind.png"
                 alt="Luca vroeger"
-                className="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-700 group-hover:opacity-100 scale-110 group-hover:scale-100"
+                className={`absolute inset-0 w-full h-full object-cover transition-all duration-700 group-hover:opacity-100 group-hover:scale-100 ${showChild ? "opacity-100 scale-100" : "opacity-0 scale-110"}`}
               />
               {/* Overlay hint */}
-              <div className="absolute bottom-8 left-1/2 -translate-x-1/2 bg-white/20 backdrop-blur-md px-4 py-2 rounded-full text-white text-xs font-bold opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+              <div className={`absolute bottom-8 left-1/2 -translate-x-1/2 bg-white/20 backdrop-blur-md px-4 py-2 rounded-full text-white text-xs font-bold transition-opacity pointer-events-none group-hover:opacity-100 ${showChild ? "opacity-100" : "opacity-0"}`}>
                 Toen & Nu
               </div>
             </div>
