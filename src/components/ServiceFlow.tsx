@@ -226,8 +226,8 @@ export default function ServiceFlow() {
                 }}
               />
 
-              {/* Voorgrond: inhoud (geen z-10 zodat mix-blend-mode werkt tegen de panel-achtergrond) */}
-              <div className="relative h-full flex items-center px-8 md:px-14 gap-8 md:gap-12">
+              {/* Voorgrond: inhoud */}
+              <div className="relative z-10 h-full flex items-center px-8 md:px-14 gap-8 md:gap-12">
                 {/* Tekst */}
                 <div className="flex flex-col justify-center flex-1 min-w-0">
                   <h4 className="text-xl md:text-2xl font-bold text-white mb-3">
@@ -248,14 +248,10 @@ export default function ServiceFlow() {
                 {/* Video (alleen concepting, alleen desktop) */}
                 {activeItem.id === "concepting" && (
                   <div className="hidden md:flex items-center justify-center shrink-0">
-                    <video
-                      src="/lamp-concepting.mp4"
-                      autoPlay
-                      loop
-                      muted
-                      playsInline
-                      className="h-52 w-auto rounded-2xl"
-                      style={{ mixBlendMode: "multiply", filter: "contrast(1.15) saturate(1.3)" }}
+                    <img
+                      src="/lamp-concepting.gif"
+                      alt="Lamp animatie"
+                      className="h-52 w-auto"
                     />
                   </div>
                 )}
