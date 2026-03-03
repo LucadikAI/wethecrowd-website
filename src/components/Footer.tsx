@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Instagram, Linkedin, Mail } from "lucide-react";
+import { Linkedin, Mail } from "lucide-react";
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -17,13 +17,10 @@ export default function Footer() {
               Creatieve oplossingen. Strakke uitvoering. Blijvende impact.
             </p>
             <div className="flex gap-4">
-              <a href="#" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-brand-accent transition-colors">
-                <Instagram className="w-5 h-5" />
-              </a>
-              <a href="#" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-brand-accent transition-colors">
+              <a href="https://www.linkedin.com/in/luca-dik-78390b1b5/" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-brand-accent transition-colors">
                 <Linkedin className="w-5 h-5" />
               </a>
-              <a href="mailto:info@wethecrowd.nl" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-brand-accent transition-colors">
+              <a href="mailto:luca@wethecrowd.nl" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-brand-accent transition-colors">
                 <Mail className="w-5 h-5" />
               </a>
             </div>
@@ -59,8 +56,7 @@ export default function Footer() {
         <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-500">
           <p>© {currentYear} WE THE CROWD. Alle rechten voorbehouden.</p>
           <div className="flex gap-8">
-            <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
-            <a href="#" className="hover:text-white transition-colors">Algemene Voorwaarden</a>
+            <a href="/privacy.pdf" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Privacy Policy</a>
           </div>
         </div>
       </div>
