@@ -41,7 +41,6 @@ export const projects: Project[] = [
     impact: "Tweejaarlijkse meet-ups, een knallende kick-off en een afterparty voor jongeren die met een Interrail-pas Europa induiken.",
     description: "Jaarlijks organiseren we meet-up's voor Europese jongeren die een interrail pas hebben gewonnen. Het doel is om een community-gevoel te creëren en reizigers te inspireren. Buiten de meet-up's is er ook elk jaar een kick-off en afterparty voor de Nederlandse reizigers. Ik ben verantwoordelijk voor de logistieke planning, afstemming met locaties en on-site coördinatie van deze evenementen.",
     image: "/discovereu.jpg",
-    photoCredit: "Atacan Tutulmazay",
     year: "2024-heden",
     location: "Diverse locaties NL",
     gallery: [
@@ -59,13 +58,15 @@ export const projects: Project[] = [
     impact: "Een inspirerend slotevent van #DoeMeeMet5D, met als doel grensoverschrijdend en seksueel ongewenst gedrag te herkennen, bespreekbaar te maken en tegen te gaan.",
     description: "Voor de campagne #DoeMeeMet5D van Fairspace nam ik de organisatie van het afsluitende evenement op me. De campagne richt zich op het trainen van omstanders om in te grijpen bij straatintimidatie. Het programma bestond uit een mix van workshops, keynotes, een VR-ervaring en een borrel. Ook Regeringscommissaris Mariëtte Hamer sprak over het belang van optreden tegen grensoverschrijdend gedrag in het openbaar. Ik was verantwoordelijk voor de volledige productie, van drukwerk en locatiekeuze tot het draaiboek en de on-site uitvoering.",
     image: "/fairspace.jpg",
+    photoCredit: "Atacan Tutulmazay",
     year: "2025",
     location: "Microlab Rotterdam",
     gallery: [
       "/fairspace-gallery-1.jpg",
       "/fairspace-gallery-2.jpg",
       "/fairspace-gallery-3.jpg"
-    ]
+    ],
+    galleryCredits: ["Atacan Tutulmazay", "Atacan Tutulmazay", "Atacan Tutulmazay"]
   },
   {
     id: 4,
