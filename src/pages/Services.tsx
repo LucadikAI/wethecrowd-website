@@ -143,16 +143,17 @@ export default function Services() {
         <p className="text-center text-sm text-gray-400 italic mt-4">Swipe to see more.</p>
         </div>
 
-        <div className="-mx-6 mb-0">
-          <LogoSlider showTitle={false} />
-        </div>
+      </div>
 
+      <LogoSlider showTitle={false} />
+
+      <div className="container mx-auto px-6">
         <ServiceFlow />
 
         <div className="bg-brand-accent text-white p-12 md:p-20 rounded-[3rem] text-center">
           <h2 className="text-4xl md:text-5xl font-bold mb-8">Klaar om jouw event naar een hoger niveau te tillen?</h2>
-          <Link 
-            to="/contact" 
+          <Link
+            to="/contact"
             className="inline-flex items-center gap-3 px-10 py-5 bg-white text-brand-accent rounded-full font-bold text-xl hover:scale-105 transition-transform"
           >
             Bespreek jouw event
