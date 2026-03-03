@@ -227,20 +227,37 @@ export default function ServiceFlow() {
               />
 
               {/* Voorgrond: inhoud */}
-              <div className="relative z-10 h-full flex flex-col justify-center px-8 md:px-14 max-w-xl">
-                <h4 className="text-xl md:text-2xl font-bold text-white mb-3">
-                  {activeItem.title}
-                </h4>
-                <p className="text-white/75 text-sm md:text-base leading-relaxed mb-6">
-                  {activeItem.detail}
-                </p>
-                <Link
-                  to="/contact"
-                  className="inline-flex items-center gap-2 px-6 py-2.5 bg-white text-gray-900 rounded-full font-bold text-sm w-fit hover:scale-105 transition-transform"
-                >
-                  {activeItem.cta}
-                  <ArrowRight className="w-4 h-4" />
-                </Link>
+              <div className="relative z-10 h-full flex items-center px-8 md:px-14 gap-8 md:gap-12">
+                {/* Tekst */}
+                <div className="flex flex-col justify-center flex-1 min-w-0">
+                  <h4 className="text-xl md:text-2xl font-bold text-white mb-3">
+                    {activeItem.title}
+                  </h4>
+                  <p className="text-white/75 text-sm md:text-base leading-relaxed mb-6">
+                    {activeItem.detail}
+                  </p>
+                  <Link
+                    to="/contact"
+                    className="inline-flex items-center gap-2 px-6 py-2.5 bg-white text-gray-900 rounded-full font-bold text-sm w-fit hover:scale-105 transition-transform"
+                  >
+                    {activeItem.cta}
+                    <ArrowRight className="w-4 h-4" />
+                  </Link>
+                </div>
+
+                {/* Video (alleen concepting, alleen desktop) */}
+                {activeItem.id === "concepting" && (
+                  <div className="hidden md:flex items-center justify-center shrink-0">
+                    <video
+                      src="/lamp-concepting.mp4"
+                      autoPlay
+                      loop
+                      muted
+                      playsInline
+                      className="h-52 w-auto rounded-2xl object-cover"
+                    />
+                  </div>
+                )}
               </div>
             </motion.div>
           )}
