@@ -93,12 +93,14 @@ export default function ProjectDetail() {
         </div>
 
         {/* Description Section */}
-        <div className="max-w-4xl mx-auto mb-24">
-          <h2 className="text-3xl font-bold mb-8">Over het project</h2>
-          <div className="text-xl text-gray-700 leading-relaxed space-y-6">
-            <p>{project.description}</p>
+        {project.description && (
+          <div className="max-w-4xl mx-auto mb-24">
+            <h2 className="text-3xl font-bold mb-8">Over het project</h2>
+            <div className="text-xl text-gray-700 leading-relaxed space-y-6">
+              <p>{project.description}</p>
+            </div>
           </div>
-        </div>
+        )}
 
         {/* Gallery Section */}
         {project.gallery && project.gallery.length > 0 && (
