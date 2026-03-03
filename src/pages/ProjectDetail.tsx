@@ -79,13 +79,16 @@ export default function ProjectDetail() {
             </div>
           </div>
 
-          <div className="rounded-[3rem] overflow-hidden shadow-2xl aspect-[4/3]">
-            <img 
-              src={project.image} 
-              alt={project.title} 
+          <div className="rounded-[3rem] overflow-hidden shadow-2xl aspect-[4/3] relative">
+            <img
+              src={project.image}
+              alt={project.title}
               className="w-full h-full object-cover"
               referrerPolicy="no-referrer"
             />
+            {project.photoCredit && (
+              <span className="absolute bottom-2 left-3 text-[10px] text-gray-400/80 font-medium z-10 select-none">© {project.photoCredit}</span>
+            )}
           </div>
         </div>
 
@@ -103,13 +106,16 @@ export default function ProjectDetail() {
             <h2 className="text-3xl font-bold mb-12">Impressie</h2>
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
               {project.gallery.map((img, i) => (
-                <div key={i} className="rounded-3xl overflow-hidden shadow-lg aspect-square">
-                  <img 
-                    src={img} 
-                    alt={`${project.title} gallery ${i}`} 
+                <div key={i} className="rounded-3xl overflow-hidden shadow-lg aspect-square relative">
+                  <img
+                    src={img}
+                    alt={`${project.title} gallery ${i}`}
                     className="w-full h-full object-cover hover:scale-110 transition-transform duration-700"
                     referrerPolicy="no-referrer"
                   />
+                  {project.galleryCredits?.[i] && (
+                    <span className="absolute bottom-2 left-3 text-[10px] text-gray-400/80 font-medium z-10 select-none">© {project.galleryCredits[i]}</span>
+                  )}
                 </div>
               ))}
             </div>

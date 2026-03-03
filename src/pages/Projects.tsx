@@ -28,9 +28,9 @@ export default function Projects() {
             >
               <Link to={`/projecten/${project.slug}`}>
                 <div className="aspect-[4/3] rounded-3xl overflow-hidden mb-6 shadow-lg relative cursor-pointer">
-                  <img 
-                    src={project.image} 
-                    alt={project.title} 
+                  <img
+                    src={project.image}
+                    alt={project.title}
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                     referrerPolicy="no-referrer"
                   />
@@ -39,6 +39,9 @@ export default function Projects() {
                       <ExternalLink className="w-6 h-6" />
                     </div>
                   </div>
+                  {project.photoCredit && (
+                    <span className="absolute bottom-2 left-3 text-[10px] text-gray-400/80 font-medium z-10 select-none">© {project.photoCredit}</span>
+                  )}
                 </div>
               </Link>
               <div className="space-y-1">

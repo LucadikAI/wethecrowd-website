@@ -39,12 +39,15 @@ export default function FeaturedProjects() {
             >
               <Link to={`/projecten/${project.slug}`}>
                 <div className="aspect-[4/3] rounded-3xl overflow-hidden mb-8 shadow-lg relative shrink-0 cursor-pointer">
-                  <img 
-                    src={project.image} 
-                    alt={project.title} 
+                  <img
+                    src={project.image}
+                    alt={project.title}
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                     referrerPolicy="no-referrer"
                   />
+                  {project.photoCredit && (
+                    <span className="absolute bottom-2 left-3 text-[10px] text-gray-400/80 font-medium z-10 select-none">© {project.photoCredit}</span>
+                  )}
                 </div>
               </Link>
               <div className="flex flex-col flex-1">

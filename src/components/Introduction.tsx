@@ -15,12 +15,13 @@ export default function Introduction() {
           className="relative"
         >
           <div className="aspect-[3/4] rounded-3xl overflow-hidden shadow-2xl relative z-10">
-            <img 
+            <img
               src="/luca-portret.jpg"
               alt="Luca Portrait"
               className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
               referrerPolicy="no-referrer"
             />
+            <span className="absolute bottom-2 left-3 text-[10px] text-gray-400/80 font-medium z-10 select-none">© Caitlin Sloot</span>
           </div>
           {/* Decorative element */}
           <div className="absolute -bottom-6 -right-6 w-48 h-48 bg-brand-accent rounded-full -z-0 opacity-20 blur-3xl"></div>

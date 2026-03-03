@@ -7,7 +7,9 @@ export interface Project {
   impact: string;
   description: string;
   image: string;
+  photoCredit?: string;
   gallery?: string[];
+  galleryCredits?: (string | null)[];
   year: string;
   location: string;
 }
@@ -39,6 +41,7 @@ export const projects: Project[] = [
     impact: "Tweejaarlijkse meet-ups, een knallende kick-off en een afterparty voor jongeren die met een Interrail-pas Europa induiken.",
     description: "Jaarlijks organiseren we meet-up's voor Europese jongeren die een interrail pas hebben gewonnen. Het doel is om een community-gevoel te creëren en reizigers te inspireren. Buiten de meet-up's is er ook elk jaar een kick-off en afterparty voor de Nederlandse reizigers. Ik ben verantwoordelijk voor de logistieke planning, afstemming met locaties en on-site coördinatie van deze evenementen.",
     image: "/discovereu.jpg",
+    photoCredit: "Atacan Tutulmazay",
     year: "2024-heden",
     location: "Diverse locaties NL",
     gallery: [
@@ -99,13 +102,15 @@ export const projects: Project[] = [
     impact: "Begeleiding van sprekers en artiesten tijdens twee shows op Domplein Utrecht op oudjaarsdag.",
     description: "In opdracht van The Groundbreakers was ik op oudjaarsdag verantwoordelijk voor de begeleiding van sprekers en artiesten. Met twee shows op één dag was het een druk en gevarieerd programma, waarin ik onder andere Andries Tunru, World of Afro, Brassa, Motie van Wantrouwen, The Recipe en Tom Strik begeleidde.",
     image: "/oud-nieuw-utrecht.jpg",
+    photoCredit: "Caitlin Sloot",
     year: "2025",
     location: "Domplein Utrecht",
     gallery: [
       "/oud-nieuw-gallery-1.jpg",
       "/oud-nieuw-gallery-2.jpg",
       "/oud-nieuw-gallery-3.jpg"
-    ]
+    ],
+    galleryCredits: ["The Arrows", null, null]
   },
   {
     id: 10,
@@ -133,13 +138,15 @@ export const projects: Project[] = [
     impact: "Artiestenbegeleiding en stagemanagement voor een event met meer dan 1600 bezoekers en zes acts.",
     description: "Crown Events is een evenement met meer dan 1600 bezoekers en een line-up van zes artiesten, bands en dansers. Als eindverantwoordelijke voor de artiestenbegeleiding heb ik ervoor gezorgd dat alles soepel verliep voor de optredende artiesten. Van soundchecks tot timings, en van technische checks tot het uiteindelijke stagemanagement.",
     image: "/crown-events.jpg",
+    photoCredit: "Vineyard Pictures",
     year: "2025",
     location: "Hardinxveld",
     gallery: [
       "/crown-gallery-1.jpg",
       "/crown-gallery-2.jpg",
       "/crown-gallery-3.jpg"
-    ]
+    ],
+    galleryCredits: ["Vineyard Pictures", null, "Vineyard Pictures"]
   },
   {
     id: 12,
