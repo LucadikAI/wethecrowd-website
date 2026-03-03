@@ -245,16 +245,6 @@ export default function ServiceFlow() {
                   </Link>
                 </div>
 
-                {/* Video (alleen concepting, alleen desktop) */}
-                {activeItem.id === "concepting" && (
-                  <div className="hidden md:flex items-center justify-center shrink-0">
-                    <img
-                      src="/lamp-concepting.gif"
-                      alt="Lamp animatie"
-                      className="h-52 w-auto"
-                    />
-                  </div>
-                )}
               </div>
             </motion.div>
           )}
