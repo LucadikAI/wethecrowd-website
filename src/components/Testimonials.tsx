@@ -60,7 +60,7 @@ export default function Testimonials() {
                 </div>
               </div>
               <p className="text-sm text-gray-700 italic leading-relaxed flex-1">
-                "{t.text}"
+                {t.text}
               </p>
             </motion.div>
           ))}
