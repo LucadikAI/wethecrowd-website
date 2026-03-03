@@ -181,7 +181,7 @@ export default function ServiceFlow() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 10 }}
               transition={{ duration: 0.38, ease: "easeOut" }}
-              className="relative mt-10 rounded-[2rem] overflow-hidden h-64 md:h-72"
+              className="relative mt-10 rounded-[2rem] overflow-hidden md:h-72"
               onMouseEnter={cancelLeave}
               onMouseLeave={leave}
             >
@@ -227,7 +227,7 @@ export default function ServiceFlow() {
               />
 
               {/* Voorgrond: inhoud */}
-              <div className="relative z-10 h-full flex items-center px-8 md:px-14 gap-8 md:gap-12">
+              <div className="relative z-10 md:h-full flex flex-col justify-center px-8 md:px-14 py-8 md:py-0 gap-8 md:gap-12">
                 {/* Tekst */}
                 <div className="flex flex-col justify-center flex-1 min-w-0">
                   <h4 className="text-xl md:text-2xl font-bold text-white mb-3">
