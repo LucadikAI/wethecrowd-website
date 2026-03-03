@@ -2,6 +2,7 @@ import { motion, useMotionValue, useTransform } from "motion/react";
 import { ArrowRight, Zap, Users, Layout, Mic2 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useRef, useState, useEffect } from "react";
+import LogoSlider from "../components/LogoSlider";
 
 const services = [
   {
@@ -139,6 +140,10 @@ export default function Services() {
           />
         </div>
         <p className="text-center text-sm text-gray-400 italic mt-4">Swipe to see more.</p>
+        </div>
+
+        <div className="-mx-6 mb-24">
+          <LogoSlider showTitle={false} />
         </div>
 
         <div className="bg-brand-accent text-white p-12 md:p-20 rounded-[3rem] text-center">

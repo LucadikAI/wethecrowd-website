@@ -10,14 +10,20 @@ const logos = [
   { name: "TGB", src: "/logo-tgb.png" },
 ];
 
-export default function LogoSlider() {
+interface LogoSliderProps {
+  showTitle?: boolean;
+}
+
+export default function LogoSlider({ showTitle = true }: LogoSliderProps) {
   return (
     <section className="py-16 bg-gray-50 border-y border-gray-100 overflow-hidden">
-      <div className="container mx-auto px-6 mb-10 text-center">
-        <p className="text-sm font-bold uppercase tracking-[0.2em] text-gray-400">
-          Samenwerkingen & Partners
-        </p>
-      </div>
+      {showTitle && (
+        <div className="container mx-auto px-6 mb-10 text-center">
+          <p className="text-sm font-bold uppercase tracking-[0.2em] text-gray-400">
+            Samenwerkingen & Partners
+          </p>
+        </div>
+      )}
       <div className="relative flex overflow-hidden">
         <div className="logo-slider-track flex items-center">
           {/* First set of logos */}

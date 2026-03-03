@@ -58,16 +58,6 @@ export default function Hero() {
     <section className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden bg-white">
       {/* Content Container */}
       <div className="relative z-10 w-full flex flex-col items-center">
-        {/* Placeholder Logo */}
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="mb-8 flex flex-col items-center"
-        >
-          <img src="/wtc-logo.png" alt="WE THE CROWD" className="h-20 w-auto object-contain" />
-        </motion.div>
-
         {/* Marquee Section - Three Lines */}
         <div className="w-full flex flex-col py-4">
           <MarqueeLine text="Creatieve oplossingen" duration={60} highlightWord="Creatieve" />
