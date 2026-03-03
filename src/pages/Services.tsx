@@ -93,7 +93,7 @@ export default function Services() {
                 <motion.div
                   key={index}
                   onClick={() => { if (!isDragging) setActiveCard(isActive ? null : index); }}
-                  className="relative aspect-[4/5] md:aspect-square rounded-[2rem] overflow-hidden group shadow-lg shrink-0 cursor-pointer"
+                  className="relative aspect-[4/5] md:aspect-[4/3] rounded-[2rem] overflow-hidden group shadow-lg shrink-0 cursor-pointer"
                   style={{ minWidth: isMobile ? "100%" : "calc(50% - 12px)" }}
                 >
                   {/* Background Image */}
