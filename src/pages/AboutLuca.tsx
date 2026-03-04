@@ -99,8 +99,8 @@ export default function AboutLuca() {
             {/* Quote wrapper — shifted up */}
             <div className="flex-none" style={{ width: '72%', transform: 'translateY(-25%)' }}>
               <motion.div
-                animate={{ y: [0, -12, 0] }}
-                transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut" }}
+                animate={{ y: [0, -30, 0] }}
+                transition={{ duration: 7.5, repeat: Infinity, ease: "easeInOut" }}
                 className="h-full"
               >
               <motion.div
@@ -129,8 +129,8 @@ export default function AboutLuca() {
             {/* Photo wrapper — shifted down */}
             <div className="flex-1" style={{ transform: 'translateY(25%)' }}>
               <motion.div
-                animate={{ y: [0, 12, 0] }}
-                transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut" }}
+                animate={{ y: [0, 30, 0] }}
+                transition={{ duration: 7.5, repeat: Infinity, ease: "easeInOut" }}
                 className="h-full"
               >
               <motion.div
