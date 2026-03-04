@@ -42,7 +42,43 @@ export default function Testimonials({ showTitle = true }: TestimonialsProps) {
           </div>
         )}
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {/* Mobile: horizontal auto-scrolling marquee */}
+        <div className="md:hidden -mx-6 overflow-hidden">
+          <motion.div
+            animate={{ x: "-50%" }}
+            initial={{ x: "0%" }}
+            transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
+            className="flex gap-4 w-max pl-6"
+          >
+            {[...testimonials, ...testimonials].map((t, index) => (
+              <div
+                key={index}
+                className="w-[280px] shrink-0 bg-gray-50 p-6 rounded-3xl flex flex-col relative"
+              >
+                <Quote className="absolute top-5 right-5 w-6 h-6 text-brand-accent opacity-10" />
+                <div className="flex items-center gap-3 mb-5">
+                  <div className="w-10 h-10 rounded-full overflow-hidden shadow-sm shrink-0">
+                    {t.image ? (
+                      <img src={t.image} alt={t.name} className="w-full h-full object-cover object-top" referrerPolicy="no-referrer" />
+                    ) : (
+                      <div className="w-full h-full bg-brand-accent flex items-center justify-center text-white font-bold text-xs">
+                        {t.name.split(" ").map(n => n[0]).join("").slice(0, 2)}
+                      </div>
+                    )}
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-sm leading-tight">{t.name}</h4>
+                    <p className="text-[10px] text-gray-500 leading-tight">{t.company}</p>
+                  </div>
+                </div>
+                <p className="text-sm text-gray-700 italic leading-relaxed hyphens-auto">{t.text}</p>
+              </div>
+            ))}
+          </motion.div>
+        </div>
+
+        {/* Desktop: 4-column grid with hover effect */}
+        <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-4 gap-6">
           {testimonials.map((t, index) => (
             <motion.div
               key={t.id}

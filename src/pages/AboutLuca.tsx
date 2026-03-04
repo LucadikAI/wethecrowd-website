@@ -91,7 +91,7 @@ export default function AboutLuca() {
       {/* Quote & Polaroids + Fact Blocks */}
       <div className="container mx-auto px-6">
         {/* Quote & Polaroids Section */}
-        <div className="mt-16">
+        <div className="mt-4 md:mt-16">
 
           {/* Desktop layout */}
           <div className="hidden md:flex gap-3 items-stretch">
@@ -145,18 +145,12 @@ export default function AboutLuca() {
           </div>
 
           {/* Mobile layout */}
-          <div className="md:hidden space-y-3">
-            {/* Blue quote block */}
-            <div
-              className="rounded-[2rem] py-10 px-7 shadow-xl overflow-hidden relative"
-              style={{ background: 'linear-gradient(135deg, #1ea4f2 0%, #0d8fd8 55%, #0a7abf 100%)' }}
-            >
-              <span className="absolute top-2 left-6 text-[6rem] font-serif text-white/10 leading-none select-none">&#8220;</span>
-              <blockquote className="relative z-10 text-white font-bold leading-[1.85] text-lg text-left">
-                Als freelancer ben ik bezig om de meest uiteenlopende producties neer te zetten. Daar ben ik enthousiast over, omdat ik het leuk vind om momenten te creëren die mensen voor altijd bij zullen blijven. Ik combineer hard werken met creatief denken en daarmee hoop ik projecten naar een hoger niveau te tillen. Samen met jou.{' '}
-                <span className="text-[2rem] font-serif text-white/25 leading-none inline-block" style={{ lineHeight: 0, verticalAlign: '-0.15em' }}>&#8221;</span>
-              </blockquote>
-            </div>
+          <div className="md:hidden">
+            {/* Quote — no block, plain text */}
+            <blockquote className="text-gray-900 font-bold leading-[1.85] text-lg mb-6 px-1">
+              <span className="text-brand-accent font-serif text-5xl leading-none opacity-30 select-none">&#8220;</span>
+              Als freelancer ben ik bezig om de meest uiteenlopende producties neer te zetten. Daar ben ik enthousiast over, omdat ik het leuk vind om momenten te creëren die mensen voor altijd bij zullen blijven. Ik combineer hard werken met creatief denken en daarmee hoop ik projecten naar een hoger niveau te tillen. Samen met jou.
+            </blockquote>
             {/* Photo slider */}
             <div className="relative h-56 rounded-[2rem] overflow-hidden bg-gray-900 shadow-xl">
               <AnimatePresence>
