@@ -19,15 +19,21 @@ const testimonials = [
   }
 ];
 
-export default function Testimonials() {
+interface TestimonialsProps {
+  showTitle?: boolean;
+}
+
+export default function Testimonials({ showTitle = true }: TestimonialsProps) {
   const [hoveredId, setHoveredId] = useState<number | null>(null);
 
   return (
     <section className="py-24 bg-white overflow-hidden">
       <div className="container mx-auto px-6">
-        <div className="max-w-3xl mx-auto text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold">Wat anderen zeggen over de energie van WE THE CROWD</h2>
-        </div>
+        {showTitle && (
+          <div className="max-w-3xl mx-auto text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold">Wat anderen zeggen over de energie van WE THE CROWD</h2>
+          </div>
+        )}
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {testimonials.map((t, index) => (

@@ -2,6 +2,7 @@ import { motion } from "motion/react";
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import Testimonials from "../components/Testimonials";
 
 export default function AboutLuca() {
   const [revealedFact, setRevealedFact] = useState<number | null>(null);
@@ -66,51 +67,6 @@ export default function AboutLuca() {
           </motion.div>
         </div>
 
-        {/* Interactive Stats/Facts Blocks */}
-        <div className="mt-24 grid md:grid-cols-3 gap-6">
-          {[
-            {
-              initial: "Meest geluisterde artiest waar ik zelf mee heb samengewerkt",
-              hover: "Gable Price and Friends"
-            },
-            {
-              initial: "Project waar ik het meeste uren aan besteedt",
-              hover: "DiscoverEU Learning Cycle"
-            },
-            {
-              initial: "Favoriete venue",
-              hover: "Rotterdam Ahoy"
-            }
-          ].map((item, i) => {
-            const isRevealed = revealedFact === i;
-            return (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.4 + (i * 0.1) }}
-                onClick={() => setRevealedFact(isRevealed ? null : i)}
-                className="group relative rounded-3xl cursor-pointer bg-white border border-gray-100 shadow-sm hover:shadow-md transition-shadow duration-500 overflow-hidden"
-              >
-                {/* Accent bar at bottom */}
-                <div className={`absolute bottom-0 left-0 right-0 h-1 bg-brand-accent transition-transform duration-500 origin-left ${isRevealed ? "scale-x-100" : "scale-x-0"} group-hover:scale-x-100`} />
-
-                <div className="p-8">
-                  {/* Question */}
-                  <p className={`text-xs font-bold uppercase tracking-widest text-gray-400 mb-4 transition-opacity duration-300 ${isRevealed ? "opacity-0" : ""} group-hover:opacity-0`}>
-                    {item.initial}
-                  </p>
-                  {/* Answer */}
-                  <p className={`text-2xl md:text-3xl font-bold text-brand-accent absolute bottom-8 left-8 right-8 transition-all duration-300 ${isRevealed ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"} group-hover:opacity-100 group-hover:translate-y-0`}>
-                    {item.hover}
-                  </p>
-                  {/* Spacer */}
-                  <p className="text-2xl md:text-3xl font-bold text-transparent select-none">{item.hover}</p>
-                </div>
-              </motion.div>
-            );
-          })}
-        </div>
         {/* Quote & Polaroids Section */}
         <div className="mt-40 relative max-w-6xl mx-auto">
           <div className="flex flex-col md:flex-row items-center justify-center gap-12 md:gap-24">
@@ -174,6 +130,58 @@ export default function AboutLuca() {
               <img src="/luca-werk-2.jpg" alt="" className="aspect-square object-cover mb-1" />
             </div>
           </div>
+        </div>
+      </div>
+
+      {/* Testimonials (no title) */}
+      <Testimonials showTitle={false} />
+
+      {/* Interactive Stats/Facts Blocks */}
+      <div className="container mx-auto px-6 pb-24">
+        <div className="grid md:grid-cols-3 gap-6">
+          {[
+            {
+              initial: "Meest geluisterde artiest waar ik zelf mee heb samengewerkt",
+              hover: "Gable Price and Friends"
+            },
+            {
+              initial: "Project waar ik het meeste uren aan besteedt",
+              hover: "DiscoverEU Learning Cycle"
+            },
+            {
+              initial: "Favoriete venue",
+              hover: "Rotterdam Ahoy"
+            }
+          ].map((item, i) => {
+            const isRevealed = revealedFact === i;
+            return (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
+                onClick={() => setRevealedFact(isRevealed ? null : i)}
+                className="group relative rounded-3xl cursor-pointer bg-white border border-gray-100 shadow-sm hover:shadow-md transition-shadow duration-500 overflow-hidden"
+              >
+                {/* Accent bar at bottom */}
+                <div className={`absolute bottom-0 left-0 right-0 h-1 bg-brand-accent transition-transform duration-500 origin-left ${isRevealed ? "scale-x-100" : "scale-x-0"} group-hover:scale-x-100`} />
+
+                <div className="p-8">
+                  {/* Question */}
+                  <p className={`text-xs font-bold uppercase tracking-widest text-gray-400 mb-4 transition-opacity duration-300 ${isRevealed ? "opacity-0" : ""} group-hover:opacity-0`}>
+                    {item.initial}
+                  </p>
+                  {/* Answer */}
+                  <p className={`text-2xl md:text-3xl font-bold text-brand-accent absolute bottom-8 left-8 right-8 transition-all duration-300 ${isRevealed ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"} group-hover:opacity-100 group-hover:translate-y-0`}>
+                    {item.hover}
+                  </p>
+                  {/* Spacer */}
+                  <p className="text-2xl md:text-3xl font-bold text-transparent select-none">{item.hover}</p>
+                </div>
+              </motion.div>
+            );
+          })}
         </div>
       </div>
     </motion.div>
