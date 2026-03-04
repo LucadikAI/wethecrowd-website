@@ -96,8 +96,8 @@ export default function AboutLuca() {
           {/* Desktop layout */}
           <div className="hidden md:flex gap-3 items-stretch">
 
-            {/* Quote wrapper — shifted up by 25% of own height */}
-            <div className="flex-none" style={{ width: '72%', transform: 'translateY(-25%)' }}>
+            {/* Quote wrapper — shifted up by 37.5% of own height */}
+            <div className="flex-none" style={{ width: '72%', transform: 'translateY(-37.5%)' }}>
               <motion.div
                 initial={{ opacity: 0, x: -20 }}
                 whileInView={{ opacity: 1, x: 0 }}
@@ -120,8 +120,8 @@ export default function AboutLuca() {
               </motion.div>
             </div>
 
-            {/* Photo wrapper — shifted down by 25% of own height */}
-            <div className="flex-1" style={{ transform: 'translateY(25%)' }}>
+            {/* Photo wrapper — shifted down by 37.5% of own height */}
+            <div className="flex-1" style={{ transform: 'translateY(37.5%)' }}>
               <motion.div
                 initial={{ opacity: 0, x: 20 }}
                 whileInView={{ opacity: 1, x: 0 }}
