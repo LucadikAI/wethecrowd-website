@@ -96,53 +96,55 @@ export default function AboutLuca() {
           {/* Desktop layout */}
           <div className="hidden md:flex gap-3 items-stretch">
 
-            {/* Blue block — 72% wide, shifted up by 25% of own height */}
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.7 }}
-              className="relative overflow-hidden shadow-2xl flex-none"
-              style={{
-                width: '72%',
-                borderRadius: '2.5rem',
-                background: 'linear-gradient(135deg, #1ea4f2 0%, #0d8fd8 55%, #0a7abf 100%)',
-                transform: 'translateY(-25%)',
-              }}
-            >
-              <div className="absolute inset-0 pointer-events-none" style={{ background: 'radial-gradient(ellipse at 12% 40%, rgba(255,255,255,0.2) 0%, transparent 55%)' }} />
-              <span className="absolute top-2 left-10 text-[7rem] font-serif text-white/10 leading-none select-none pointer-events-none">&#8220;</span>
-              <div className="flex items-center h-full px-12 lg:px-16 py-10">
-                <blockquote className="relative z-10 text-white font-bold text-xl lg:text-[1.35rem] leading-[1.95] text-left">
-                  Als freelancer ben ik bezig om de meest uiteenlopende producties neer te zetten. Daar ben ik enthousiast over, omdat ik het leuk vind om momenten te creëren die mensen voor altijd bij zullen blijven. Ik combineer hard werken met creatief denken en daarmee hoop ik projecten naar een hoger niveau te tillen. Samen met jou.{' '}
-                  <span className="text-[2.5rem] font-serif text-white/25 leading-none align-bottom inline-block" style={{ lineHeight: 0, verticalAlign: '-0.15em' }}>&#8221;</span>
-                </blockquote>
-              </div>
-            </motion.div>
+            {/* Quote wrapper — shifted up by 25% of own height */}
+            <div className="flex-none" style={{ width: '72%', transform: 'translateY(-25%)' }}>
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.7 }}
+                className="relative overflow-hidden shadow-2xl h-full"
+                style={{
+                  borderRadius: '2.5rem',
+                  background: 'linear-gradient(135deg, #1ea4f2 0%, #0d8fd8 55%, #0a7abf 100%)',
+                }}
+              >
+                <div className="absolute inset-0 pointer-events-none" style={{ background: 'radial-gradient(ellipse at 12% 40%, rgba(255,255,255,0.2) 0%, transparent 55%)' }} />
+                <span className="absolute top-2 left-10 text-[7rem] font-serif text-white/10 leading-none select-none pointer-events-none">&#8220;</span>
+                <div className="flex items-center h-full px-12 lg:px-16 py-10">
+                  <blockquote className="relative z-10 text-white font-bold text-xl lg:text-[1.35rem] leading-[1.95] text-left">
+                    Als freelancer ben ik bezig om de meest uiteenlopende producties neer te zetten. Daar ben ik enthousiast over, omdat ik het leuk vind om momenten te creëren die mensen voor altijd bij zullen blijven. Ik combineer hard werken met creatief denken en daarmee hoop ik projecten naar een hoger niveau te tillen. Samen met jou.{' '}
+                    <span className="text-[2.5rem] font-serif text-white/25 leading-none align-bottom inline-block" style={{ lineHeight: 0, verticalAlign: '-0.15em' }}>&#8221;</span>
+                  </blockquote>
+                </div>
+              </motion.div>
+            </div>
 
-            {/* Photo slider — fills remaining 28%, shifted down by 25% of own height */}
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.7, delay: 0.15 }}
-              className="flex-1 relative overflow-hidden shadow-2xl bg-gray-900"
-              style={{ borderRadius: '2.5rem', transform: 'translateY(25%)' }}
-            >
-              <AnimatePresence>
-                <motion.img
-                  key={sliderIndex}
-                  src={sliderPhotos[sliderIndex].src}
-                  style={{ objectPosition: sliderPhotos[sliderIndex].pos }}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 1, ease: 'easeInOut' }}
-                  className="absolute inset-0 w-full h-full object-cover"
-                  alt=""
-                />
-              </AnimatePresence>
-            </motion.div>
+            {/* Photo wrapper — shifted down by 25% of own height */}
+            <div className="flex-1" style={{ transform: 'translateY(25%)' }}>
+              <motion.div
+                initial={{ opacity: 0, x: 20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.7, delay: 0.15 }}
+                className="relative overflow-hidden shadow-2xl bg-gray-900 h-full"
+                style={{ borderRadius: '2.5rem' }}
+              >
+                <AnimatePresence>
+                  <motion.img
+                    key={sliderIndex}
+                    src={sliderPhotos[sliderIndex].src}
+                    style={{ objectPosition: sliderPhotos[sliderIndex].pos }}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 1, ease: 'easeInOut' }}
+                    className="absolute inset-0 w-full h-full object-cover"
+                    alt=""
+                  />
+                </AnimatePresence>
+              </motion.div>
+            </div>
           </div>
 
           {/* Mobile layout */}
