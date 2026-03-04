@@ -71,56 +71,85 @@ export default function AboutLuca() {
       <div className="container mx-auto px-6">
         {/* Quote & Polaroids Section */}
         <div className="mt-16 relative max-w-6xl mx-auto">
-          <div className="flex flex-col md:flex-row items-center justify-center gap-12 md:gap-24">
-            {/* Left Polaroid */}
-            <motion.div
-              initial={{ opacity: 0, rotate: -20, x: -50 }}
-              whileInView={{ opacity: 1, rotate: -8, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, type: "spring" }}
-              className="bg-white p-3 pb-10 shadow-xl rounded-sm border border-gray-100 w-56 md:w-72 shrink-0 hidden md:block"
-            >
-              <div className="aspect-square overflow-hidden bg-gray-100 mb-2">
-                <img src="/luca-werk-1.jpg" alt="Luca in actie" className="w-full h-full object-cover" />
-              </div>
-              <div className="h-1 w-8 bg-gray-100 rounded-full mx-auto opacity-40"></div>
-            </motion.div>
+          <div className="grid lg:grid-cols-[3fr_2fr] gap-12 lg:gap-16 items-center">
 
-            {/* Quote */}
+            {/* Left: Blue Quote Block */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, scale: 0.96, y: 20 }}
+              whileInView={{ opacity: 1, scale: 1, y: 0 }}
+              whileHover={{ scale: 1.025 }}
               viewport={{ once: true }}
-              className="text-center relative px-8"
+              transition={{ duration: 0.6, type: "spring", stiffness: 120 }}
+              className="relative rounded-3xl p-10 md:p-14 overflow-hidden cursor-default shadow-2xl"
+              style={{ background: "linear-gradient(135deg, #1ea4f2 0%, #0d8fd8 60%, #0a7abf 100%)" }}
             >
-              <span className="text-8xl font-serif text-brand-accent/20 absolute -top-12 left-0 leading-none">"</span>
-              <blockquote className="text-2xl md:text-3xl font-display font-bold leading-tight text-gray-900 relative z-10">
+              {/* Subtle inner glow */}
+              <div className="absolute inset-0 rounded-3xl opacity-30" style={{ background: "radial-gradient(circle at 30% 20%, rgba(255,255,255,0.4) 0%, transparent 60%)" }} />
+
+              {/* Opening quote mark */}
+              <span className="absolute top-4 left-6 text-[8rem] font-serif text-white/20 leading-none select-none pointer-events-none">&#8220;</span>
+
+              {/* Quote text */}
+              <blockquote className="relative z-10 text-white text-xl md:text-2xl font-bold leading-relaxed mt-8">
                 Als freelancer ben ik bezig om de meest uiteenlopende producties neer te zetten. Daar ben ik enthousiast over, omdat ik het leuk vind om momenten te creëren die mensen voor altijd bij zullen blijven. Ik combineer hard werken met creatief denken en daarmee hoop ik projecten naar een hoger niveau te tillen. Samen met jou.
               </blockquote>
-              <span className="text-8xl font-serif text-brand-accent/20 absolute -bottom-20 right-0 leading-none">"</span>
+
+              {/* Closing quote mark */}
+              <span className="absolute bottom-0 right-6 text-[8rem] font-serif text-white/20 leading-none select-none pointer-events-none">&#8221;</span>
             </motion.div>
 
-            {/* Right Polaroid */}
-            <motion.div
-              initial={{ opacity: 0, rotate: 20, x: 50 }}
-              whileInView={{ opacity: 1, rotate: 12, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, type: "spring", delay: 0.2 }}
-              className="bg-white p-3 pb-10 shadow-xl rounded-sm border border-gray-100 w-56 md:w-72 shrink-0 hidden md:block"
-            >
-              <div className="aspect-square overflow-hidden bg-gray-100 mb-2">
-                <img src="/luca-werk-2.jpg" alt="Luca backstage" className="w-full h-full object-cover" />
-              </div>
-              <div className="h-1 w-8 bg-gray-100 rounded-full mx-auto opacity-40"></div>
-            </motion.div>
+            {/* Right: Scattered Polaroids (desktop) */}
+            <div className="relative h-[460px] hidden lg:block">
+              {/* Photo 1 — top left, tilted left */}
+              <motion.div
+                initial={{ opacity: 0, rotate: -20, y: 40 }}
+                whileInView={{ opacity: 1, rotate: -9, y: 0 }}
+                whileHover={{ scale: 1.05, rotate: -6, zIndex: 30 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, type: "spring" }}
+                className="absolute top-0 left-2 bg-white p-3 pb-10 shadow-xl rounded-sm border border-gray-100 w-44 z-10"
+              >
+                <img src="/luca-werk-1.jpg" alt="Luca in actie" className="aspect-square object-cover w-full" />
+                <div className="h-1 w-6 bg-gray-100 rounded-full mx-auto opacity-40 mt-2"></div>
+              </motion.div>
+
+              {/* Photo 2 — top right, tilted right, overlapping */}
+              <motion.div
+                initial={{ opacity: 0, rotate: 18, y: 40 }}
+                whileInView={{ opacity: 1, rotate: 7, y: 0 }}
+                whileHover={{ scale: 1.05, rotate: 4, zIndex: 30 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, type: "spring", delay: 0.15 }}
+                className="absolute top-10 right-0 bg-white p-3 pb-10 shadow-xl rounded-sm border border-gray-100 w-44 z-20"
+              >
+                <img src="/luca-werk-2.jpg" alt="Luca backstage" className="aspect-square object-cover w-full" />
+                <div className="h-1 w-6 bg-gray-100 rounded-full mx-auto opacity-40 mt-2"></div>
+              </motion.div>
+
+              {/* Photo 3 — bottom center, slight tilt */}
+              <motion.div
+                initial={{ opacity: 0, rotate: -8, y: 50 }}
+                whileInView={{ opacity: 1, rotate: -3, y: 0 }}
+                whileHover={{ scale: 1.05, rotate: 1, zIndex: 30 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, type: "spring", delay: 0.3 }}
+                className="absolute bottom-0 left-1/2 -translate-x-1/2 bg-white p-3 pb-10 shadow-xl rounded-sm border border-gray-100 w-44 z-30"
+              >
+                <img src="/luca-werk-3.png" alt="Luca op locatie" className="aspect-square object-cover w-full" />
+                <div className="h-1 w-6 bg-gray-100 rounded-full mx-auto opacity-40 mt-2"></div>
+              </motion.div>
+            </div>
           </div>
 
           {/* Mobile Polaroids */}
-          <div className="flex md:hidden justify-center gap-4 mt-12">
-            <div className="bg-white p-2 pb-6 shadow-lg rounded-sm border border-gray-100 w-32 rotate-[-6deg]">
+          <div className="flex lg:hidden justify-center gap-2 mt-10">
+            <div className="bg-white p-2 pb-6 shadow-lg rounded-sm border border-gray-100 w-28 rotate-[-7deg] -mr-3">
               <img src="/luca-werk-1.jpg" alt="" className="aspect-square object-cover mb-1" />
             </div>
-            <div className="bg-white p-2 pb-6 shadow-lg rounded-sm border border-gray-100 w-32 rotate-[6deg]">
+            <div className="bg-white p-2 pb-6 shadow-lg rounded-sm border border-gray-100 w-28 rotate-[3deg] mt-3 z-10 relative">
+              <img src="/luca-werk-3.png" alt="" className="aspect-square object-cover mb-1" />
+            </div>
+            <div className="bg-white p-2 pb-6 shadow-lg rounded-sm border border-gray-100 w-28 rotate-[8deg] -ml-3">
               <img src="/luca-werk-2.jpg" alt="" className="aspect-square object-cover mb-1" />
             </div>
           </div>
