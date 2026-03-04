@@ -144,33 +144,37 @@ export default function AboutLuca() {
           </div>
 
           {/* Mobile layout */}
-          <div className="md:hidden">
+          <div className="md:hidden space-y-3">
+            {/* Blue quote block */}
             <div
-              className="rounded-[2rem] py-12 px-8 shadow-xl overflow-hidden relative"
+              className="rounded-[2rem] py-10 px-7 shadow-xl overflow-hidden relative"
               style={{ background: 'linear-gradient(135deg, #1ea4f2 0%, #0d8fd8 55%, #0a7abf 100%)' }}
             >
-              <span className="absolute top-2 left-6 text-[7rem] font-serif text-white/10 leading-none select-none">&#8220;</span>
-              <blockquote className="relative z-10 text-white font-bold leading-relaxed text-lg text-left">
+              <span className="absolute top-2 left-6 text-[6rem] font-serif text-white/10 leading-none select-none">&#8220;</span>
+              <blockquote className="relative z-10 text-white font-bold leading-[1.85] text-lg text-left">
                 Als freelancer ben ik bezig om de meest uiteenlopende producties neer te zetten. Daar ben ik enthousiast over, omdat ik het leuk vind om momenten te creëren die mensen voor altijd bij zullen blijven. Ik combineer hard werken met creatief denken en daarmee hoop ik projecten naar een hoger niveau te tillen. Samen met jou.
               </blockquote>
             </div>
-            <div className="flex justify-center gap-1 mt-6 flex-wrap">
-              {[
-                { src: '/luca-werk-1.jpg', r: '-rotate-[7deg]', mt: '' },
-                { src: '/luca-werk-4.jpg', r: 'rotate-[3deg]',  mt: 'mt-4' },
-                { src: '/luca-werk-5.jpg', r: '-rotate-[4deg]', mt: '' },
-                { src: '/luca-werk-2.jpg', r: 'rotate-[8deg]',  mt: 'mt-2' },
-              ].map((p, i) => (
-                <div key={i} className={`bg-white p-2 pb-6 shadow-lg rounded-sm w-24 ${p.r} ${p.mt} -mx-1`}>
-                  <img src={p.src} alt="" className="aspect-square object-cover" />
-                </div>
-              ))}
+            {/* Photo slider */}
+            <div className="relative h-56 rounded-[2rem] overflow-hidden bg-gray-900 shadow-xl">
+              <AnimatePresence>
+                <motion.img
+                  key={sliderIndex}
+                  src={sliderPhotos[sliderIndex]}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 1, ease: 'easeInOut' }}
+                  className="absolute inset-0 w-full h-full object-cover"
+                  alt=""
+                />
+              </AnimatePresence>
             </div>
           </div>
         </div>
 
         {/* Interactive Stats/Facts Blocks */}
-        <div className="mt-16 grid md:grid-cols-3 gap-4">
+        <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-4">
           {[
             { label: "Meest geluisterde artiest waar ik zelf mee heb samengewerkt", answer: "Gable Price and Friends" },
             { label: "Project waar ik het meeste uren aan besteedt",                answer: "DiscoverEU Learning Cycle" },
@@ -182,27 +186,20 @@ export default function AboutLuca() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.08 }}
-              className="group relative rounded-2xl overflow-hidden bg-white border border-gray-100 cursor-default"
+              className="group rounded-2xl bg-white border border-gray-100 cursor-default px-6 pt-5 pb-5 overflow-hidden"
               style={{ boxShadow: '0 1px 8px 0 rgba(0,0,0,0.05)' }}
             >
-              {/* Label — always visible */}
-              <div className="px-6 pt-5 pb-6">
-                <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-gray-400 leading-snug">
-                  {item.label}
-                </p>
-              </div>
+              {/* Label — fades slightly on hover (desktop only) */}
+              <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-gray-400 leading-snug md:group-hover:opacity-40 transition-opacity duration-300">
+                {item.label}
+              </p>
 
-              {/* Answer — slides up from bottom on hover */}
-              <div className="absolute inset-0 flex items-end px-6 pb-5 pointer-events-none">
-                <p
-                  className="text-xl font-bold text-brand-accent translate-y-3 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 ease-out"
-                >
+              {/* Answer — always visible on mobile, slides up on desktop hover */}
+              <div className="mt-2 h-7 overflow-hidden">
+                <p className="text-xl font-bold text-brand-accent leading-tight translate-y-0 opacity-100 md:translate-y-full md:opacity-0 md:group-hover:translate-y-0 md:group-hover:opacity-100 transition-all duration-300 ease-out">
                   {item.answer}
                 </p>
               </div>
-
-              {/* Subtle hover background tint */}
-              <div className="absolute inset-0 bg-brand-accent/[0.03] opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none rounded-2xl" />
             </motion.div>
           ))}
         </div>
