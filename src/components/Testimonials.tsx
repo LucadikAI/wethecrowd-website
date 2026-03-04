@@ -29,7 +29,7 @@ const testimonials = [
     name: "Tim Dik",
     company: "Eigenaar @ ONETICKETLEFT",
     text: "Luca is altijd 'on top of things' als hij met of voor mij werkt. Hij houdt mij scherp, is taakgericht en pro-actief en zet zijn kennis van trends en de nieuwste tools in voor onze gezamenlijke passie: top evenementen organiseren.",
-    image: ""
+    image: "/testimonial-tim.jpg"
   }
 ];
 
