@@ -9,6 +9,10 @@ const sliderPhotos = [
   '/luca-werk-3.png',
   '/luca-werk-5.jpg',
   '/luca-werk-2.jpg',
+  '/luca-werk-7.jpg',
+  '/luca-werk-8.jpg',
+  '/luca-werk-9.jpg',
+  '/luca-werk-10.jpg',
 ];
 
 export default function AboutLuca() {
@@ -19,7 +23,7 @@ export default function AboutLuca() {
   useEffect(() => {
     const timer = setInterval(() => {
       setSliderIndex(i => (i + 1) % sliderPhotos.length);
-    }, 3500);
+    }, 8000);
     return () => clearInterval(timer);
   }, []);
 
