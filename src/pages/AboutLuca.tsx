@@ -94,9 +94,9 @@ export default function AboutLuca() {
         <div className="mt-4 md:mt-16">
 
           {/* Desktop layout */}
-          <div className="hidden md:flex gap-3 items-center">
+          <div className="hidden md:flex gap-3 items-stretch">
 
-            {/* Blue block — 72% wide, shifted up */}
+            {/* Blue block — 72% wide, shifted up by 25% of own height */}
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -107,7 +107,7 @@ export default function AboutLuca() {
                 width: '72%',
                 borderRadius: '2.5rem',
                 background: 'linear-gradient(135deg, #1ea4f2 0%, #0d8fd8 55%, #0a7abf 100%)',
-                transform: 'translateY(-36px)',
+                transform: 'translateY(-25%)',
               }}
             >
               <div className="absolute inset-0 pointer-events-none" style={{ background: 'radial-gradient(ellipse at 12% 40%, rgba(255,255,255,0.2) 0%, transparent 55%)' }} />
@@ -120,14 +120,14 @@ export default function AboutLuca() {
               </div>
             </motion.div>
 
-            {/* Photo slider — fills remaining 28%, shifted down */}
+            {/* Photo slider — fills remaining 28%, shifted down by 25% of own height */}
             <motion.div
               initial={{ opacity: 0, x: 20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.7, delay: 0.15 }}
               className="flex-1 relative overflow-hidden shadow-2xl bg-gray-900"
-              style={{ borderRadius: '2.5rem', height: '200px', transform: 'translateY(36px)' }}
+              style={{ borderRadius: '2.5rem', transform: 'translateY(25%)' }}
             >
               <AnimatePresence>
                 <motion.img
@@ -172,7 +172,7 @@ export default function AboutLuca() {
         </div>
 
         {/* Interactive Stats/Facts Blocks */}
-        <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="mt-16 md:mt-32 grid grid-cols-1 md:grid-cols-3 gap-4">
           {[
             { label: "Meest geluisterde artiest waar ik zelf mee heb samengewerkt", answer: "Gable Price and Friends" },
             { label: "Project waar ik het meeste uren aan besteed",                answer: "DiscoverEU Learning Cycle" },
