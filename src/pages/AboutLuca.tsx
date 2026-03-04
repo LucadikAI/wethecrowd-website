@@ -111,10 +111,10 @@ export default function AboutLuca() {
             >
               <div className="absolute inset-0 pointer-events-none" style={{ background: 'radial-gradient(ellipse at 12% 40%, rgba(255,255,255,0.2) 0%, transparent 55%)' }} />
               <span className="absolute top-2 left-10 text-[7rem] font-serif text-white/10 leading-none select-none pointer-events-none">&#8220;</span>
-              <span className="absolute bottom-0 right-8 text-[7rem] font-serif text-white/10 leading-none select-none pointer-events-none">&#8221;</span>
               <div className="flex items-center h-full px-12 lg:px-16 py-10">
                 <blockquote className="relative z-10 text-white font-bold text-xl lg:text-[1.35rem] leading-[1.95] text-left">
-                  Als freelancer ben ik bezig om de meest uiteenlopende producties neer te zetten. Daar ben ik enthousiast over, omdat ik het leuk vind om momenten te creëren die mensen voor altijd bij zullen blijven. Ik combineer hard werken met creatief denken en daarmee hoop ik projecten naar een hoger niveau te tillen. Samen met jou.
+                  Als freelancer ben ik bezig om de meest uiteenlopende producties neer te zetten. Daar ben ik enthousiast over, omdat ik het leuk vind om momenten te creëren die mensen voor altijd bij zullen blijven. Ik combineer hard werken met creatief denken en daarmee hoop ik projecten naar een hoger niveau te tillen. Samen met jou.{' '}
+                  <span className="text-[2.5rem] font-serif text-white/25 leading-none align-bottom inline-block" style={{ lineHeight: 0, verticalAlign: '-0.15em' }}>&#8221;</span>
                 </blockquote>
               </div>
             </motion.div>
@@ -152,7 +152,8 @@ export default function AboutLuca() {
             >
               <span className="absolute top-2 left-6 text-[6rem] font-serif text-white/10 leading-none select-none">&#8220;</span>
               <blockquote className="relative z-10 text-white font-bold leading-[1.85] text-lg text-left">
-                Als freelancer ben ik bezig om de meest uiteenlopende producties neer te zetten. Daar ben ik enthousiast over, omdat ik het leuk vind om momenten te creëren die mensen voor altijd bij zullen blijven. Ik combineer hard werken met creatief denken en daarmee hoop ik projecten naar een hoger niveau te tillen. Samen met jou.
+                Als freelancer ben ik bezig om de meest uiteenlopende producties neer te zetten. Daar ben ik enthousiast over, omdat ik het leuk vind om momenten te creëren die mensen voor altijd bij zullen blijven. Ik combineer hard werken met creatief denken en daarmee hoop ik projecten naar een hoger niveau te tillen. Samen met jou.{' '}
+                <span className="text-[2rem] font-serif text-white/25 leading-none inline-block" style={{ lineHeight: 0, verticalAlign: '-0.15em' }}>&#8221;</span>
               </blockquote>
             </div>
             {/* Photo slider */}
@@ -179,29 +180,33 @@ export default function AboutLuca() {
             { label: "Meest geluisterde artiest waar ik zelf mee heb samengewerkt", answer: "Gable Price and Friends" },
             { label: "Project waar ik het meeste uren aan besteedt",                answer: "DiscoverEU Learning Cycle" },
             { label: "Favoriete venue",                                             answer: "Rotterdam Ahoy" },
-          ].map((item, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.08 }}
-              className="group rounded-2xl bg-white border border-gray-100 cursor-default px-6 pt-5 pb-5 overflow-hidden"
-              style={{ boxShadow: '0 1px 8px 0 rgba(0,0,0,0.05)' }}
-            >
-              {/* Label — fades slightly on hover (desktop only) */}
-              <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-gray-400 leading-snug md:group-hover:opacity-40 transition-opacity duration-300">
-                {item.label}
-              </p>
-
-              {/* Answer — always visible on mobile, slides up on desktop hover */}
-              <div className="mt-2 h-7 overflow-hidden">
-                <p className="text-xl font-bold text-brand-accent leading-tight translate-y-0 opacity-100 md:translate-y-full md:opacity-0 md:group-hover:translate-y-0 md:group-hover:opacity-100 transition-all duration-300 ease-out">
-                  {item.answer}
+          ].map((item, i) => {
+            const isActive = revealedFact === i;
+            return (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.08 }}
+                onClick={() => setRevealedFact(isActive ? null : i)}
+                className="group rounded-2xl bg-white border border-gray-100 cursor-pointer px-6 pt-5 pb-5 overflow-hidden"
+                style={{ boxShadow: '0 1px 8px 0 rgba(0,0,0,0.05)' }}
+              >
+                {/* Label */}
+                <p className={`text-[10px] font-semibold uppercase tracking-[0.18em] text-gray-400 leading-snug transition-opacity duration-300 ${isActive ? 'opacity-40' : ''} md:group-hover:opacity-40`}>
+                  {item.label}
                 </p>
-              </div>
-            </motion.div>
-          ))}
+
+                {/* Answer — click-to-reveal on mobile, hover on desktop */}
+                <div className="mt-2 h-7 overflow-hidden">
+                  <p className={`text-xl font-bold text-brand-accent leading-tight transition-all duration-300 ease-out md:group-hover:translate-y-0 md:group-hover:opacity-100 ${isActive ? 'translate-y-0 opacity-100' : 'translate-y-full opacity-0'}`}>
+                    {item.answer}
+                  </p>
+                </div>
+              </motion.div>
+            );
+          })}
         </div>
       </div>
     </motion.div>
