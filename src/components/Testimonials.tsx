@@ -11,6 +11,13 @@ const testimonials = [
     image: "/testimonial-giselle.jpg"
   },
   {
+    id: 4,
+    name: "Joram Kaat",
+    company: "Presentator & Creative @ EO",
+    text: "Luca heeft sowieso de skills en expertise, maar bovenal - en dat maakt het verschil - enorme passie voor zijn werk. En dat voel je in alles! Fijn om mee samen te werken.",
+    image: "/testimonial-joram.jpg"
+  },
+  {
     id: 3,
     name: "Laura Adèr",
     company: "Co-Founder & Executive Director @ Fairspace",
@@ -18,11 +25,11 @@ const testimonials = [
     image: "/testimonial-laura.jpg"
   },
   {
-    id: 4,
-    name: "Joram Kaat",
-    company: "Presentator & Creative @ EO",
-    text: "Luca heeft sowieso de skills en expertise, maar bovenal - en dat maakt het verschil - enorme passie voor zijn werk. En dat voel je in alles! Fijn om mee samen te werken.",
-    image: "/testimonial-joram.jpg"
+    id: 5,
+    name: "Tim Dik",
+    company: "Eigenaar @ ONETICKETLEFT",
+    text: "Luca is altijd 'on top of things' als hij met of voor mij werkt. Hij houdt mij scherp, is taakgericht en pro-actief en zet zijn kennis van trends en de nieuwste tools in voor onze gezamenlijke passie: top evenementen organiseren.",
+    image: ""
   }
 ];
 

@@ -75,10 +75,10 @@ export default function AboutLuca() {
             </h1>
             <div className="space-y-8 text-xl md:text-2xl text-gray-800 leading-relaxed font-light">
               <p>
-                Toen ik als klein jongetje rondliep in Gelredome Arnhem vond ik het altijd al indrukwekkend: de opbouw van het podium, het binnenkomen van artiesten, de generale repetities en al die duizenden mensen die uiteindelijk de zaal binnenkomen.
+                Als klein jongetje kwam ik regelmatig in het GelreDome in Arnhem, waar ik gefascineerd raakte door de wereld achter grote evenementen: de opbouw van het podium, de aankomst van artiesten, de generale repetities en uiteindelijk de duizenden bezoekers die de zaal vulden.
               </p>
               <p>
-                Je kan wel zeggen dat het organiseren van evenementen mij met de paplepel is ingegoten. Goed, genoeg clichés. We zijn zeker tien jaar verder en ondertussen heb ik al ervaring mogen opdoen op de tofste locaties van Nederland: van Ahoy Rotterdam tot AFAS Live, van het Olympisch Stadion tot NEMO.
+                Nu, jaren later heb ik zelf ervaring mogen opdoen op enkele van de meest iconische locaties van Nederland, waaronder Ahoy Rotterdam, AFAS Live, het Olympisch Stadion en NEMO.
               </p>
             </div>
           </motion.div>
