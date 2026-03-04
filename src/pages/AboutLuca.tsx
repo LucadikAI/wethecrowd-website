@@ -170,45 +170,41 @@ export default function AboutLuca() {
         </div>
 
         {/* Interactive Stats/Facts Blocks */}
-        <div className="mt-24 grid md:grid-cols-3 gap-6">
+        <div className="mt-16 grid md:grid-cols-3 gap-4">
           {[
-            {
-              initial: "Meest geluisterde artiest waar ik zelf mee heb samengewerkt",
-              hover: "Gable Price and Friends"
-            },
-            {
-              initial: "Project waar ik het meeste uren aan besteedt",
-              hover: "DiscoverEU Learning Cycle"
-            },
-            {
-              initial: "Favoriete venue",
-              hover: "Rotterdam Ahoy"
-            }
-          ].map((item, i) => {
-            const isRevealed = revealedFact === i;
-            return (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
-                onClick={() => setRevealedFact(isRevealed ? null : i)}
-                className="group relative rounded-3xl cursor-pointer bg-white border border-gray-100 shadow-sm hover:shadow-md transition-shadow duration-500 overflow-hidden"
-              >
-                <div className={`absolute bottom-0 left-0 right-0 h-1 bg-brand-accent transition-transform duration-500 origin-left ${isRevealed ? "scale-x-100" : "scale-x-0"} group-hover:scale-x-100`} />
-                <div className="p-8">
-                  <p className={`text-xs font-bold uppercase tracking-widest text-gray-400 mb-4 transition-opacity duration-300 ${isRevealed ? "opacity-0" : ""} group-hover:opacity-0`}>
-                    {item.initial}
-                  </p>
-                  <p className={`text-2xl md:text-3xl font-bold text-brand-accent absolute bottom-8 left-8 right-8 transition-all duration-300 ${isRevealed ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"} group-hover:opacity-100 group-hover:translate-y-0`}>
-                    {item.hover}
-                  </p>
-                  <p className="text-2xl md:text-3xl font-bold text-transparent select-none">{item.hover}</p>
-                </div>
-              </motion.div>
-            );
-          })}
+            { label: "Meest geluisterde artiest waar ik zelf mee heb samengewerkt", answer: "Gable Price and Friends" },
+            { label: "Project waar ik het meeste uren aan besteedt",                answer: "DiscoverEU Learning Cycle" },
+            { label: "Favoriete venue",                                             answer: "Rotterdam Ahoy" },
+          ].map((item, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.08 }}
+              className="group relative rounded-2xl overflow-hidden bg-white border border-gray-100 cursor-default"
+              style={{ boxShadow: '0 1px 8px 0 rgba(0,0,0,0.05)' }}
+            >
+              {/* Label — always visible */}
+              <div className="px-6 pt-5 pb-6">
+                <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-gray-400 leading-snug">
+                  {item.label}
+                </p>
+              </div>
+
+              {/* Answer — slides up from bottom on hover */}
+              <div className="absolute inset-0 flex items-end px-6 pb-5 pointer-events-none">
+                <p
+                  className="text-xl font-bold text-brand-accent translate-y-3 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 ease-out"
+                >
+                  {item.answer}
+                </p>
+              </div>
+
+              {/* Subtle hover background tint */}
+              <div className="absolute inset-0 bg-brand-accent/[0.03] opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none rounded-2xl" />
+            </motion.div>
+          ))}
         </div>
       </div>
     </motion.div>
