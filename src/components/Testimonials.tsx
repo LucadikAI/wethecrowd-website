@@ -8,7 +8,7 @@ const testimonials = [
     name: "Giselle Koning",
     company: "Creatief directeur & partner @ The Groundbreakers",
     text: "Luca is iemand waar je op kunt bouwen. Hij komt goed voorbereid, begrijpt het concept en neemt zijn verantwoordelijkheid. Ook onder druk blijft hij rustig en houdt hij overzicht, waardoor je op hem kunt vertrouwen op belangrijke momenten.",
-    image: ""
+    image: "/testimonial-giselle.jpg"
   },
   {
     id: 3,
