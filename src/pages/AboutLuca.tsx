@@ -174,7 +174,7 @@ export default function AboutLuca() {
         <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-4">
           {[
             { label: "Meest geluisterde artiest waar ik zelf mee heb samengewerkt", answer: "Gable Price and Friends" },
-            { label: "Project waar ik het meeste uren aan besteedt",                answer: "DiscoverEU Learning Cycle" },
+            { label: "Project waar ik het meeste uren aan besteed",                answer: "DiscoverEU Learning Cycle" },
             { label: "Favoriete venue",                                             answer: "Rotterdam Ahoy" },
           ].map((item, i) => {
             const isActive = revealedFact === i;
