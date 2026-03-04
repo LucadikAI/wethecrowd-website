@@ -1,10 +1,27 @@
-import { motion } from "motion/react";
-import { useState } from "react";
+import { motion, AnimatePresence } from "motion/react";
+import { useState, useEffect } from "react";
 import Testimonials from "../components/Testimonials";
+
+const sliderPhotos = [
+  '/luca-werk-1.jpg',
+  '/luca-werk-4.jpg',
+  '/luca-werk-6.jpg',
+  '/luca-werk-3.png',
+  '/luca-werk-5.jpg',
+  '/luca-werk-2.jpg',
+];
 
 export default function AboutLuca() {
   const [revealedFact, setRevealedFact] = useState<number | null>(null);
   const [showChild, setShowChild] = useState(false);
+  const [sliderIndex, setSliderIndex] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setSliderIndex(i => (i + 1) % sliderPhotos.length);
+    }, 3500);
+    return () => clearInterval(timer);
+  }, []);
 
   return (
     <motion.div
@@ -73,15 +90,15 @@ export default function AboutLuca() {
         <div className="mt-16">
 
           {/* Desktop layout */}
-          <div className="relative hidden md:block" style={{ minHeight: '320px' }}>
+          <div className="hidden md:flex gap-3 items-stretch">
 
-            {/* Blue block — 72% wide, tight vertical padding */}
+            {/* Blue block — 72% wide, text fills the space */}
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.7 }}
-              className="overflow-hidden shadow-2xl"
+              className="relative overflow-hidden shadow-2xl flex-none"
               style={{
                 width: '72%',
                 borderRadius: '2.5rem',
@@ -91,35 +108,35 @@ export default function AboutLuca() {
               <div className="absolute inset-0 pointer-events-none" style={{ background: 'radial-gradient(ellipse at 12% 40%, rgba(255,255,255,0.2) 0%, transparent 55%)' }} />
               <span className="absolute top-2 left-10 text-[7rem] font-serif text-white/10 leading-none select-none pointer-events-none">&#8220;</span>
               <span className="absolute bottom-0 right-8 text-[7rem] font-serif text-white/10 leading-none select-none pointer-events-none">&#8221;</span>
-              <div className="px-12 lg:px-16 py-8">
-                <blockquote className="relative z-10 text-white font-bold leading-relaxed text-xl lg:text-2xl max-w-[72%] text-left">
+              <div className="flex items-center h-full px-12 lg:px-16 py-10">
+                <blockquote className="relative z-10 text-white font-bold text-xl lg:text-[1.35rem] leading-[1.95] text-left">
                   Als freelancer ben ik bezig om de meest uiteenlopende producties neer te zetten. Daar ben ik enthousiast over, omdat ik het leuk vind om momenten te creëren die mensen voor altijd bij zullen blijven. Ik combineer hard werken met creatief denken en daarmee hoop ik projecten naar een hoger niveau te tillen. Samen met jou.
                 </blockquote>
               </div>
             </motion.div>
 
-            {/* Polaroids — tight cluster, mostly over the blue block's right portion */}
-            {[
-              { src: '/luca-werk-1.jpg', style: { top:  '12px', right: '32%' }, r:  -8, delay: 0    },
-              { src: '/luca-werk-4.jpg', style: { top:   '0px', right: '19%' }, r:   9, delay: 0.07 },
-              { src: '/luca-werk-6.jpg', style: { top:  '18px', right:  '6%' }, r:  14, delay: 0.13 },
-              { src: '/luca-werk-3.png', style: { top: '130px', right: '29%' }, r:  -5, delay: 0.1  },
-              { src: '/luca-werk-5.jpg', style: { top: '120px', right: '15%' }, r:   5, delay: 0.18 },
-              { src: '/luca-werk-2.jpg', style: { top: '145px', right:  '3%' }, r: -12, delay: 0.26 },
-            ].map((p, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, rotate: p.r * 2.2, y: 20 }}
-                whileInView={{ opacity: 1, rotate: p.r, y: 0 }}
-                whileHover={{ rotate: 0, scale: 1.1, zIndex: 50 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.85, type: 'spring', delay: p.delay }}
-                className="absolute w-32 bg-white p-[6px] pb-8 shadow-2xl rounded-sm z-30 cursor-pointer"
-                style={p.style}
-              >
-                <img src={p.src} alt="" className="aspect-square object-cover w-full" />
-              </motion.div>
-            ))}
+            {/* Photo slider — fills remaining 28% */}
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7, delay: 0.15 }}
+              className="flex-1 relative overflow-hidden shadow-2xl bg-gray-900"
+              style={{ borderRadius: '2.5rem' }}
+            >
+              <AnimatePresence>
+                <motion.img
+                  key={sliderIndex}
+                  src={sliderPhotos[sliderIndex]}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 1, ease: 'easeInOut' }}
+                  className="absolute inset-0 w-full h-full object-cover"
+                  alt=""
+                />
+              </AnimatePresence>
+            </motion.div>
           </div>
 
           {/* Mobile layout */}
