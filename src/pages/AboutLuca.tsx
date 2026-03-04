@@ -99,6 +99,11 @@ export default function AboutLuca() {
             {/* Quote wrapper — shifted up */}
             <div className="flex-none" style={{ width: '72%', transform: 'translateY(-25%)' }}>
               <motion.div
+                animate={{ y: [0, -12, 0] }}
+                transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut" }}
+                className="h-full"
+              >
+              <motion.div
                 initial={{ opacity: 0, x: -20 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
@@ -118,10 +123,16 @@ export default function AboutLuca() {
                   </blockquote>
                 </div>
               </motion.div>
+              </motion.div>
             </div>
 
             {/* Photo wrapper — shifted down */}
             <div className="flex-1" style={{ transform: 'translateY(25%)' }}>
+              <motion.div
+                animate={{ y: [0, 12, 0] }}
+                transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut" }}
+                className="h-full"
+              >
               <motion.div
                 initial={{ opacity: 0, x: 20 }}
                 whileInView={{ opacity: 1, x: 0 }}
@@ -143,6 +154,7 @@ export default function AboutLuca() {
                     alt=""
                   />
                 </AnimatePresence>
+              </motion.div>
               </motion.div>
             </div>
           </div>
