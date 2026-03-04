@@ -72,7 +72,7 @@ export default function Testimonials({ showTitle = true }: TestimonialsProps) {
                   <p className="text-[10px] text-gray-500 leading-tight">{t.company}</p>
                 </div>
               </div>
-              <p className="text-sm text-gray-700 italic leading-relaxed flex-1">
+              <p className="text-sm text-gray-700 italic leading-relaxed flex-1 hyphens-auto">
                 {t.text}
               </p>
             </motion.div>
