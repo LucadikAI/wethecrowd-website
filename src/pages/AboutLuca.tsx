@@ -97,7 +97,7 @@ export default function AboutLuca() {
           <div className="hidden md:flex gap-3 items-stretch">
 
             {/* Quote wrapper — shifted up */}
-            <div className="flex-none" style={{ width: '72%', transform: 'translateY(-80px)' }}>
+            <div className="flex-none" style={{ width: '72%', transform: 'translateY(-140px)' }}>
               <motion.div
                 initial={{ opacity: 0, x: -20 }}
                 whileInView={{ opacity: 1, x: 0 }}
@@ -121,7 +121,7 @@ export default function AboutLuca() {
             </div>
 
             {/* Photo wrapper — shifted down */}
-            <div className="flex-1" style={{ transform: 'translateY(80px)' }}>
+            <div className="flex-1" style={{ transform: 'translateY(140px)' }}>
               <motion.div
                 initial={{ opacity: 0, x: 20 }}
                 whileInView={{ opacity: 1, x: 0 }}
