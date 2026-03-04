@@ -3,16 +3,16 @@ import { useState, useEffect } from "react";
 import Testimonials from "../components/Testimonials";
 
 const sliderPhotos = [
-  '/luca-werk-1.jpg',
-  '/luca-werk-4.jpg',
-  '/luca-werk-6.jpg',
-  '/luca-werk-3.png',
-  '/luca-werk-5.jpg',
-  '/luca-werk-2.jpg',
-  '/luca-werk-7.jpg',
-  '/luca-werk-8.jpg',
-  '/luca-werk-9.jpg',
-  '/luca-werk-10.jpg',
+  { src: '/luca-werk-1.jpg',  pos: 'center' },
+  { src: '/luca-werk-4.jpg',  pos: 'center' },
+  { src: '/luca-werk-6.jpg',  pos: 'center' },
+  { src: '/luca-werk-3.png',  pos: 'center' },
+  { src: '/luca-werk-5.jpg',  pos: 'center' },
+  { src: '/luca-werk-2.jpg',  pos: 'center' },
+  { src: '/luca-werk-7.jpg',  pos: 'center' },
+  { src: '/luca-werk-8.jpg',  pos: 'center' },
+  { src: '/luca-werk-9.jpg',  pos: 'center' },
+  { src: '/luca-werk-10.jpg', pos: 'top'    },
 ];
 
 export default function AboutLuca() {
@@ -131,7 +131,8 @@ export default function AboutLuca() {
               <AnimatePresence>
                 <motion.img
                   key={sliderIndex}
-                  src={sliderPhotos[sliderIndex]}
+                  src={sliderPhotos[sliderIndex].src}
+                  style={{ objectPosition: sliderPhotos[sliderIndex].pos }}
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
@@ -161,7 +162,8 @@ export default function AboutLuca() {
               <AnimatePresence>
                 <motion.img
                   key={sliderIndex}
-                  src={sliderPhotos[sliderIndex]}
+                  src={sliderPhotos[sliderIndex].src}
+                  style={{ objectPosition: sliderPhotos[sliderIndex].pos }}
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
