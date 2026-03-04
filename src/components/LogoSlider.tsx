@@ -8,6 +8,7 @@ const logos = [
   { name: "Fairspace", src: "/logo-fairspace.png" },
   { name: "NJi", src: "/logo-nji.png" },
   { name: "TGB", src: "/logo-tgb.png" },
+  { name: "Possibilize", src: "/logo-possibilize.png" },
 ];
 
 interface LogoSliderProps {
