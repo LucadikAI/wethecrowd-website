@@ -29,10 +29,10 @@ export default function Contact() {
           {/* Left Side: Content */}
           <div>
             <h1 className="text-5xl md:text-7xl font-bold mb-8 leading-tight">
-              Laten we iets bouwen dat mensen voelen.
+              Laten we samen iets creëren dat impact heeft.
             </h1>
             <p className="text-xl text-gray-600 mb-12 leading-relaxed">
-              Ik sta altijd open voor nieuwe samenwerkingen, sparsessies of complexe productievraagstukken. Of je nu een stagemanager zoekt of een volledige productie wilt uitbesteden: laten we kijken wat we voor elkaar kunnen betekenen.
+              Nieuwe samenwerkingen, sparsessies of complexe productievraagstukken? Daar sta ik altijd voor open. Of je nu een stagemanager zoekt of een volledige productie wilt uitbesteden: laten we kijken wat we voor elkaar kunnen betekenen.
             </p>
 
             <div className="space-y-8">

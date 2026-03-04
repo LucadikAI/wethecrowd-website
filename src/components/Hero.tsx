@@ -76,7 +76,7 @@ export default function Hero() {
         className="mt-10 flex flex-col items-center text-center px-6 pb-10 md:pb-0 w-full"
       >
         <p className="text-lg md:text-xl text-gray-600 leading-relaxed font-light max-w-2xl mb-10">
-          <span className="font-bold text-gray-900">WE THE CROWD</span> vertaalt visie naar uitvoering. Van creatieve conceptontwikkeling tot strakke productie en stagemanagement. Alles wat je nodig hebt voor events die blijven hangen.
+          <span className="font-bold text-gray-900">WE THE CROWD</span> vertaalt visie naar uitvoering. Van creatieve conceptontwikkeling tot strakke productie en stagemanagement. Alles wat je zoekt om events met blijvende impact te realiseren.
         </p>
 
         <div className="flex flex-col sm:flex-row gap-4">

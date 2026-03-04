@@ -4,9 +4,16 @@ import { useState } from "react";
 
 const testimonials = [
   {
+    id: 1,
+    name: "Giselle Koning",
+    company: "Creatief directeur & partner @ The Groundbreakers",
+    text: "Luca is iemand waar je op kunt bouwen tijdens een event. Hij komt goed voorbereid, begrijpt het concept en neemt verantwoordelijkheid in zijn rol. Ook onder druk blijft hij rustig en houdt hij overzicht, waardoor je op hem kunt vertrouwen op belangrijke momenten. De communicatie met hem is helder en prettig.",
+    image: ""
+  },
+  {
     id: 3,
     name: "Laura Adèr",
-    company: "Co-Founder and Executive Director @ Fairspace",
+    company: "Co-Founder & Executive Director @ Fairspace",
     text: "De samenwerking met Luca was ontzettend prettig. Met zijn oog voor detail, ruime ervaring en het vermogen om onder tijdsdruk het overzicht te bewaren, zorgt hij ervoor dat je een sterk en professioneel event neerzet.",
     image: "/testimonial-laura.jpg"
   },
