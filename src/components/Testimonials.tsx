@@ -7,7 +7,7 @@ const testimonials = [
     id: 1,
     name: "Giselle Koning",
     company: "Creatief directeur & partner @ The Groundbreakers",
-    text: "Luca is iemand waar je op kunt bouwen. Hij komt goed voorbereid, begrijpt het concept en neemt zijn verantwoordelijkheid.\n\nOok onder druk blijft hij rustig en houdt hij overzicht, waardoor je op hem kunt vertrouwen op belangrijke momenten.",
+    text: "Luca is iemand waar je op kunt bouwen. Hij komt goed voorbereid, begrijpt het concept en neemt zijn verantwoordelijkheid. Ook onder druk blijft hij rustig en houdt hij overzicht, waardoor je op hem kunt vertrouwen op belangrijke momenten.",
     image: ""
   },
   {
@@ -72,11 +72,9 @@ export default function Testimonials({ showTitle = true }: TestimonialsProps) {
                   <p className="text-[10px] text-gray-500 leading-tight">{t.company}</p>
                 </div>
               </div>
-              <div className="text-sm text-gray-700 italic leading-relaxed flex-1 flex flex-col gap-3">
-                {t.text.split("\n\n").map((para, i) => (
-                  <p key={i}>{para}</p>
-                ))}
-              </div>
+              <p className="text-sm text-gray-700 italic leading-relaxed flex-1">
+                {t.text}
+              </p>
             </motion.div>
           ))}
         </div>
