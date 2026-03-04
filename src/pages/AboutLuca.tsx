@@ -73,48 +73,48 @@ export default function AboutLuca() {
         <div className="mt-16">
 
           {/* Desktop layout */}
-          <div className="relative hidden md:block" style={{ minHeight: '460px' }}>
+          <div className="relative hidden md:block" style={{ minHeight: '320px' }}>
 
-            {/* Blue block — 72% wide, text left-aligned */}
+            {/* Blue block — 72% wide, tight vertical padding */}
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.7 }}
-              className="absolute inset-y-0 left-0 overflow-hidden shadow-2xl"
+              className="overflow-hidden shadow-2xl"
               style={{
                 width: '72%',
-                borderRadius: '2.5rem 2.5rem 2.5rem 2.5rem',
+                borderRadius: '2.5rem',
                 background: 'linear-gradient(135deg, #1ea4f2 0%, #0d8fd8 55%, #0a7abf 100%)',
               }}
             >
               <div className="absolute inset-0 pointer-events-none" style={{ background: 'radial-gradient(ellipse at 12% 40%, rgba(255,255,255,0.2) 0%, transparent 55%)' }} />
-              <span className="absolute top-4 left-10 text-[9rem] font-serif text-white/10 leading-none select-none pointer-events-none">&#8220;</span>
-              <span className="absolute bottom-0 right-10 text-[9rem] font-serif text-white/10 leading-none select-none pointer-events-none">&#8221;</span>
-              <div className="flex items-center h-full px-12 lg:px-16 py-14">
-                <blockquote className="relative z-10 text-white font-bold leading-relaxed text-xl lg:text-2xl max-w-[75%] text-left">
+              <span className="absolute top-2 left-10 text-[7rem] font-serif text-white/10 leading-none select-none pointer-events-none">&#8220;</span>
+              <span className="absolute bottom-0 right-8 text-[7rem] font-serif text-white/10 leading-none select-none pointer-events-none">&#8221;</span>
+              <div className="px-12 lg:px-16 py-8">
+                <blockquote className="relative z-10 text-white font-bold leading-relaxed text-xl lg:text-2xl max-w-[72%] text-left">
                   Als freelancer ben ik bezig om de meest uiteenlopende producties neer te zetten. Daar ben ik enthousiast over, omdat ik het leuk vind om momenten te creëren die mensen voor altijd bij zullen blijven. Ik combineer hard werken met creatief denken en daarmee hoop ik projecten naar een hoger niveau te tillen. Samen met jou.
                 </blockquote>
               </div>
             </motion.div>
 
-            {/* Polaroids — right cluster, overlapping the blue block edge */}
+            {/* Polaroids — tight cluster, mostly over the blue block's right portion */}
             {[
-              { src: '/luca-werk-1.jpg',  style: { top:  '10px', right: '23%' }, r:  -9, delay: 0    },
-              { src: '/luca-werk-4.jpg',  style: { top: '-8px',  right:  '6%' }, r:   7, delay: 0.07 },
-              { src: '/luca-werk-6.jpg',  style: { top: '110px', right:  '1%' }, r:  13, delay: 0.14 },
-              { src: '/luca-werk-3.png',  style: { top: '195px', right: '21%' }, r:  -5, delay: 0.11 },
-              { src: '/luca-werk-5.jpg',  style: { top: '240px', right:  '8%' }, r:   4, delay: 0.2  },
-              { src: '/luca-werk-2.jpg',  style: { bottom: '8px', right: '14%' }, r: -11, delay: 0.28 },
+              { src: '/luca-werk-1.jpg', style: { top:  '12px', right: '32%' }, r:  -8, delay: 0    },
+              { src: '/luca-werk-4.jpg', style: { top:   '0px', right: '19%' }, r:   9, delay: 0.07 },
+              { src: '/luca-werk-6.jpg', style: { top:  '18px', right:  '6%' }, r:  14, delay: 0.13 },
+              { src: '/luca-werk-3.png', style: { top: '130px', right: '29%' }, r:  -5, delay: 0.1  },
+              { src: '/luca-werk-5.jpg', style: { top: '120px', right: '15%' }, r:   5, delay: 0.18 },
+              { src: '/luca-werk-2.jpg', style: { top: '145px', right:  '3%' }, r: -12, delay: 0.26 },
             ].map((p, i) => (
               <motion.div
                 key={i}
-                initial={{ opacity: 0, rotate: p.r * 2.2, y: 24 }}
+                initial={{ opacity: 0, rotate: p.r * 2.2, y: 20 }}
                 whileInView={{ opacity: 1, rotate: p.r, y: 0 }}
                 whileHover={{ rotate: 0, scale: 1.1, zIndex: 50 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.85, type: 'spring', delay: p.delay }}
-                className="absolute w-36 bg-white p-[7px] pb-9 shadow-2xl rounded-sm z-30 cursor-pointer"
+                className="absolute w-32 bg-white p-[6px] pb-8 shadow-2xl rounded-sm z-30 cursor-pointer"
                 style={p.style}
               >
                 <img src={p.src} alt="" className="aspect-square object-cover w-full" />
