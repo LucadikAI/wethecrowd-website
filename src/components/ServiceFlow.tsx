@@ -123,27 +123,21 @@ export default function ServiceFlow() {
           </div>
         </div>
 
-        {/* ── Mobiel: verticale flow ── */}
+        {/* ── Mobiel: verticale flow met inline paneel ── */}
         <div className="md:hidden">
           {flowItems.map((item, i) => {
             const isActive = active === item.id;
             return (
-              <div
-                key={item.id}
-                className="flex cursor-pointer"
-                onClick={() => tap(item.id)}
-              >
+              <div key={item.id} className="flex">
                 {/* Links: dot + verbindingslijn */}
                 <div className="flex flex-col items-center w-4 mr-5 shrink-0">
                   <motion.div
                     animate={{ scale: isActive ? 1.5 : 1 }}
                     transition={{ duration: 0.25 }}
-                    className="w-3.5 h-3.5 rounded-full shrink-0"
+                    className="w-3.5 h-3.5 rounded-full shrink-0 mt-1"
                     style={{
                       backgroundColor: isActive ? item.dotColor : "#d1d5db",
-                      boxShadow: isActive
-                        ? `0 0 12px ${item.dotColor}aa`
-                        : "none",
+                      boxShadow: isActive ? `0 0 12px ${item.dotColor}aa` : "none",
                       transition: "background-color 0.25s, box-shadow 0.25s",
                     }}
                   />
@@ -152,27 +146,66 @@ export default function ServiceFlow() {
                   )}
                 </div>
 
-                {/* Rechts: tekst */}
-                <div className="pb-10 flex-1">
-                  <h3
-                    className="text-xl font-bold mb-2"
-                    style={{
-                      color: isActive ? item.dotColor : "#111827",
-                      transition: "color 0.25s",
-                    }}
-                  >
-                    {item.title}
-                  </h3>
-                  <p className="text-sm text-gray-500 leading-relaxed">
-                    {item.short}
-                  </p>
+                {/* Rechts: tekst + uitklapbaar paneel */}
+                <div className="pb-8 flex-1 min-w-0">
+                  {/* Klikbare header */}
+                  <div className="cursor-pointer" onClick={() => tap(item.id)}>
+                    <h3
+                      className="text-xl font-bold mb-1"
+                      style={{ color: isActive ? item.dotColor : "#111827", transition: "color 0.25s" }}
+                    >
+                      {item.title}
+                    </h3>
+                    <p className="text-sm text-gray-500 leading-relaxed">
+                      {item.short}
+                    </p>
+                  </div>
+
+                  {/* Inline uitklapbaar paneel */}
+                  <AnimatePresence>
+                    {isActive && (
+                      <motion.div
+                        key={item.id + "-panel"}
+                        initial={{ opacity: 0, y: -8 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -8 }}
+                        transition={{ duration: 0.32, ease: "easeOut" }}
+                        className="mt-4 rounded-2xl overflow-hidden relative"
+                      >
+                        <div className="absolute inset-0 bg-gray-950" />
+                        <motion.div
+                          animate={{ x: [0, 42, -18, 0], y: [0, -28, 18, 0] }}
+                          transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
+                          className="absolute rounded-full blur-[60px] pointer-events-none"
+                          style={{ background: `radial-gradient(circle, ${item.palette[0]}, transparent)`, width: "70%", height: "150%", top: "-25%", left: "0%" }}
+                        />
+                        <motion.div
+                          animate={{ x: [0, -32, 28, 0], y: [0, 22, -22, 0] }}
+                          transition={{ duration: 11, repeat: Infinity, ease: "easeInOut" }}
+                          className="absolute rounded-full blur-[50px] pointer-events-none"
+                          style={{ background: `radial-gradient(circle, ${item.palette[1]}, transparent)`, width: "55%", height: "130%", top: "5%", right: "0%" }}
+                        />
+                        <div className="relative z-10 px-6 py-6">
+                          <h4 className="text-base font-bold text-white mb-2">{item.title}</h4>
+                          <p className="text-white/75 text-sm leading-relaxed mb-4">{item.detail}</p>
+                          <Link
+                            to="/contact"
+                            className="inline-flex items-center gap-2 px-5 py-2 bg-white text-gray-900 rounded-full font-bold text-sm hover:scale-105 transition-transform"
+                          >
+                            {item.cta}
+                            <ArrowRight className="w-4 h-4" />
+                          </Link>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </div>
               </div>
             );
           })}
         </div>
 
-        {/* ── Hover/tap paneel ── */}
+        {/* ── Desktop hover/tap paneel (onder alle drie) ── */}
         <AnimatePresence mode="wait">
           {activeItem && (
             <motion.div
@@ -181,70 +214,39 @@ export default function ServiceFlow() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 10 }}
               transition={{ duration: 0.38, ease: "easeOut" }}
-              className="relative mt-10 rounded-[2rem] overflow-hidden md:h-72"
+              className="relative mt-10 rounded-[2rem] overflow-hidden h-72 hidden md:block"
               onMouseEnter={cancelLeave}
               onMouseLeave={leave}
             >
-              {/* Donkere achtergrond */}
               <div className="absolute inset-0 bg-gray-950" />
-
-              {/* Bewegende orbs */}
               <motion.div
                 animate={{ x: [0, 42, -18, 0], y: [0, -28, 18, 0] }}
                 transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
                 className="absolute rounded-full blur-[90px]"
-                style={{
-                  background: `radial-gradient(circle, ${activeItem.palette[0]}, transparent)`,
-                  width: "55%",
-                  height: "160%",
-                  top: "-30%",
-                  left: "0%",
-                }}
+                style={{ background: `radial-gradient(circle, ${activeItem.palette[0]}, transparent)`, width: "55%", height: "160%", top: "-30%", left: "0%" }}
               />
               <motion.div
                 animate={{ x: [0, -32, 28, 0], y: [0, 22, -22, 0] }}
                 transition={{ duration: 11, repeat: Infinity, ease: "easeInOut" }}
                 className="absolute rounded-full blur-[80px]"
-                style={{
-                  background: `radial-gradient(circle, ${activeItem.palette[1]}, transparent)`,
-                  width: "50%",
-                  height: "140%",
-                  top: "5%",
-                  right: "0%",
-                }}
+                style={{ background: `radial-gradient(circle, ${activeItem.palette[1]}, transparent)`, width: "50%", height: "140%", top: "5%", right: "0%" }}
               />
               <motion.div
                 animate={{ x: [0, 18, -28, 0], y: [0, -14, 22, 0] }}
                 transition={{ duration: 13, repeat: Infinity, ease: "easeInOut" }}
                 className="absolute rounded-full blur-[70px]"
-                style={{
-                  background: `radial-gradient(circle, ${activeItem.palette[2]}, transparent)`,
-                  width: "45%",
-                  height: "110%",
-                  bottom: "-10%",
-                  left: "28%",
-                }}
+                style={{ background: `radial-gradient(circle, ${activeItem.palette[2]}, transparent)`, width: "45%", height: "110%", bottom: "-10%", left: "28%" }}
               />
-
-              {/* Voorgrond: inhoud */}
-              <div className="relative z-10 md:h-full flex flex-col justify-center px-8 md:px-14 py-8 md:py-0 gap-8 md:gap-12">
-                {/* Tekst */}
-                <div className="flex flex-col justify-center flex-1 min-w-0">
-                  <h4 className="text-xl md:text-2xl font-bold text-white mb-3">
-                    {activeItem.title}
-                  </h4>
-                  <p className="text-white/75 text-sm md:text-base leading-relaxed mb-6">
-                    {activeItem.detail}
-                  </p>
-                  <Link
-                    to="/contact"
-                    className="inline-flex items-center gap-2 px-6 py-2.5 bg-white text-gray-900 rounded-full font-bold text-sm w-fit hover:scale-105 transition-transform"
-                  >
-                    {activeItem.cta}
-                    <ArrowRight className="w-4 h-4" />
-                  </Link>
-                </div>
-
+              <div className="relative z-10 h-full flex flex-col justify-center px-14 py-0">
+                <h4 className="text-2xl font-bold text-white mb-3">{activeItem.title}</h4>
+                <p className="text-white/75 text-base leading-relaxed mb-6">{activeItem.detail}</p>
+                <Link
+                  to="/contact"
+                  className="inline-flex items-center gap-2 px-6 py-2.5 bg-white text-gray-900 rounded-full font-bold text-sm w-fit hover:scale-105 transition-transform"
+                >
+                  {activeItem.cta}
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
               </div>
             </motion.div>
           )}
