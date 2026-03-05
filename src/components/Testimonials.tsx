@@ -42,44 +42,59 @@ export default function Testimonials({ showTitle = true }: TestimonialsProps) {
 
   // Mobile marquee: touch-interactive
   const x = useMotionValue(0);
+  const progressValue = useMotionValue(0); // 0–1, drives the indicator independently
   const trackRef = useRef<HTMLDivElement>(null);
   const isTouching = useRef(false);
   const touchStartClientX = useRef(0);
   const xAtTouchStart = useRef(0);
   const halfWidth = useRef(0);
   const animControl = useRef<ReturnType<typeof animate> | null>(null);
+  const progressControl = useRef<ReturnType<typeof animate> | null>(null);
 
-  // Progress indicator: maps x position (0 to -halfWidth) to 0%–75% left offset
-  const indicatorLeft = useTransform(x, (val) => {
+  const indicatorLeft = useTransform(progressValue, [0, 1], ["0%", "75%"]);
+
+  // Seamless infinite loop using repeat: Infinity — no onComplete reset needed
+  const startInfiniteLoop = () => {
     const hw = halfWidth.current;
-    if (!hw) return "0%";
-    const progress = (Math.abs(val) % hw) / hw;
-    return `${progress * 75}%`;
-  });
+    animControl.current?.stop();
+    progressControl.current?.stop();
+    animControl.current = animate(x, [0, -hw], {
+      duration: 30, repeat: Infinity, ease: "linear",
+    });
+    progressControl.current = animate(progressValue, [0, 1], {
+      duration: 30, repeat: Infinity, ease: "linear",
+    });
+  };
 
-  const startMarquee = (fromX: number) => {
+  // Resume from a mid-loop position after a swipe
+  const resumeFromPosition = (fromX: number) => {
     const hw = halfWidth.current;
     if (!hw) return;
+    animControl.current?.stop();
+    progressControl.current?.stop();
 
-    // Normalize x into the [-hw, 0] range for seamless looping
     let normalized = fromX % -hw;
     if (normalized > 0) normalized -= hw;
-
     x.set(normalized);
 
     const fraction = Math.abs(normalized) / hw;
-    const duration = 30 * (1 - fraction);
+    if (fraction === 0) { startInfiniteLoop(); return; }
 
-    animControl.current?.stop();
+    const remaining = 30 * (1 - fraction);
+    progressValue.set(fraction);
+
+    // Complete current segment, then hand off to seamless infinite loop
     animControl.current = animate(x, -hw, {
-      duration,
-      ease: "linear",
+      duration: remaining, ease: "linear",
       onComplete: () => {
         if (!isTouching.current) {
           x.set(0);
-          startMarquee(0);
+          startInfiniteLoop();
         }
       },
+    });
+    progressControl.current = animate(progressValue, 1, {
+      duration: remaining, ease: "linear",
     });
   };
 
@@ -87,10 +102,10 @@ export default function Testimonials({ showTitle = true }: TestimonialsProps) {
     requestAnimationFrame(() => {
       if (trackRef.current) {
         halfWidth.current = trackRef.current.scrollWidth / 2;
-        startMarquee(0);
+        startInfiniteLoop();
       }
     });
-    return () => animControl.current?.stop();
+    return () => { animControl.current?.stop(); progressControl.current?.stop(); };
   }, []);
 
   const handleTouchStart = (e: React.TouchEvent) => {
@@ -98,16 +113,25 @@ export default function Testimonials({ showTitle = true }: TestimonialsProps) {
     touchStartClientX.current = e.touches[0].clientX;
     xAtTouchStart.current = x.get();
     animControl.current?.stop();
+    progressControl.current?.stop();
   };
 
   const handleTouchMove = (e: React.TouchEvent) => {
     const delta = e.touches[0].clientX - touchStartClientX.current;
-    x.set(xAtTouchStart.current + delta);
+    const newX = xAtTouchStart.current + delta;
+    x.set(newX);
+    // Keep progress bar in sync during drag
+    const hw = halfWidth.current;
+    if (hw) {
+      let n = newX % -hw;
+      if (n > 0) n -= hw;
+      progressValue.set(Math.abs(n) / hw);
+    }
   };
 
   const handleTouchEnd = () => {
     isTouching.current = false;
-    startMarquee(x.get());
+    resumeFromPosition(x.get());
   };
 
   return (
