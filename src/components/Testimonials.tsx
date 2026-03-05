@@ -1,4 +1,4 @@
-import { motion, useMotionValue, animate } from "motion/react";
+import { motion, useMotionValue, animate, useTransform } from "motion/react";
 import { Quote } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 
@@ -48,6 +48,14 @@ export default function Testimonials({ showTitle = true }: TestimonialsProps) {
   const xAtTouchStart = useRef(0);
   const halfWidth = useRef(0);
   const animControl = useRef<ReturnType<typeof animate> | null>(null);
+
+  // Progress indicator: maps x position (0 to -halfWidth) to 0%–75% left offset
+  const indicatorLeft = useTransform(x, (val) => {
+    const hw = halfWidth.current;
+    if (!hw) return "0%";
+    const progress = (Math.abs(val) % hw) / hw;
+    return `${progress * 75}%`;
+  });
 
   const startMarquee = (fromX: number) => {
     const hw = halfWidth.current;
@@ -148,6 +156,16 @@ export default function Testimonials({ showTitle = true }: TestimonialsProps) {
               </div>
             ))}
           </motion.div>
+          {/* Progress bar + hint — mobile only */}
+          <div className="relative mt-5 mx-auto w-32 h-1 rounded-full bg-gray-200">
+            <motion.div
+              className="absolute top-0 left-0 h-full w-1/4 rounded-full bg-brand-accent"
+              style={{ left: indicatorLeft }}
+            />
+          </div>
+          <p className="text-center text-[12px] text-gray-400 italic mt-3">
+            Houd vast om te pauzeren · Swipe om te bladeren
+          </p>
         </div>
 
         {/* Desktop: 4-column grid with hover effect */}
