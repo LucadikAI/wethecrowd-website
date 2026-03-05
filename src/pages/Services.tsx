@@ -1,4 +1,4 @@
-import { motion, useMotionValue, useTransform } from "motion/react";
+import { motion, useMotionValue, animate, useTransform } from "motion/react";
 import { ArrowRight, Zap, Users, Layout, Mic2 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useRef, useState, useEffect } from "react";
@@ -37,27 +37,110 @@ const services = [
 ];
 
 export default function Services() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const trackRef = useRef<HTMLDivElement>(null);
-  const [dragLeft, setDragLeft] = useState(0);
-  const [isMobile, setIsMobile] = useState(() => window.innerWidth < 768);
   const [activeCard, setActiveCard] = useState<number | null>(null);
-  const [isDragging, setIsDragging] = useState(false);
-  const dragX = useMotionValue(0);
-  const indicatorLeftDesktop = useTransform(dragX, [dragLeft || -1, 0], ["50%", "0%"]);
-  const indicatorLeftMobile = useTransform(dragX, [dragLeft || -1, 0], ["75%", "0%"]);
+
+  // Auto-scroll marquee
+  const x = useMotionValue(0);
+  const progressValue = useMotionValue(0);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const isPaused = useRef(false);
+  const touchStartClientX = useRef(0);
+  const xAtPauseStart = useRef(0);
+  const halfWidth = useRef(0);
+  const animControl = useRef<ReturnType<typeof animate> | null>(null);
+  const progressControl = useRef<ReturnType<typeof animate> | null>(null);
+
+  const indicatorLeft = useTransform(progressValue, [0, 1], ["0%", "75%"]);
+
+  const startInfiniteLoop = () => {
+    const hw = halfWidth.current;
+    animControl.current?.stop();
+    progressControl.current?.stop();
+    animControl.current = animate(x, [0, -hw], {
+      duration: 25, repeat: Infinity, ease: "linear",
+    });
+    progressControl.current = animate(progressValue, [0, 1], {
+      duration: 25, repeat: Infinity, ease: "linear",
+    });
+  };
+
+  const resumeFromPosition = (fromX: number) => {
+    const hw = halfWidth.current;
+    if (!hw) return;
+    animControl.current?.stop();
+    progressControl.current?.stop();
+
+    let normalized = fromX % -hw;
+    if (normalized > 0) normalized -= hw;
+    x.set(normalized);
+
+    const fraction = Math.abs(normalized) / hw;
+    if (fraction === 0) { startInfiniteLoop(); return; }
+
+    const remaining = 25 * (1 - fraction);
+    progressValue.set(fraction);
+
+    animControl.current = animate(x, -hw, {
+      duration: remaining, ease: "linear",
+      onComplete: () => {
+        if (!isPaused.current) {
+          x.set(0);
+          startInfiniteLoop();
+        }
+      },
+    });
+    progressControl.current = animate(progressValue, 1, {
+      duration: remaining, ease: "linear",
+    });
+  };
 
   useEffect(() => {
-    const update = () => {
-      setIsMobile(window.innerWidth < 768);
-      if (trackRef.current && containerRef.current) {
-        setDragLeft(-(trackRef.current.scrollWidth - containerRef.current.offsetWidth));
+    requestAnimationFrame(() => {
+      if (trackRef.current) {
+        halfWidth.current = trackRef.current.scrollWidth / 2;
+        startInfiniteLoop();
       }
-    };
-    update();
-    window.addEventListener("resize", update);
-    return () => window.removeEventListener("resize", update);
+    });
+    return () => { animControl.current?.stop(); progressControl.current?.stop(); };
   }, []);
+
+  // Desktop: pause on hover
+  const handleMouseEnter = () => {
+    isPaused.current = true;
+    animControl.current?.stop();
+    progressControl.current?.stop();
+  };
+
+  const handleMouseLeave = () => {
+    isPaused.current = false;
+    resumeFromPosition(x.get());
+  };
+
+  // Mobile: pause + swipe
+  const handleTouchStart = (e: React.TouchEvent) => {
+    isPaused.current = true;
+    touchStartClientX.current = e.touches[0].clientX;
+    xAtPauseStart.current = x.get();
+    animControl.current?.stop();
+    progressControl.current?.stop();
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    const delta = e.touches[0].clientX - touchStartClientX.current;
+    const newX = xAtPauseStart.current + delta;
+    x.set(newX);
+    const hw = halfWidth.current;
+    if (hw) {
+      let n = newX % -hw;
+      if (n > 0) n -= hw;
+      progressValue.set(Math.abs(n) / hw);
+    }
+  };
+
+  const handleTouchEnd = () => {
+    isPaused.current = false;
+    resumeFromPosition(x.get());
+  };
 
   return (
     <motion.div
@@ -75,72 +158,76 @@ export default function Services() {
         </div>
 
         <div className="mb-24">
-        <div ref={containerRef} className="overflow-hidden cursor-grab active:cursor-grabbing">
-          <motion.div
-            ref={trackRef}
-            drag="x"
-            dragConstraints={{ left: dragLeft, right: 0 }}
-            dragElastic={0.05}
-            dragTransition={{ bounceStiffness: 300, bounceDamping: 30 }}
-            style={{ x: dragX }}
-            onDragStart={() => setIsDragging(true)}
-            onDragEnd={() => setTimeout(() => setIsDragging(false), 50)}
-            className="flex gap-6"
+          {/* Marquee container — break out of px-6 padding to go edge-to-edge */}
+          <div
+            className="-mx-6 overflow-hidden cursor-grab active:cursor-grabbing"
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
           >
-            {services.map((service, index) => {
-              const isActive = activeCard === index;
-              return (
-                <motion.div
-                  key={index}
-                  onClick={() => { if (!isDragging) setActiveCard(isActive ? null : index); }}
-                  className="relative aspect-[4/5] md:aspect-[4/3] rounded-[2rem] overflow-hidden group shadow-lg shrink-0 cursor-pointer"
-                  style={{ minWidth: isMobile ? "100%" : "calc(50% - 12px)" }}
-                >
-                  {/* Background Image */}
-                  <img
-                    src={service.image}
-                    alt={service.title}
-                    className={`absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 ${isActive ? "scale-110" : ""} ${service.imagePosition}`}
-                    referrerPolicy="no-referrer"
-                    draggable={false}
-                  />
+            <motion.div
+              ref={trackRef}
+              style={{ x }}
+              className="flex gap-6 w-max pl-6"
+            >
+              {[...services, ...services].map((service, index) => {
+                const serviceIndex = index % services.length;
+                const isActive = activeCard === serviceIndex;
+                return (
+                  <div
+                    key={index}
+                    onClick={() => setActiveCard(isActive ? null : serviceIndex)}
+                    className="relative aspect-[4/5] md:aspect-[4/3] rounded-[2rem] overflow-hidden group shadow-lg shrink-0 cursor-pointer w-[260px] md:w-[400px]"
+                  >
+                    {/* Background Image */}
+                    <img
+                      src={service.image}
+                      alt={service.title}
+                      className={`absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 ${isActive ? "scale-110" : ""} ${service.imagePosition}`}
+                      referrerPolicy="no-referrer"
+                      draggable={false}
+                    />
 
-                  {/* Dark Overlay */}
-                  <div className={`absolute inset-0 transition-colors duration-500 group-hover:bg-black/75 ${isActive ? "bg-black/75" : "bg-black/30"}`} />
+                    {/* Dark Overlay */}
+                    <div className={`absolute inset-0 transition-colors duration-500 group-hover:bg-black/75 ${isActive ? "bg-black/75" : "bg-black/30"}`} />
 
-                  {/* Default state: title at bottom */}
-                  <div className={`absolute inset-x-0 bottom-0 p-5 md:p-8 transition-opacity duration-300 group-hover:opacity-0 ${isActive ? "opacity-0" : "opacity-100"}`}>
-                    <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-brand-accent text-white flex items-center justify-center mb-3">
-                      {service.icon}
+                    {/* Default state: title at bottom */}
+                    <div className={`absolute inset-x-0 bottom-0 p-5 md:p-8 transition-opacity duration-300 group-hover:opacity-0 ${isActive ? "opacity-0" : "opacity-100"}`}>
+                      <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-brand-accent text-white flex items-center justify-center mb-3">
+                        {service.icon}
+                      </div>
+                      <h3 className="text-2xl md:text-3xl font-bold text-white">{service.title}</h3>
                     </div>
-                    <h3 className="text-2xl md:text-3xl font-bold text-white">{service.title}</h3>
-                  </div>
 
-                  {/* Hover/tap state: title top, description below */}
-                  <div className={`absolute inset-0 p-5 md:p-8 flex flex-col justify-start transition-opacity duration-500 group-hover:opacity-100 ${isActive ? "opacity-100" : "opacity-0"}`}>
-                    <div className="w-9 h-9 md:w-10 md:h-10 rounded-xl bg-brand-accent text-white flex items-center justify-center mb-3">
-                      {service.icon}
+                    {/* Hover/tap state: title top, description below */}
+                    <div className={`absolute inset-0 p-5 md:p-8 flex flex-col justify-start transition-opacity duration-500 group-hover:opacity-100 ${isActive ? "opacity-100" : "opacity-0"}`}>
+                      <div className="w-9 h-9 md:w-10 md:h-10 rounded-xl bg-brand-accent text-white flex items-center justify-center mb-3">
+                        {service.icon}
+                      </div>
+                      <h3 className="text-lg md:text-2xl font-bold text-white mb-2 md:mb-4">{service.title}</h3>
+                      <div className="w-10 h-1 bg-brand-accent rounded-full mb-2 md:mb-4" />
+                      <p className="text-white/90 leading-relaxed text-sm md:text-base">
+                        {service.description}
+                      </p>
                     </div>
-                    <h3 className="text-lg md:text-2xl font-bold text-white mb-2 md:mb-4">{service.title}</h3>
-                    <div className="w-10 h-1 bg-brand-accent rounded-full mb-2 md:mb-4" />
-                    <p className="text-white/90 leading-relaxed text-sm md:text-base">
-                      {service.description}
-                    </p>
                   </div>
-                </motion.div>
-              );
-            })}
-          </motion.div>
-        </div>
+                );
+              })}
+            </motion.div>
+          </div>
 
-        {/* Scroll indicator */}
-        <div className="relative mt-6 mx-auto w-32 h-1 rounded-full bg-gray-200">
-          <motion.div
-            className={`absolute top-0 left-0 h-full rounded-full bg-brand-accent ${isMobile ? "w-1/4" : "w-1/2"}`}
-            style={{ left: isMobile ? indicatorLeftMobile : indicatorLeftDesktop }}
-          />
-        </div>
-        <p className="text-center text-sm text-gray-400 italic mt-4">Swipe to see more.</p>
+          {/* Progress bar + hint */}
+          <div className="relative mt-6 mx-auto w-32 h-1 rounded-full bg-gray-200">
+            <motion.div
+              className="absolute top-0 left-0 h-full w-1/4 rounded-full bg-brand-accent"
+              style={{ left: indicatorLeft }}
+            />
+          </div>
+          <p className="text-center text-[12px] text-gray-400 italic mt-3">
+            Houd vast om te pauzeren · Swipe om te bladeren
+          </p>
         </div>
 
       </div>
