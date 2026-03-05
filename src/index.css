@@ -61,3 +61,8 @@
   0% { transform: translateX(0); }
   100% { transform: translateX(calc(-250px * 7)); }
 }
+
+@keyframes servicesProgressBar {
+  from { left: 0%; }
+  to { left: 75%; }
+}
