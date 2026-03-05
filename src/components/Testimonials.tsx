@@ -1,6 +1,6 @@
-import { motion } from "motion/react";
+import { motion, useMotionValue, animate } from "motion/react";
 import { Quote } from "lucide-react";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 
 const testimonials = [
   {
@@ -40,6 +40,68 @@ interface TestimonialsProps {
 export default function Testimonials({ showTitle = true }: TestimonialsProps) {
   const [hoveredId, setHoveredId] = useState<number | null>(null);
 
+  // Mobile marquee: touch-interactive
+  const x = useMotionValue(0);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const isTouching = useRef(false);
+  const touchStartClientX = useRef(0);
+  const xAtTouchStart = useRef(0);
+  const halfWidth = useRef(0);
+  const animControl = useRef<ReturnType<typeof animate> | null>(null);
+
+  const startMarquee = (fromX: number) => {
+    const hw = halfWidth.current;
+    if (!hw) return;
+
+    // Normalize x into the [-hw, 0] range for seamless looping
+    let normalized = fromX % -hw;
+    if (normalized > 0) normalized -= hw;
+
+    x.set(normalized);
+
+    const fraction = Math.abs(normalized) / hw;
+    const duration = 30 * (1 - fraction);
+
+    animControl.current?.stop();
+    animControl.current = animate(x, -hw, {
+      duration,
+      ease: "linear",
+      onComplete: () => {
+        if (!isTouching.current) {
+          x.set(0);
+          startMarquee(0);
+        }
+      },
+    });
+  };
+
+  useEffect(() => {
+    requestAnimationFrame(() => {
+      if (trackRef.current) {
+        halfWidth.current = trackRef.current.scrollWidth / 2;
+        startMarquee(0);
+      }
+    });
+    return () => animControl.current?.stop();
+  }, []);
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    isTouching.current = true;
+    touchStartClientX.current = e.touches[0].clientX;
+    xAtTouchStart.current = x.get();
+    animControl.current?.stop();
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    const delta = e.touches[0].clientX - touchStartClientX.current;
+    x.set(xAtTouchStart.current + delta);
+  };
+
+  const handleTouchEnd = () => {
+    isTouching.current = false;
+    startMarquee(x.get());
+  };
+
   return (
     <section className="py-24 bg-white overflow-hidden">
       <div className="container mx-auto px-6">
@@ -49,12 +111,16 @@ export default function Testimonials({ showTitle = true }: TestimonialsProps) {
           </div>
         )}
 
-        {/* Mobile: horizontal auto-scrolling marquee */}
-        <div className="md:hidden -mx-6 overflow-hidden">
+        {/* Mobile: horizontal auto-scrolling marquee with touch support */}
+        <div
+          className="md:hidden -mx-6 overflow-hidden"
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
+        >
           <motion.div
-            animate={{ x: "-50%" }}
-            initial={{ x: "0%" }}
-            transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
+            ref={trackRef}
+            style={{ x }}
             className="flex gap-4 w-max pl-6"
           >
             {[...testimonials, ...testimonials].map((t, index) => (
