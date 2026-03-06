@@ -120,7 +120,7 @@ export default function AboutLuca() {
       </div>
 
       {/* Testimonials (no title) */}
-      <Testimonials showTitle={false} />
+      <Testimonials showTitle={false} desktopLayout="marquee" />
 
       {/* Quote & Polaroids + Fact Blocks */}
       <div className="container mx-auto px-6">
