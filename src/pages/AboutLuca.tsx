@@ -241,7 +241,7 @@ export default function AboutLuca() {
           {/* Left chevron */}
           <button
             onClick={prevFact}
-            className="absolute top-1/2 -translate-y-1/2 left-4 md:left-8 z-20 w-11 h-11 rounded-full border border-gray-200 bg-white/80 backdrop-blur-sm flex items-center justify-center text-gray-500 hover:border-gray-400 hover:text-black transition-all duration-200"
+            className="absolute top-1/2 -translate-y-1/2 left-[calc(50%-202px)] md:left-[calc(50%-247px)] z-20 w-11 h-11 rounded-full border border-gray-200 bg-white/80 backdrop-blur-sm flex items-center justify-center text-gray-500 hover:border-gray-400 hover:text-black transition-all duration-200"
           >
             <ChevronLeft size={18} />
           </button>
@@ -249,7 +249,7 @@ export default function AboutLuca() {
           {/* Right chevron */}
           <button
             onClick={nextFact}
-            className="absolute top-1/2 -translate-y-1/2 right-4 md:right-8 z-20 w-11 h-11 rounded-full border border-gray-200 bg-white/80 backdrop-blur-sm flex items-center justify-center text-gray-500 hover:border-gray-400 hover:text-black transition-all duration-200"
+            className="absolute top-1/2 -translate-y-1/2 right-[calc(50%-202px)] md:right-[calc(50%-247px)] z-20 w-11 h-11 rounded-full border border-gray-200 bg-white/80 backdrop-blur-sm flex items-center justify-center text-gray-500 hover:border-gray-400 hover:text-black transition-all duration-200"
           >
             <ChevronRight size={18} />
           </button>
