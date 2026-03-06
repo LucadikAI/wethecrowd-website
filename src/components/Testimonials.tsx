@@ -144,6 +144,18 @@ export default function Testimonials({ showTitle = true, desktopLayout = 'grid' 
     resumeFromPosition(x.get());
   };
 
+  // Mouse pause/resume for desktop
+  const handleMouseEnter = () => {
+    animControl.current?.stop();
+    progressControl.current?.stop();
+  };
+
+  const handleMouseLeave = () => {
+    if (!isTouching.current) {
+      resumeFromPosition(x.get());
+    }
+  };
+
   const MarqueeCard = ({ t }: { t: typeof testimonials[0] }) => (
     <div className="w-[280px] md:w-[320px] shrink-0 bg-gray-50 p-6 rounded-3xl flex flex-col relative">
       <Quote className="absolute top-5 right-5 w-6 h-6 text-brand-accent opacity-10" />
@@ -168,42 +180,48 @@ export default function Testimonials({ showTitle = true, desktopLayout = 'grid' 
 
   return (
     <section className="py-24 bg-white overflow-hidden">
-      <div className="container mx-auto px-6">
-        {showTitle && (
-          <div className="max-w-3xl mx-auto text-center mb-16">
+
+      {/* Title — inside container */}
+      {showTitle && (
+        <div className="container mx-auto px-6 mb-16">
+          <div className="max-w-3xl mx-auto text-center">
             <h2 className="text-4xl md:text-5xl font-bold">Wat anderen zeggen over de energie van WE THE CROWD</h2>
           </div>
-        )}
-
-        {/* Marquee — mobile always, desktop when desktopLayout === 'marquee' */}
-        <div
-          className={`${desktopLayout === 'marquee' ? '' : 'md:hidden'} -mx-6 overflow-hidden`}
-          onTouchStart={handleTouchStart}
-          onTouchMove={handleTouchMove}
-          onTouchEnd={handleTouchEnd}
-        >
-          <motion.div
-            ref={trackRef}
-            style={{ x }}
-            className="flex gap-4 w-max pl-6"
-          >
-            {[...testimonials, ...testimonials].map((t, index) => (
-              <MarqueeCard key={index} t={t} />
-            ))}
-          </motion.div>
-          <div className="relative mt-5 mx-auto w-32 h-1 rounded-full bg-gray-200">
-            <motion.div
-              className="absolute top-0 left-0 h-full w-1/4 rounded-full bg-brand-accent"
-              style={{ left: indicatorLeft }}
-            />
-          </div>
-          <p className="text-center text-[12px] text-gray-400 italic mt-3">
-            Houd vast om te pauzeren · Swipe om te bladeren
-          </p>
         </div>
+      )}
 
-        {/* Desktop grid — 2 rows of 3, only when desktopLayout === 'grid' */}
-        {desktopLayout === 'grid' && (
+      {/* Marquee — full bleed, mobile always + desktop when desktopLayout === 'marquee' */}
+      <div
+        className={desktopLayout === 'marquee' ? '' : 'md:hidden'}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+      >
+        <motion.div
+          ref={trackRef}
+          style={{ x }}
+          className="flex gap-4 w-max pl-6"
+        >
+          {[...testimonials, ...testimonials].map((t, index) => (
+            <MarqueeCard key={index} t={t} />
+          ))}
+        </motion.div>
+        <div className="relative mt-5 mx-auto w-32 h-1 rounded-full bg-gray-200">
+          <motion.div
+            className="absolute top-0 left-0 h-full w-1/4 rounded-full bg-brand-accent"
+            style={{ left: indicatorLeft }}
+          />
+        </div>
+        <p className="text-center text-[12px] text-gray-400 italic mt-3">
+          Houd vast om te pauzeren · Swipe om te bladeren
+        </p>
+      </div>
+
+      {/* Desktop grid — 2 rows of 3, inside container */}
+      {desktopLayout === 'grid' && (
+        <div className="container mx-auto px-6">
           <div className="hidden md:grid md:grid-cols-3 gap-6">
             {testimonials.map((t, index) => (
               <motion.div
@@ -240,8 +258,9 @@ export default function Testimonials({ showTitle = true, desktopLayout = 'grid' 
               </motion.div>
             ))}
           </div>
-        )}
-      </div>
+        </div>
+      )}
+
     </section>
   );
 }
