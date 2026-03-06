@@ -1,34 +1,64 @@
-import { motion } from "motion/react";
+import { motion, useScroll, useTransform } from "motion/react";
+import { useRef } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Star } from "lucide-react";
 
 export default function Introduction() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start 0.9", "start 0.3"],
+  });
+  const scrollScale = useTransform(scrollYProgress, [0, 1], [0.85, 1]);
+  const scrollOpacity = useTransform(scrollYProgress, [0, 1], [0, 1]);
+
   return (
-    <section className="py-24 bg-gray-50 overflow-hidden">
+    <section ref={sectionRef} className="py-24 bg-gray-50 overflow-hidden">
       <div className="container mx-auto px-6 grid lg:grid-cols-2 gap-16 items-center">
+
         {/* Left Side: Portrait */}
-        <motion.div 
-          initial={{ opacity: 0, x: -50 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
+        <motion.div
+          style={{ scale: scrollScale, opacity: scrollOpacity }}
           className="relative"
         >
-          <div className="aspect-[3/4] rounded-3xl overflow-hidden shadow-2xl relative z-10">
-            <img
-              src="/luca-portret.jpg"
-              alt="Luca Portrait"
-              className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
-              referrerPolicy="no-referrer"
-            />
-            <span className="absolute bottom-2 left-3 text-[10px] text-gray-400/80 font-medium z-10 select-none">© Caitlin Sloot</span>
+          {/* 3D perspective wrapper */}
+          <div style={{ perspective: '1000px' }}>
+            <motion.div
+              whileHover={{ rotateY: 15, rotateX: -10 }}
+              transition={{ duration: 0.4, ease: "easeOut" }}
+              style={{ transformStyle: 'preserve-3d' }}
+              className="aspect-[3/4] rounded-3xl shadow-2xl relative z-10 group cursor-pointer"
+            >
+              {/* Inner div handles overflow-hidden separately so preserve-3d works */}
+              <div className="w-full h-full rounded-3xl overflow-hidden">
+                <img
+                  src="/luca-portret.jpg"
+                  alt="Luca Portrait"
+                  className="w-full h-full object-cover scale-110 grayscale group-hover:scale-100 group-hover:grayscale-0 transition-all duration-1000"
+                  referrerPolicy="no-referrer"
+                />
+              </div>
+              <span className="absolute bottom-2 left-3 text-[10px] text-gray-400/80 font-medium z-10 select-none">© Caitlin Sloot</span>
+            </motion.div>
           </div>
-          {/* Decorative element */}
-          <div className="absolute -bottom-6 -right-6 w-48 h-48 bg-brand-accent rounded-full -z-0 opacity-20 blur-3xl"></div>
+
+          {/* Floating blob with rotating star */}
+          <motion.div
+            animate={{ y: [0, -20, 0], rotate: [0, 5, -5, 0] }}
+            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+            className="absolute -bottom-6 -right-6 w-24 h-24 bg-brand-accent rounded-full z-20 flex items-center justify-center shadow-xl"
+          >
+            <motion.div
+              animate={{ rotate: 360 }}
+              transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
+            >
+              <Star className="w-8 h-8 text-white fill-white" />
+            </motion.div>
+          </motion.div>
         </motion.div>
 
         {/* Right Side: Text */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, x: 50 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
@@ -46,8 +76,8 @@ export default function Introduction() {
               Ik ben iemand die creatief denkt maar ook goed weet wat er praktisch nodig is om het neer te zetten. Ideeën bedenken is één ding, ze ook goed uitvoeren is waar het voor mij om draait. Een sterk event gaat verder dan een goed draaiboek. Uiteindelijk draait het om de beleving van de bezoeker.
             </p>
           </div>
-          <Link 
-            to="/over-luca" 
+          <Link
+            to="/over-luca"
             className="inline-flex items-center gap-2 text-black font-bold text-lg group"
           >
             Meer over mij
@@ -56,6 +86,7 @@ export default function Introduction() {
             </div>
           </Link>
         </motion.div>
+
       </div>
     </section>
   );
