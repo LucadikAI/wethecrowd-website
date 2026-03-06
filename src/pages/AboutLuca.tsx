@@ -221,13 +221,13 @@ export default function AboutLuca() {
             <div className="relative -mt-5 mb-[-20px] z-10 h-[86px] flex items-center justify-end pr-6 overflow-visible">
               <svg width="100" height="86" viewBox="0 0 100 86" fill="none" style={{ overflow: 'visible' }}>
                 <defs>
-                  <marker id="cq-arrowhead" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto">
-                    <path d="M 0 0 L 10 5 L 0 10 Z" fill="#9ca3af" />
+                  <marker id="cq-arrowhead" markerWidth="12" markerHeight="12" refX="6" refY="6" orient="auto">
+                    <polyline points="1,1 6,6 1,11" stroke="rgba(0,0,0,0.32)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none" />
                   </marker>
                 </defs>
                 <path
                   d="M 78 6 C 102 22, 76 62, 64 82"
-                  stroke="#9ca3af"
+                  stroke="rgba(0,0,0,0.32)"
                   strokeWidth="1.8"
                   strokeLinecap="round"
                   fill="none"
