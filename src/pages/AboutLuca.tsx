@@ -30,6 +30,7 @@ export default function AboutLuca() {
   const [activeFact, setActiveFact] = useState(0);
   const [revealedFact, setRevealedFact] = useState<number | null>(null);
   const touchStartX = useRef(0);
+  const lastTouchTime = useRef(0);
 
   const nextFact = () => {
     setActiveFact(i => (i + 1) % funFacts.length);
@@ -43,6 +44,7 @@ export default function AboutLuca() {
 
   const handleTouchStart = (e: React.TouchEvent) => {
     touchStartX.current = e.touches[0].clientX;
+    lastTouchTime.current = Date.now();
   };
 
   const handleTouchEnd = (e: React.TouchEvent) => {
@@ -123,7 +125,7 @@ export default function AboutLuca() {
       {/* Quote & Polaroids + Fact Blocks */}
       <div className="container mx-auto px-6">
         {/* Quote & Polaroids Section */}
-        <div className="mt-4 md:mt-16">
+        <div className="-mt-12 md:mt-16">
 
           {/* Desktop layout */}
           <div className="hidden md:flex gap-3 items-stretch">
@@ -197,6 +199,7 @@ export default function AboutLuca() {
             <blockquote className="text-gray-900 font-bold leading-[1.85] text-lg mb-6 px-1">
               <span className="text-brand-accent font-serif text-5xl leading-none opacity-30 select-none">&#8220;</span>
               Als freelancer ben ik bezig om de meest uiteenlopende producties neer te zetten. Daar ben ik enthousiast over, omdat ik het leuk vind om momenten te creëren die mensen voor altijd bij zullen blijven. Ik combineer hard werken met creatief denken en daarmee hoop ik projecten naar een hoger niveau te tillen. Samen met jou.
+              <span className="text-brand-accent font-serif text-5xl leading-none opacity-30 select-none">&#8221;</span>
             </blockquote>
             {/* Photo slider */}
             <div className="relative h-56 rounded-[2rem] overflow-hidden bg-gray-900 shadow-xl">
@@ -277,7 +280,7 @@ export default function AboutLuca() {
                 className="absolute top-1/2 -translate-y-1/2 left-[calc(50%-150px)] md:left-[calc(50%-195px)] w-[300px] md:w-[390px] cursor-pointer"
                 style={{ pointerEvents: isVisible ? 'auto' : 'none' }}
                 onMouseEnter={() => { if (isCenter) setRevealedFact(i); }}
-                onMouseLeave={() => { if (isCenter) setRevealedFact(null); }}
+                onMouseLeave={() => { if (isCenter && Date.now() - lastTouchTime.current > 500) setRevealedFact(null); }}
                 onClick={() => {
                   if (!isCenter) {
                     setActiveFact(i);
