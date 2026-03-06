@@ -162,7 +162,7 @@ export default function Testimonials({ showTitle = true, desktopLayout = 'grid' 
       <div className="flex items-center gap-3 mb-5">
         <div className="w-10 h-10 rounded-full overflow-hidden shadow-sm shrink-0">
           {t.image ? (
-            <img src={t.image} alt={t.name} className="w-full h-full object-cover object-top" referrerPolicy="no-referrer" />
+            <img src={t.image} alt={t.name} className={`w-full h-full object-cover ${t.id === 7 ? 'object-center scale-[1.2]' : 'object-top'}`} referrerPolicy="no-referrer" />
           ) : (
             <div className="w-full h-full bg-brand-accent flex items-center justify-center text-white font-bold text-xs">
               {t.name.split(" ").map(n => n[0]).join("").slice(0, 2)}
@@ -240,7 +240,7 @@ export default function Testimonials({ showTitle = true, desktopLayout = 'grid' 
                 <div className="flex items-center gap-3 mb-6">
                   <div className="w-12 h-12 rounded-full overflow-hidden shadow-sm shrink-0">
                     {t.image ? (
-                      <img src={t.image} alt={t.name} className="w-full h-full object-cover object-top" referrerPolicy="no-referrer" />
+                      <img src={t.image} alt={t.name} className={`w-full h-full object-cover ${t.id === 7 ? 'object-center scale-[1.2]' : 'object-top'}`} referrerPolicy="no-referrer" />
                     ) : (
                       <div className="w-full h-full bg-brand-accent flex items-center justify-center text-white font-bold text-sm">
                         {t.name.split(" ").map(n => n[0]).join("").slice(0, 2)}

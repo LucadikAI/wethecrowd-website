@@ -1,7 +1,7 @@
 import { motion, AnimatePresence } from "motion/react";
 import { useState, useEffect, useRef } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import Testimonials from "../components/Testimonials";
+import VenueSlider from "../components/VenueSlider";
 
 const funFacts = [
   { label: "Meest geluisterde artiest waar ik zelf mee heb samengewerkt", answer: "Gable Price and Friends" },
@@ -119,8 +119,8 @@ export default function AboutLuca() {
         </div>
       </div>
 
-      {/* Testimonials (no title) */}
-      <Testimonials showTitle={false} desktopLayout="marquee" />
+      {/* Venue Slider */}
+      <VenueSlider />
 
       {/* Quote & Polaroids + Fact Blocks */}
       <div className="container mx-auto px-6">
