@@ -198,8 +198,7 @@ export default function AboutLuca() {
             {/* Quote — no block, plain text */}
             <blockquote className="text-gray-900 font-bold leading-[1.85] text-lg mb-6 px-1">
               <span className="text-brand-accent font-serif text-5xl leading-none opacity-30 select-none">&#8220;</span>
-              Als freelancer ben ik bezig om de meest uiteenlopende producties neer te zetten. Daar ben ik enthousiast over, omdat ik het leuk vind om momenten te creëren die mensen voor altijd bij zullen blijven. Ik combineer hard werken met creatief denken en daarmee hoop ik projecten naar een hoger niveau te tillen. Samen met jou.
-              <span className="text-brand-accent font-serif text-5xl leading-none opacity-30 select-none">&#8221;</span>
+              Als freelancer ben ik bezig om de meest uiteenlopende producties neer te zetten. Daar ben ik enthousiast over, omdat ik het leuk vind om momenten te creëren die mensen voor altijd bij zullen blijven. Ik combineer hard werken met creatief denken en daarmee hoop ik projecten naar een hoger niveau te tillen. Samen met jou.{' '}<span className="text-brand-accent font-serif text-4xl opacity-30 select-none" style={{ lineHeight: 0, verticalAlign: '-0.15em', display: 'inline-block' }}>&#8221;</span>
             </blockquote>
             {/* Photo slider */}
             <div className="relative h-56 rounded-[2rem] overflow-hidden bg-gray-900 shadow-xl">
@@ -279,8 +278,8 @@ export default function AboutLuca() {
                 transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
                 className="absolute top-1/2 -translate-y-1/2 left-[calc(50%-150px)] md:left-[calc(50%-195px)] w-[300px] md:w-[390px] cursor-pointer"
                 style={{ pointerEvents: isVisible ? 'auto' : 'none' }}
-                onMouseEnter={() => { if (isCenter) setRevealedFact(i); }}
-                onMouseLeave={() => { if (isCenter && Date.now() - lastTouchTime.current > 500) setRevealedFact(null); }}
+                onPointerEnter={(e) => { if (isCenter && e.pointerType === 'mouse') setRevealedFact(i); }}
+                onPointerLeave={(e) => { if (isCenter && e.pointerType === 'mouse') setRevealedFact(null); }}
                 onClick={() => {
                   if (!isCenter) {
                     setActiveFact(i);
