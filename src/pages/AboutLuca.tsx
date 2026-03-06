@@ -1,6 +1,15 @@
 import { motion, AnimatePresence } from "motion/react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import Testimonials from "../components/Testimonials";
+
+const funFacts = [
+  { label: "Meest geluisterde artiest waar ik zelf mee heb samengewerkt", answer: "Gable Price and Friends" },
+  { label: "Project waar ik het meeste uren aan besteed", answer: "DiscoverEU Learning Cycle" },
+  { label: "Favoriete venue", answer: "Rotterdam Ahoy" },
+  { label: "Go-to drankje tijdens een lange productiedag", answer: "Cola Zero" },
+  { label: "Aantal evenementen gedraaid in 2025", answer: "19" },
+];
 
 const sliderPhotos = [
   { src: '/luca-werk-1.jpg',  pos: 'center' },
@@ -16,9 +25,32 @@ const sliderPhotos = [
 ];
 
 export default function AboutLuca() {
-  const [revealedFact, setRevealedFact] = useState<number | null>(null);
   const [showChild, setShowChild] = useState(false);
   const [sliderIndex, setSliderIndex] = useState(0);
+  const [activeFact, setActiveFact] = useState(0);
+  const [revealedFact, setRevealedFact] = useState<number | null>(null);
+  const touchStartX = useRef(0);
+
+  const nextFact = () => {
+    setActiveFact(i => (i + 1) % funFacts.length);
+    setRevealedFact(null);
+  };
+
+  const prevFact = () => {
+    setActiveFact(i => (i - 1 + funFacts.length) % funFacts.length);
+    setRevealedFact(null);
+  };
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    const diff = touchStartX.current - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 50) {
+      diff > 0 ? nextFact() : prevFact();
+    }
+  };
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -185,39 +217,131 @@ export default function AboutLuca() {
           </div>
         </div>
 
-        {/* Interactive Stats/Facts Blocks */}
-        <div className="mt-16 md:mt-32 grid grid-cols-1 md:grid-cols-3 gap-4">
-          {[
-            { label: "Meest geluisterde artiest waar ik zelf mee heb samengewerkt", answer: "Gable Price and Friends" },
-            { label: "Project waar ik het meeste uren aan besteed",                answer: "DiscoverEU Learning Cycle" },
-            { label: "Favoriete venue",                                             answer: "Rotterdam Ahoy" },
-          ].map((item, i) => {
-            const isActive = revealedFact === i;
+      </div>
+
+      {/* Fun Facts Carousel */}
+      <div className="mt-20 md:mt-36">
+        <div className="container mx-auto px-6">
+          <motion.p
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center text-[10px] font-semibold uppercase tracking-[0.22em] text-gray-400 mb-10"
+          >
+            Meer over mij
+          </motion.p>
+        </div>
+
+        {/* Cards */}
+        <div
+          className="relative overflow-hidden h-[320px] md:h-[400px]"
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
+        >
+          {funFacts.map((fact, i) => {
+            let offset = i - activeFact;
+            const total = funFacts.length;
+            if (offset > total / 2) offset -= total;
+            if (offset < -total / 2) offset += total;
+
+            const isCenter = offset === 0;
+            const isVisible = Math.abs(offset) <= 1;
+            const isRevealed = revealedFact === i;
+
             return (
               <motion.div
                 key={i}
-                initial={{ opacity: 0, y: 16 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.08 }}
-                onClick={() => setRevealedFact(isActive ? null : i)}
-                className="group rounded-2xl bg-white border border-gray-100 cursor-pointer px-6 pt-5 pb-5 overflow-hidden"
-                style={{ boxShadow: '0 1px 8px 0 rgba(0,0,0,0.05)' }}
+                animate={{
+                  x: `${offset * 68}%`,
+                  scale: isCenter ? 1 : 0.82,
+                  opacity: isVisible ? (isCenter ? 1 : 0.45) : 0,
+                  filter: isCenter ? 'blur(0px)' : 'blur(1.5px)',
+                  zIndex: isCenter ? 10 : 5,
+                }}
+                transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
+                className="absolute top-1/2 -translate-y-1/2 left-[calc(50%-150px)] md:left-[calc(50%-195px)] w-[300px] md:w-[390px] cursor-pointer"
+                style={{ pointerEvents: isVisible ? 'auto' : 'none' }}
+                onMouseEnter={() => { if (isCenter) setRevealedFact(i); }}
+                onMouseLeave={() => { if (isCenter) setRevealedFact(null); }}
+                onClick={() => {
+                  if (!isCenter) {
+                    setActiveFact(i);
+                    setRevealedFact(null);
+                  } else {
+                    setRevealedFact(prev => prev === i ? null : i);
+                  }
+                }}
               >
-                {/* Label */}
-                <p className={`text-[10px] font-semibold uppercase tracking-[0.18em] text-gray-400 leading-snug transition-opacity duration-300 ${isActive ? 'opacity-40' : ''} md:group-hover:opacity-40`}>
-                  {item.label}
-                </p>
+                <div
+                  className="relative rounded-[2rem] overflow-hidden select-none h-[280px] md:h-[350px]"
+                  style={{
+                    background: '#f5f5f5',
+                    boxShadow: isCenter
+                      ? '0 24px 64px rgba(0,0,0,0.13), 0 4px 16px rgba(0,0,0,0.07)'
+                      : '0 4px 20px rgba(0,0,0,0.05)',
+                  }}
+                >
+                  {/* Decorative ? */}
+                  <span className="absolute -bottom-4 -right-1 text-[9rem] md:text-[11rem] font-black text-black/[0.05] leading-none select-none pointer-events-none">
+                    ?
+                  </span>
 
-                {/* Answer — click-to-reveal on mobile, hover on desktop */}
-                <div className="mt-2 h-7 overflow-hidden">
-                  <p className={`text-xl font-bold text-brand-accent leading-tight transition-all duration-300 ease-out md:group-hover:translate-y-0 md:group-hover:opacity-100 ${isActive ? 'translate-y-0 opacity-100' : 'translate-y-full opacity-0'}`}>
-                    {item.answer}
-                  </p>
+                  <div className="absolute inset-0 flex flex-col justify-center px-8 md:px-10 py-8">
+                    <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-gray-400 leading-relaxed">
+                      {fact.label}
+                    </p>
+
+                    <AnimatePresence>
+                      {isRevealed && (
+                        <motion.p
+                          initial={{ opacity: 0, y: 12 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: 12 }}
+                          transition={{ duration: 0.3 }}
+                          className="mt-5 text-2xl md:text-3xl font-bold text-brand-accent leading-tight"
+                        >
+                          {fact.answer}
+                        </motion.p>
+                      )}
+                    </AnimatePresence>
+
+                    {isCenter && !isRevealed && (
+                      <p className="mt-6 text-[10px] text-gray-300 font-medium tracking-wide">
+                        Hover of tik om te onthullen
+                      </p>
+                    )}
+                  </div>
                 </div>
               </motion.div>
             );
           })}
+        </div>
+
+        {/* Navigation */}
+        <div className="flex items-center justify-center gap-5 mt-6">
+          <button
+            onClick={prevFact}
+            className="w-11 h-11 rounded-full border border-gray-200 flex items-center justify-center text-gray-500 hover:border-gray-400 hover:text-black transition-all duration-200"
+          >
+            <ChevronLeft size={18} />
+          </button>
+
+          <div className="flex items-center gap-2">
+            {funFacts.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => { setActiveFact(i); setRevealedFact(null); }}
+                className={`h-1.5 rounded-full transition-all duration-300 ${i === activeFact ? 'w-5 bg-black' : 'w-1.5 bg-gray-300'}`}
+              />
+            ))}
+          </div>
+
+          <button
+            onClick={nextFact}
+            className="w-11 h-11 rounded-full border border-gray-200 flex items-center justify-center text-gray-500 hover:border-gray-400 hover:text-black transition-all duration-200"
+          >
+            <ChevronRight size={18} />
+          </button>
         </div>
       </div>
     </motion.div>
