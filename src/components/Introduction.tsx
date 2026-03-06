@@ -11,8 +11,8 @@ export default function Introduction() {
   });
   const scrollScale = useTransform(scrollYProgress, [0, 0.4], [0.85, 1]);
   const scrollOpacity = useTransform(scrollYProgress, [0, 0.4], [0, 1]);
-  const rotateY = useTransform(scrollYProgress, [0, 1], [0, 15]);
-  const rotateX = useTransform(scrollYProgress, [0, 1], [0, -10]);
+  const rotateY = useTransform(scrollYProgress, [0.25, 1], [0, 15]);
+  const rotateX = useTransform(scrollYProgress, [0.25, 1], [0, -10]);
 
   return (
     <section ref={sectionRef} className="py-24 bg-gray-50 overflow-hidden">
@@ -23,11 +23,25 @@ export default function Introduction() {
           style={{ scale: scrollScale, opacity: scrollOpacity }}
           className="relative"
         >
+          {/* Floating blob — rendered first so photo sits on top naturally */}
+          <motion.div
+            animate={{ y: [0, -20, 0], rotate: [0, 5, -5, 0] }}
+            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+            className="absolute -bottom-8 -left-4 w-24 h-24 bg-brand-accent rounded-full flex items-center justify-center shadow-xl"
+          >
+            <motion.div
+              animate={{ rotate: 360 }}
+              transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
+            >
+              <Star className="w-8 h-8 text-white fill-white" />
+            </motion.div>
+          </motion.div>
+
           {/* 3D perspective wrapper */}
           <div style={{ perspective: '1000px' }}>
             <motion.div
               style={{ rotateY, rotateX, transformStyle: 'preserve-3d' }}
-              className="aspect-[3/4] rounded-3xl shadow-2xl relative z-10"
+              className="aspect-[3/4] rounded-3xl shadow-2xl relative"
             >
               {/* Inner div handles overflow-hidden separately so preserve-3d works */}
               <div className="w-full h-full rounded-3xl overflow-hidden">
@@ -41,20 +55,6 @@ export default function Introduction() {
               <span className="absolute bottom-2 left-3 text-[10px] text-gray-400/80 font-medium z-10 select-none">© Caitlin Sloot</span>
             </motion.div>
           </div>
-
-          {/* Floating blob with rotating star */}
-          <motion.div
-            animate={{ y: [0, -20, 0], rotate: [0, 5, -5, 0] }}
-            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute -bottom-6 -left-6 w-24 h-24 bg-brand-accent rounded-full z-0 flex items-center justify-center shadow-xl"
-          >
-            <motion.div
-              animate={{ rotate: 360 }}
-              transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
-            >
-              <Star className="w-8 h-8 text-white fill-white" />
-            </motion.div>
-          </motion.div>
         </motion.div>
 
         {/* Right Side: Text */}
