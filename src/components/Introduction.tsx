@@ -7,10 +7,12 @@ export default function Introduction() {
   const sectionRef = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
     target: sectionRef,
-    offset: ["start 0.9", "start 0.3"],
+    offset: ["start 0.8", "end 0.2"],
   });
-  const scrollScale = useTransform(scrollYProgress, [0, 1], [0.85, 1]);
-  const scrollOpacity = useTransform(scrollYProgress, [0, 1], [0, 1]);
+  const scrollScale = useTransform(scrollYProgress, [0, 0.4], [0.85, 1]);
+  const scrollOpacity = useTransform(scrollYProgress, [0, 0.4], [0, 1]);
+  const rotateY = useTransform(scrollYProgress, [0, 1], [0, 15]);
+  const rotateX = useTransform(scrollYProgress, [0, 1], [0, -10]);
 
   return (
     <section ref={sectionRef} className="py-24 bg-gray-50 overflow-hidden">
@@ -24,17 +26,15 @@ export default function Introduction() {
           {/* 3D perspective wrapper */}
           <div style={{ perspective: '1000px' }}>
             <motion.div
-              whileHover={{ rotateY: 15, rotateX: -10 }}
-              transition={{ duration: 0.4, ease: "easeOut" }}
-              style={{ transformStyle: 'preserve-3d' }}
-              className="aspect-[3/4] rounded-3xl shadow-2xl relative z-10 group cursor-pointer"
+              style={{ rotateY, rotateX, transformStyle: 'preserve-3d' }}
+              className="aspect-[3/4] rounded-3xl shadow-2xl relative z-10"
             >
               {/* Inner div handles overflow-hidden separately so preserve-3d works */}
               <div className="w-full h-full rounded-3xl overflow-hidden">
                 <img
                   src="/luca-portret.jpg"
                   alt="Luca Portrait"
-                  className="w-full h-full object-cover scale-110 grayscale group-hover:scale-100 group-hover:grayscale-0 transition-all duration-1000"
+                  className="w-full h-full object-cover"
                   referrerPolicy="no-referrer"
                 />
               </div>
@@ -46,7 +46,7 @@ export default function Introduction() {
           <motion.div
             animate={{ y: [0, -20, 0], rotate: [0, 5, -5, 0] }}
             transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute -bottom-6 -right-6 w-24 h-24 bg-brand-accent rounded-full z-20 flex items-center justify-center shadow-xl"
+            className="absolute -bottom-6 -left-6 w-24 h-24 bg-brand-accent rounded-full z-0 flex items-center justify-center shadow-xl"
           >
             <motion.div
               animate={{ rotate: 360 }}
