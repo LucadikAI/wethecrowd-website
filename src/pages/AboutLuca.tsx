@@ -195,13 +195,53 @@ export default function AboutLuca() {
 
           {/* Mobile layout */}
           <div className="md:hidden">
-            {/* Quote — no block, plain text */}
-            <blockquote className="text-gray-900 font-bold leading-[1.85] text-lg mb-6 px-1">
-              <span className="text-brand-accent font-serif text-5xl leading-none opacity-30 select-none">&#8220;</span>
-              Als freelancer ben ik bezig om de meest uiteenlopende producties neer te zetten. Daar ben ik enthousiast over, omdat ik het leuk vind om momenten te creëren die mensen voor altijd bij zullen blijven. Ik combineer hard werken met creatief denken en daarmee hoop ik projecten naar een hoger niveau te tillen. Samen met jou.{' '}<span className="text-brand-accent font-serif text-4xl opacity-30 select-none" style={{ lineHeight: 0, verticalAlign: '-0.15em', display: 'inline-block' }}>&#8221;</span>
-            </blockquote>
+            {/* Blue quote block */}
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7 }}
+              className="relative overflow-hidden shadow-xl"
+              style={{
+                borderRadius: '2rem',
+                background: 'linear-gradient(135deg, #1ea4f2 0%, #0d8fd8 55%, #0a7abf 100%)',
+              }}
+            >
+              <div className="absolute inset-0 pointer-events-none" style={{ background: 'radial-gradient(ellipse at 12% 40%, rgba(255,255,255,0.2) 0%, transparent 55%)' }} />
+              <span className="absolute top-1 left-7 text-[5rem] font-serif text-white/10 leading-none select-none pointer-events-none">&#8220;</span>
+              <div className="px-8 pt-10 pb-8">
+                <blockquote className="relative z-10 text-white font-bold text-lg leading-[1.85]">
+                  Als freelancer ben ik bezig om de meest uiteenlopende producties neer te zetten. Daar ben ik enthousiast over, omdat ik het leuk vind om momenten te creëren die mensen voor altijd bij zullen blijven. Ik combineer hard werken met creatief denken en daarmee hoop ik projecten naar een hoger niveau te tillen. Samen met jou.{' '}
+                  <span className="text-[2rem] font-serif text-white/25 leading-none inline-block" style={{ lineHeight: 0, verticalAlign: '-0.15em' }}>&#8221;</span>
+                </blockquote>
+              </div>
+            </motion.div>
+
+            {/* Curved arrow connector — overlaps bottom of quote block and top of photo */}
+            <div className="relative -mt-5 mb-[-20px] z-10 h-[86px] flex items-center justify-between px-2">
+              <p className="text-[11px] italic text-gray-500 font-medium leading-snug">
+                Uiteenlopende<br />producties in beeld
+              </p>
+              <svg width="80" height="86" viewBox="0 0 80 86" fill="none" className="shrink-0">
+                <defs>
+                  <marker id="cq-arrowhead" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+                    <path d="M 0 0 L 10 5 L 0 10 Z" fill="#1ea4f2" opacity="0.55" />
+                  </marker>
+                </defs>
+                <path
+                  d="M 40 6 C 74 18, 74 66, 40 80"
+                  stroke="#1ea4f2"
+                  strokeWidth="2.2"
+                  strokeLinecap="round"
+                  fill="none"
+                  opacity="0.5"
+                  markerEnd="url(#cq-arrowhead)"
+                />
+              </svg>
+            </div>
+
             {/* Photo slider */}
-            <div className="relative h-56 rounded-[2rem] overflow-hidden bg-gray-900 shadow-xl">
+            <div className="relative h-60 rounded-[2rem] overflow-hidden bg-gray-900 shadow-xl">
               <AnimatePresence>
                 <motion.img
                   key={sliderIndex}
