@@ -222,12 +222,12 @@ export default function AboutLuca() {
               <svg width="100" height="86" viewBox="0 0 100 86" fill="none" style={{ overflow: 'visible' }}>
                 <defs>
                   <marker id="cq-arrowhead" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto">
-                    <path d="M 0 0 L 10 5 L 0 10 Z" fill="#b0b7c3" />
+                    <path d="M 0 0 L 10 5 L 0 10 Z" fill="#9ca3af" />
                   </marker>
                 </defs>
                 <path
-                  d="M 76 6 C 98 26, 82 64, 74 82"
-                  stroke="#b0b7c3"
+                  d="M 78 6 C 102 22, 76 62, 64 82"
+                  stroke="#9ca3af"
                   strokeWidth="1.8"
                   strokeLinecap="round"
                   fill="none"
