@@ -195,12 +195,12 @@ export default function Services() {
                         }}
                       >
                         <div className="absolute inset-0 rounded-[2rem] pointer-events-none" style={{ background: 'radial-gradient(ellipse at 15% 25%, rgba(255,255,255,0.18) 0%, transparent 60%)' }} />
-                        <div className="relative z-10 w-9 h-9 md:w-12 md:h-12 rounded-xl bg-white/20 text-white flex items-center justify-center mb-2 md:mb-4">
+                        <div className="relative z-10 w-9 h-9 md:w-12 md:h-12 rounded-xl bg-white/20 text-white flex items-center justify-center mb-2 md:mb-4 shrink-0">
                           {service.icon}
                         </div>
-                        <h3 className="relative z-10 text-base md:text-2xl font-bold text-white mb-2 md:mb-3">{service.title}</h3>
-                        <div className="relative z-10 w-8 h-0.5 bg-white/40 rounded-full mb-2 md:mb-4" />
-                        <p className="relative z-10 text-white/85 text-xs md:text-base leading-relaxed">
+                        <h3 className="relative z-10 text-base md:text-xl font-bold text-white mb-2 md:mb-3 shrink-0">{service.title}</h3>
+                        <div className="relative z-10 w-8 h-0.5 bg-white/40 rounded-full mb-2 md:mb-4 shrink-0" />
+                        <p className="relative z-10 text-white/85 text-xs md:text-sm leading-relaxed flex-1 overflow-y-auto min-h-0">
                           {service.description}
                         </p>
                       </div>
