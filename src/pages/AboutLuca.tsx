@@ -112,7 +112,7 @@ export default function AboutLuca() {
                 Als klein jongetje kwam ik regelmatig in het GelreDome in Arnhem, waar ik gefascineerd raakte door de wereld achter grote evenementen: de opbouw van het podium, de aankomst van artiesten, de generale repetities en uiteindelijk de duizenden bezoekers die de zaal vulden.
               </p>
               <p>
-                Nu, jaren later, heb ik zelf ervaring mogen opdoen op enkele van de meest iconische locaties van Nederland, waaronder Ahoy Rotterdam, AFAS Live, het Olympisch Stadion en NEMO.
+                Nu, jaren later, heb ik zelf ervaring mogen opdoen op enkele van de meest iconische locaties van Nederland en mag ik opdrachtgevers uit alle hoeken van het land helpen om hun ideeën werkelijkheid te laten worden.
               </p>
             </div>
           </motion.div>
