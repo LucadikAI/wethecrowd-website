@@ -81,7 +81,7 @@ export default function Services() {
         <div className="max-w-3xl mb-20">
           <h1 className="text-5xl md:text-7xl font-bold mb-8">Van idee tot impact.</h1>
           <p className="text-xl text-gray-600 leading-relaxed">
-            We The Crowd helpt op verschillende manieren. Geen standaard lijstjes, maar gerichte ondersteuning waar het telt.
+            WE THE CROWD helpt op verschillende manieren. Geen standaard lijstjes, maar gerichte ondersteuning waar het telt.
           </p>
         </div>
 
@@ -123,7 +123,7 @@ export default function Services() {
                   key={i}
                   animate={{
                     x: `${offset * 68}%`,
-                    scale: isCenter ? 1 : 0.82,
+                    scale: isCenter ? (isFlipped ? 1.06 : 1) : 0.82,
                     opacity: isVisible ? (isCenter ? 1 : 0.45) : 0,
                     filter: isCenter ? 'blur(0px)' : 'blur(1.5px)',
                     zIndex: isCenter ? 10 : 5,
@@ -187,7 +187,7 @@ export default function Services() {
 
                       {/* Back face: blue + description */}
                       <div
-                        className="absolute inset-0 rounded-[2rem] flex flex-col justify-center px-8 md:px-10 py-8"
+                        className="absolute inset-0 rounded-[2rem] overflow-hidden flex flex-col justify-start px-8 md:px-10 py-8"
                         style={{
                           backfaceVisibility: 'hidden',
                           transform: 'rotateY(180deg)',
