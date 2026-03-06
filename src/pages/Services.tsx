@@ -1,7 +1,7 @@
-import { motion, useMotionValue } from "motion/react";
-import { ArrowRight, Zap, Users, Layout, Mic2 } from "lucide-react";
+import { motion } from "motion/react";
+import { ArrowRight, Zap, Users, Layout, Mic2, ChevronLeft, ChevronRight } from "lucide-react";
 import { Link } from "react-router-dom";
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState } from "react";
 import LogoSlider from "../components/LogoSlider";
 import ServiceFlow from "../components/ServiceFlow";
 
@@ -18,7 +18,7 @@ const services = [
     icon: <Users className="w-8 h-8" />,
     image: "/dienst-artiesten.jpg",
     imagePosition: "object-bottom",
-    description: "Zowel in de voorbereiding als tijdens het live moment ben ik het vaste aanspreekpunt voor artiest en management. Van riders en hospitality tot repetities en showflow. Ik werk in kleine settings én grote venues, en zorg dat artiesten zich volledig kunnen focussen op hun performance."
+    description: "Zowel in de voorbereiding als tijdens het live moment ben ik het vaste aanspreekpunt voor artiest en management. Van riders en hospitality tot repetities en showflow. Ik werk in kleine settings én grote zalen, en zorg dat artiesten zich volledig kunnen focussen op hun performance."
   },
   {
     title: "Stagemanagement",
@@ -37,29 +37,30 @@ const services = [
 ];
 
 export default function Services() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const trackRef = useRef<HTMLDivElement>(null);
-  const [dragLeft, setDragLeft] = useState(0);
-  const [isMobile, setIsMobile] = useState(() => window.innerWidth < 768);
-  const [activeCard, setActiveCard] = useState<number | null>(null);
-  const [isDragging, setIsDragging] = useState(false);
-  const dragX = useMotionValue(0);
+  const [activeCard, setActiveCard] = useState(0);
+  const [flippedCard, setFlippedCard] = useState<number | null>(null);
+  const touchStartX = useRef(0);
 
-  useEffect(() => {
-    const update = () => {
-      setIsMobile(window.innerWidth < 768);
-      if (trackRef.current && containerRef.current) {
-        setDragLeft(-(trackRef.current.scrollWidth - containerRef.current.offsetWidth));
-      }
-    };
-    update();
-    window.addEventListener("resize", update);
-    return () => window.removeEventListener("resize", update);
-  }, []);
+  const nextCard = () => {
+    setActiveCard(i => (i + 1) % services.length);
+    setFlippedCard(null);
+  };
 
-  // Desktop card width: 2 full cards + half of third visible
-  // 2.5W + 1 gap = containerWidth  →  W = (containerWidth - gap) / 2.5
-  const desktopCardWidth = "calc(40% - 10px)";
+  const prevCard = () => {
+    setActiveCard(i => (i - 1 + services.length) % services.length);
+    setFlippedCard(null);
+  };
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    const diff = touchStartX.current - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 50) {
+      diff > 0 ? nextCard() : prevCard();
+    }
+  };
 
   return (
     <motion.div
@@ -68,74 +69,158 @@ export default function Services() {
       exit={{ opacity: 0 }}
       className="pt-32 pb-24"
     >
+      {/* Page background tint when card is flipped */}
+      <motion.div
+        className="fixed inset-0 pointer-events-none"
+        style={{ zIndex: -1 }}
+        animate={{ backgroundColor: flippedCard !== null ? 'rgba(30, 164, 242, 0.07)' : 'rgba(255,255,255,0)' }}
+        transition={{ duration: 0.8, ease: 'easeInOut' }}
+      />
+
       <div className="container mx-auto px-6">
         <div className="max-w-3xl mb-20">
           <h1 className="text-5xl md:text-7xl font-bold mb-8">Van idee tot impact.</h1>
           <p className="text-xl text-gray-600 leading-relaxed">
-            Ik kan je op verschillende manieren helpen. Geen standaard lijstjes, maar gerichte ondersteuning waar het telt.
+            We The Crowd helpt op verschillende manieren. Geen standaard lijstjes, maar gerichte ondersteuning waar het telt.
           </p>
         </div>
 
+        {/* Cards Carousel */}
         <div className="mb-24">
-          <div ref={containerRef} className="overflow-hidden cursor-grab active:cursor-grabbing">
-            <motion.div
-              ref={trackRef}
-              drag="x"
-              dragConstraints={{ left: dragLeft, right: 0 }}
-              dragElastic={0.05}
-              dragTransition={{ bounceStiffness: 300, bounceDamping: 30 }}
-              style={{ x: dragX }}
-              onDragStart={() => setIsDragging(true)}
-              onDragEnd={() => setTimeout(() => setIsDragging(false), 50)}
-              className="flex gap-6"
+          <div
+            className="relative overflow-hidden h-[400px] md:h-[480px]"
+            onTouchStart={handleTouchStart}
+            onTouchEnd={handleTouchEnd}
+          >
+            {/* Left chevron */}
+            <button
+              onClick={prevCard}
+              className="absolute top-1/2 -translate-y-1/2 left-[calc(50%-202px)] md:left-[calc(50%-252px)] z-20 w-11 h-11 rounded-full border border-gray-200 bg-white/80 backdrop-blur-sm flex items-center justify-center text-gray-500 hover:border-gray-400 hover:text-black transition-all duration-200"
             >
-              {services.map((service, index) => {
-                const isActive = activeCard === index;
-                return (
-                  <motion.div
-                    key={index}
-                    onClick={() => { if (!isDragging) setActiveCard(isActive ? null : index); }}
-                    className="relative aspect-[4/5] md:aspect-[4/3] rounded-[2rem] overflow-hidden group shadow-lg shrink-0 cursor-pointer"
-                    style={{ minWidth: isMobile ? "100%" : desktopCardWidth }}
+              <ChevronLeft size={18} />
+            </button>
+
+            {/* Right chevron */}
+            <button
+              onClick={nextCard}
+              className="absolute top-1/2 -translate-y-1/2 right-[calc(50%-202px)] md:right-[calc(50%-252px)] z-20 w-11 h-11 rounded-full border border-gray-200 bg-white/80 backdrop-blur-sm flex items-center justify-center text-gray-500 hover:border-gray-400 hover:text-black transition-all duration-200"
+            >
+              <ChevronRight size={18} />
+            </button>
+
+            {services.map((service, i) => {
+              let offset = i - activeCard;
+              const total = services.length;
+              if (offset > total / 2) offset -= total;
+              if (offset < -total / 2) offset += total;
+
+              const isCenter = offset === 0;
+              const isVisible = Math.abs(offset) <= 1;
+              const isFlipped = flippedCard === i;
+
+              return (
+                <motion.div
+                  key={i}
+                  animate={{
+                    x: `${offset * 68}%`,
+                    scale: isCenter ? 1 : 0.82,
+                    opacity: isVisible ? (isCenter ? 1 : 0.45) : 0,
+                    filter: isCenter ? 'blur(0px)' : 'blur(1.5px)',
+                    zIndex: isCenter ? 10 : 5,
+                  }}
+                  transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
+                  className="absolute top-1/2 -translate-y-1/2 left-[calc(50%-150px)] md:left-[calc(50%-195px)] w-[300px] md:w-[390px] cursor-pointer"
+                  style={{ pointerEvents: isVisible ? 'auto' : 'none' }}
+                  onPointerEnter={(e) => { if (isCenter && e.pointerType === 'mouse') setFlippedCard(i); }}
+                  onPointerLeave={(e) => { if (isCenter && e.pointerType === 'mouse') setFlippedCard(null); }}
+                  onClick={() => {
+                    if (!isCenter) {
+                      setActiveCard(i);
+                      setFlippedCard(null);
+                    } else {
+                      setFlippedCard(prev => prev === i ? null : i);
+                    }
+                  }}
+                >
+                  <div
+                    className="relative h-[360px] md:h-[440px]"
+                    style={{ perspective: '1000px' }}
                   >
-                    {/* Background Image */}
-                    <img
-                      src={service.image}
-                      alt={service.title}
-                      className={`absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 ${isActive ? "scale-110" : ""} ${service.imagePosition}`}
-                      referrerPolicy="no-referrer"
-                      draggable={false}
-                    />
-
-                    {/* Dark Overlay */}
-                    <div className={`absolute inset-0 transition-colors duration-500 group-hover:bg-black/75 ${isActive ? "bg-black/75" : "bg-black/30"}`} />
-
-                    {/* Default state: title at bottom */}
-                    <div className={`absolute inset-x-0 bottom-0 p-5 md:p-8 transition-opacity duration-300 group-hover:opacity-0 ${isActive ? "opacity-0" : "opacity-100"}`}>
-                      <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-brand-accent text-white flex items-center justify-center mb-3">
-                        {service.icon}
+                    <motion.div
+                      animate={{ rotateY: isFlipped ? 180 : 0 }}
+                      transition={{ duration: 0.55, ease: [0.4, 0, 0.2, 1] }}
+                      style={{
+                        transformStyle: 'preserve-3d',
+                        position: 'relative',
+                        width: '100%',
+                        height: '100%',
+                        borderRadius: '2rem',
+                        boxShadow: isCenter
+                          ? '0 24px 64px rgba(0,0,0,0.18), 0 4px 16px rgba(0,0,0,0.08)'
+                          : '0 4px 20px rgba(0,0,0,0.06)',
+                      }}
+                    >
+                      {/* Front face: photo + title */}
+                      <div
+                        className="absolute inset-0 rounded-[2rem] overflow-hidden"
+                        style={{ backfaceVisibility: 'hidden' }}
+                      >
+                        <img
+                          src={service.image}
+                          alt={service.title}
+                          className={`absolute inset-0 w-full h-full object-cover ${service.imagePosition}`}
+                          draggable={false}
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
+                        <div className="absolute inset-x-0 bottom-0 p-6 md:p-8">
+                          <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-brand-accent text-white flex items-center justify-center mb-3">
+                            {service.icon}
+                          </div>
+                          <h3 className="text-2xl md:text-3xl font-bold text-white">{service.title}</h3>
+                          {isCenter && (
+                            <p className="mt-2 text-[10px] text-white/50 font-medium tracking-wide">
+                              Hover of tik om te onthullen
+                            </p>
+                          )}
+                        </div>
                       </div>
-                      <h3 className="text-2xl md:text-3xl font-bold text-white">{service.title}</h3>
-                    </div>
 
-                    {/* Hover/tap state: title top, description below */}
-                    <div className={`absolute inset-0 p-5 md:p-8 flex flex-col justify-start transition-opacity duration-500 group-hover:opacity-100 ${isActive ? "opacity-100" : "opacity-0"}`}>
-                      <div className="w-9 h-9 md:w-10 md:h-10 rounded-xl bg-brand-accent text-white flex items-center justify-center mb-3">
-                        {service.icon}
+                      {/* Back face: blue + description */}
+                      <div
+                        className="absolute inset-0 rounded-[2rem] flex flex-col justify-center px-8 md:px-10 py-8"
+                        style={{
+                          backfaceVisibility: 'hidden',
+                          transform: 'rotateY(180deg)',
+                          background: 'linear-gradient(135deg, #1ea4f2 0%, #0d8fd8 55%, #0a7abf 100%)',
+                        }}
+                      >
+                        <div className="absolute inset-0 rounded-[2rem] pointer-events-none" style={{ background: 'radial-gradient(ellipse at 15% 25%, rgba(255,255,255,0.18) 0%, transparent 60%)' }} />
+                        <div className="relative z-10 w-10 h-10 md:w-12 md:h-12 rounded-xl bg-white/20 text-white flex items-center justify-center mb-4">
+                          {service.icon}
+                        </div>
+                        <h3 className="relative z-10 text-xl md:text-2xl font-bold text-white mb-3">{service.title}</h3>
+                        <div className="relative z-10 w-10 h-0.5 bg-white/40 rounded-full mb-4" />
+                        <p className="relative z-10 text-white/85 text-sm md:text-base leading-relaxed">
+                          {service.description}
+                        </p>
                       </div>
-                      <h3 className="text-lg md:text-2xl font-bold text-white mb-2 md:mb-4">{service.title}</h3>
-                      <div className="w-10 h-1 bg-brand-accent rounded-full mb-2 md:mb-4" />
-                      <p className="text-white/90 leading-relaxed text-sm md:text-base">
-                        {service.description}
-                      </p>
-                    </div>
-                  </motion.div>
-                );
-              })}
-            </motion.div>
+                    </motion.div>
+                  </div>
+                </motion.div>
+              );
+            })}
           </div>
 
-          <p className="text-center text-sm text-gray-400 italic mt-6">Swipe om te bladeren.</p>
+          {/* Dot indicators */}
+          <div className="flex items-center justify-center gap-2 mt-6">
+            {services.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => { setActiveCard(i); setFlippedCard(null); }}
+                className={`h-1.5 rounded-full transition-all duration-300 ${i === activeCard ? 'w-5 bg-black' : 'w-1.5 bg-gray-300'}`}
+              />
+            ))}
+          </div>
         </div>
 
       </div>

@@ -8,7 +8,7 @@ const flowItems = [
     id: "concepting",
     title: "Concepting",
     short: "Opzoek naar een pakkend concept of de juiste manier om je doelgroep te bereiken? Laten we starten met bouwen!",
-    detail: "Van kernboodschap tot creatieve uitwerking: ik help je de juiste toon te vinden voor jouw event. Samen bepalen we de richting, bouwen we een concept dat aansluit bij je doelgroep en zorgen we dat het verhaal klopt; vóór er ook maar één decibel klinkt.",
+    detail: "Van kernboodschap tot creatieve uitwerking: ik help je de juiste toon te vinden voor jouw event. Samen bepalen we de richting, bouwen we een concept dat aansluit bij je doelgroep en zorgen we dat het verhaal klopt; vóór er ook maar één bezoeker binnen is gekomen.",
     dotColor: "#f97316",
     cta: "Plan een gesprek",
     palette: [
@@ -20,8 +20,8 @@ const flowItems = [
   {
     id: "ondersteuning",
     title: "Ondersteuning",
-    short: "Een eventkracht nodig op een specifiek gebied? Zowel tijdens de voorbereidingen als op het event zelf help ik je graag waar nodig.",
-    detail: "Of je nu een extra paar handen nodig hebt tijdens de opbouw, iemand die de communicatie richting leveranciers stroomlijnt, of een showcaller die op de dag zelf alles in goede banen leidt; ik schakel in waar jij mij nodig hebt.",
+    short: "Een eventkracht nodig op een specifiek gebied? Zowel tijdens de voorbereidingen als op het event zelf, help ik je graag waar nodig.",
+    detail: "Of je nu een extra paar handen nodig hebt tijdens de opbouw, iemand die de communicatie richting leveranciers stroomlijnt, of een showcaller die op de dag zelf alles in goede banen leidt; ik schakel in, waar jij mij nodig hebt.",
     dotColor: "#1ea4f2",
     cta: "Neem contact op",
     palette: [
