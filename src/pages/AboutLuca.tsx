@@ -226,7 +226,7 @@ export default function AboutLuca() {
                   </marker>
                 </defs>
                 <path
-                  d="M 78 6 C 102 22, 76 62, 64 82"
+                  d="M 80 7 C 98 22, 72 50, 60 64"
                   stroke="rgba(0,0,0,0.32)"
                   strokeWidth="1.8"
                   strokeLinecap="round"
