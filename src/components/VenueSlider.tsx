@@ -124,7 +124,7 @@ export default function VenueSlider() {
     <section className="py-24 bg-white overflow-hidden">
       <div className="container mx-auto px-6 mb-16">
         <div className="max-w-3xl mx-auto text-center">
-          <h2 className="text-4xl md:text-5xl font-bold">Hier ben ik aan het werk geweest</h2>
+          <h2 className="text-4xl md:text-5xl font-bold">Plekken waar ik achter de schermen stond</h2>
         </div>
       </div>
 
