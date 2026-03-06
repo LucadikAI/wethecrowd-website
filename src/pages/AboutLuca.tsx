@@ -232,12 +232,27 @@ export default function AboutLuca() {
           </motion.p>
         </div>
 
-        {/* Cards */}
+        {/* Cards + side chevrons */}
         <div
           className="relative overflow-hidden h-[320px] md:h-[400px]"
           onTouchStart={handleTouchStart}
           onTouchEnd={handleTouchEnd}
         >
+          {/* Left chevron */}
+          <button
+            onClick={prevFact}
+            className="absolute top-1/2 -translate-y-1/2 left-4 md:left-8 z-20 w-11 h-11 rounded-full border border-gray-200 bg-white/80 backdrop-blur-sm flex items-center justify-center text-gray-500 hover:border-gray-400 hover:text-black transition-all duration-200"
+          >
+            <ChevronLeft size={18} />
+          </button>
+
+          {/* Right chevron */}
+          <button
+            onClick={nextFact}
+            className="absolute top-1/2 -translate-y-1/2 right-4 md:right-8 z-20 w-11 h-11 rounded-full border border-gray-200 bg-white/80 backdrop-blur-sm flex items-center justify-center text-gray-500 hover:border-gray-400 hover:text-black transition-all duration-200"
+          >
+            <ChevronRight size={18} />
+          </button>
           {funFacts.map((fact, i) => {
             let offset = i - activeFact;
             const total = funFacts.length;
@@ -281,14 +296,9 @@ export default function AboutLuca() {
                       : '0 4px 20px rgba(0,0,0,0.05)',
                   }}
                 >
-                  {/* Decorative ? */}
-                  <span className="absolute -bottom-4 -right-1 text-[9rem] md:text-[11rem] font-black text-black/[0.05] leading-none select-none pointer-events-none">
-                    ?
-                  </span>
-
                   <div className="absolute inset-0 flex flex-col justify-center px-8 md:px-10 py-8">
-                    <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-gray-400 leading-relaxed">
-                      {fact.label}
+                    <p className="text-sm font-semibold uppercase tracking-[0.14em] text-gray-400 leading-relaxed">
+                      {fact.label}?
                     </p>
 
                     <AnimatePresence>
@@ -317,31 +327,15 @@ export default function AboutLuca() {
           })}
         </div>
 
-        {/* Navigation */}
-        <div className="flex items-center justify-center gap-5 mt-6">
-          <button
-            onClick={prevFact}
-            className="w-11 h-11 rounded-full border border-gray-200 flex items-center justify-center text-gray-500 hover:border-gray-400 hover:text-black transition-all duration-200"
-          >
-            <ChevronLeft size={18} />
-          </button>
-
-          <div className="flex items-center gap-2">
-            {funFacts.map((_, i) => (
-              <button
-                key={i}
-                onClick={() => { setActiveFact(i); setRevealedFact(null); }}
-                className={`h-1.5 rounded-full transition-all duration-300 ${i === activeFact ? 'w-5 bg-black' : 'w-1.5 bg-gray-300'}`}
-              />
-            ))}
-          </div>
-
-          <button
-            onClick={nextFact}
-            className="w-11 h-11 rounded-full border border-gray-200 flex items-center justify-center text-gray-500 hover:border-gray-400 hover:text-black transition-all duration-200"
-          >
-            <ChevronRight size={18} />
-          </button>
+        {/* Dot indicators */}
+        <div className="flex items-center justify-center gap-2 mt-6">
+          {funFacts.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => { setActiveFact(i); setRevealedFact(null); }}
+              className={`h-1.5 rounded-full transition-all duration-300 ${i === activeFact ? 'w-5 bg-black' : 'w-1.5 bg-gray-300'}`}
+            />
+          ))}
         </div>
       </div>
     </motion.div>
