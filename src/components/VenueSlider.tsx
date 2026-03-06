@@ -32,8 +32,6 @@ export default function VenueSlider() {
   const animControl = useRef<ReturnType<typeof animate> | null>(null);
   const progressControl = useRef<ReturnType<typeof animate> | null>(null);
 
-  const indicatorLeft = useTransform(progressValue, [0, 1], ["0%", "75%"]);
-
   const startInfiniteLoop = () => {
     const hw = halfWidth.current;
     animControl.current?.stop();
