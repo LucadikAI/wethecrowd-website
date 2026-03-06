@@ -105,7 +105,6 @@ export default function ProjectDetail() {
         {/* Gallery Section */}
         {project.gallery && project.gallery.length > 0 && (
           <div className="mb-24">
-            <h2 className="text-3xl font-bold mb-12">Impressie</h2>
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
               {project.gallery.map((img, i) => (
                 <div key={i} className="rounded-3xl overflow-hidden shadow-lg aspect-square relative">

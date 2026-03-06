@@ -88,7 +88,7 @@ export default function Services() {
         {/* Cards Carousel */}
         <div className="mb-24">
           <div
-            className="relative overflow-hidden h-[400px] md:h-[480px]"
+            className="relative h-[440px] md:h-[500px]"
             onTouchStart={handleTouchStart}
             onTouchEnd={handleTouchEnd}
           >
@@ -123,7 +123,7 @@ export default function Services() {
                   key={i}
                   animate={{
                     x: `${offset * 68}%`,
-                    scale: isCenter ? (isFlipped ? 1.06 : 1) : 0.82,
+                    scale: isCenter ? (isFlipped ? 1.2 : 1) : 0.82,
                     opacity: isVisible ? (isCenter ? 1 : 0.45) : 0,
                     filter: isCenter ? 'blur(0px)' : 'blur(1.5px)',
                     zIndex: isCenter ? 10 : 5,
@@ -143,7 +143,7 @@ export default function Services() {
                   }}
                 >
                   <div
-                    className="relative h-[360px] md:h-[440px]"
+                    className="relative h-[390px] md:h-[440px]"
                     style={{ perspective: '1000px' }}
                   >
                     <motion.div
@@ -187,7 +187,7 @@ export default function Services() {
 
                       {/* Back face: blue + description */}
                       <div
-                        className="absolute inset-0 rounded-[2rem] overflow-hidden flex flex-col justify-start px-8 md:px-10 py-8"
+                        className="absolute inset-0 rounded-[2rem] overflow-hidden flex flex-col justify-start px-6 py-6 md:px-10 md:py-8"
                         style={{
                           backfaceVisibility: 'hidden',
                           transform: 'rotateY(180deg)',
@@ -195,12 +195,12 @@ export default function Services() {
                         }}
                       >
                         <div className="absolute inset-0 rounded-[2rem] pointer-events-none" style={{ background: 'radial-gradient(ellipse at 15% 25%, rgba(255,255,255,0.18) 0%, transparent 60%)' }} />
-                        <div className="relative z-10 w-10 h-10 md:w-12 md:h-12 rounded-xl bg-white/20 text-white flex items-center justify-center mb-4">
+                        <div className="relative z-10 w-9 h-9 md:w-12 md:h-12 rounded-xl bg-white/20 text-white flex items-center justify-center mb-2 md:mb-4">
                           {service.icon}
                         </div>
-                        <h3 className="relative z-10 text-xl md:text-2xl font-bold text-white mb-3">{service.title}</h3>
-                        <div className="relative z-10 w-10 h-0.5 bg-white/40 rounded-full mb-4" />
-                        <p className="relative z-10 text-white/85 text-sm md:text-base leading-relaxed">
+                        <h3 className="relative z-10 text-base md:text-2xl font-bold text-white mb-2 md:mb-3">{service.title}</h3>
+                        <div className="relative z-10 w-8 h-0.5 bg-white/40 rounded-full mb-2 md:mb-4" />
+                        <p className="relative z-10 text-white/85 text-xs md:text-base leading-relaxed">
                           {service.description}
                         </p>
                       </div>
