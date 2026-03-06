@@ -6,7 +6,7 @@ import VenueSlider from "../components/VenueSlider";
 const funFacts = [
   { label: "Meest geluisterde artiest waar ik zelf mee heb samengewerkt", answer: "Gable Price and Friends" },
   { label: "Project waar ik het meeste uren aan besteed", answer: "DiscoverEU Learning Cycle" },
-  { label: "Favoriete venue", answer: "Rotterdam Ahoy" },
+  { label: "Favoriete evenementenlocatie", answer: "Rotterdam Ahoy" },
   { label: "Go-to drankje tijdens een lange productiedag", answer: "Cola Zero" },
   { label: "Aantal evenementen gedraaid in 2025", answer: "19" },
 ];
@@ -109,10 +109,10 @@ export default function AboutLuca() {
             </h1>
             <div className="space-y-8 text-xl md:text-2xl text-gray-800 leading-relaxed font-light">
               <p>
-                Als klein jongetje kwam ik regelmatig in het GelreDome in Arnhem, waar ik gefascineerd raakte door de wereld achter grote evenementen: de opbouw van het podium, de aankomst van artiesten, de generale repetities en uiteindelijk de duizenden bezoekers die de zaal vulden.
+                Als klein jongetje werd ik regelmatig door mijn vader meegenomen naar het GelreDome in Arnhem. Als ervaren projectleider bij grote evenementen moest hij er dagen van tevoren aanwezig zijn voor de voorbereidingen. Terwijl hij aan het werk was, raakte ik gefascineerd door de wereld achter de schermen: de opbouw van het podium, de aankomst van artiesten, de generale repetities en uiteindelijk de duizenden bezoekers die de zaal vulden.
               </p>
               <p>
-                Nu, jaren later, heb ik zelf ervaring mogen opdoen op enkele van de meest iconische locaties van Nederland en mag ik opdrachtgevers uit alle hoeken van het land helpen om hun ideeën werkelijkheid te laten worden.
+                Nu, jaren later, draai ik zelf tal van producties op de meest iconische locaties van Nederland en mag ik opdrachtgevers uit alle hoeken van het land helpen om hun ideeën werkelijkheid te laten worden.
               </p>
             </div>
           </motion.div>
@@ -152,7 +152,7 @@ export default function AboutLuca() {
                 <span className="absolute top-2 left-10 text-[7rem] font-serif text-white/10 leading-none select-none pointer-events-none">&#8220;</span>
                 <div className="flex items-center h-full px-12 lg:px-16 py-10">
                   <blockquote className="relative z-10 text-white font-bold text-xl lg:text-[1.35rem] leading-[1.95] text-left">
-                    Als freelancer ben ik bezig om de meest uiteenlopende producties neer te zetten. Daar ben ik enthousiast over, omdat ik het leuk vind om momenten te creëren die mensen voor altijd bij zullen blijven. Ik combineer hard werken met creatief denken en daarmee hoop ik projecten naar een hoger niveau te tillen. Samen met jou.{' '}
+                    Van festivals tot bedrijfsevenementen, als freelancer sta ik klaar voor uiteenlopende producties. Daar ben ik enthousiast over, omdat ik het leuk vind om momenten te creëren die mensen voor altijd bij zullen blijven. Ik combineer hard werken met creatief denken en daarmee hoop ik projecten naar een hoger niveau te tillen. Samen met jou.{' '}
                     <span className="text-[2.5rem] font-serif text-white/25 leading-none align-bottom inline-block" style={{ lineHeight: 0, verticalAlign: '-0.15em' }}>&#8221;</span>
                   </blockquote>
                 </div>
@@ -211,7 +211,7 @@ export default function AboutLuca() {
               <span className="absolute top-1 left-7 text-[5rem] font-serif text-white/10 leading-none select-none pointer-events-none">&#8220;</span>
               <div className="px-8 pt-10 pb-8">
                 <blockquote className="relative z-10 text-white font-bold text-lg leading-[1.85]">
-                  Als freelancer ben ik bezig om de meest uiteenlopende producties neer te zetten. Daar ben ik enthousiast over, omdat ik het leuk vind om momenten te creëren die mensen voor altijd bij zullen blijven. Ik combineer hard werken met creatief denken en daarmee hoop ik projecten naar een hoger niveau te tillen. Samen met jou.{' '}
+                  Van festivals tot bedrijfsevenementen, als freelancer sta ik klaar voor uiteenlopende producties. Daar ben ik enthousiast over, omdat ik het leuk vind om momenten te creëren die mensen voor altijd bij zullen blijven. Ik combineer hard werken met creatief denken en daarmee hoop ik projecten naar een hoger niveau te tillen. Samen met jou.{' '}
                   <span className="text-[2rem] font-serif text-white/25 leading-none inline-block" style={{ lineHeight: 0, verticalAlign: '-0.15em' }}>&#8221;</span>
                 </blockquote>
               </div>
@@ -326,39 +326,56 @@ export default function AboutLuca() {
                 }}
               >
                 <div
-                  className="relative rounded-[2rem] overflow-hidden select-none h-[280px] md:h-[350px]"
-                  style={{
-                    background: '#f5f5f5',
-                    boxShadow: isCenter
-                      ? '0 24px 64px rgba(0,0,0,0.13), 0 4px 16px rgba(0,0,0,0.07)'
-                      : '0 4px 20px rgba(0,0,0,0.05)',
-                  }}
+                  className="relative select-none h-[280px] md:h-[350px]"
+                  style={{ perspective: '1000px' }}
                 >
-                  <div className="absolute inset-0 flex flex-col justify-center px-8 md:px-10 py-8">
-                    <p className="text-sm font-semibold uppercase tracking-[0.14em] text-gray-400 leading-relaxed">
-                      {fact.label}?
-                    </p>
-
-                    <AnimatePresence>
-                      {isRevealed && (
-                        <motion.p
-                          initial={{ opacity: 0, y: 12 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, y: 12 }}
-                          transition={{ duration: 0.3 }}
-                          className="mt-5 text-2xl md:text-3xl font-bold text-brand-accent leading-tight"
-                        >
-                          {fact.answer}
-                        </motion.p>
-                      )}
-                    </AnimatePresence>
-
-                    {isCenter && !isRevealed && (
-                      <p className="mt-6 text-[10px] text-gray-300 font-medium tracking-wide">
-                        Hover of tik om te onthullen
+                  <motion.div
+                    animate={{ rotateY: isRevealed ? 180 : 0 }}
+                    transition={{ duration: 0.55, ease: [0.4, 0, 0.2, 1] }}
+                    style={{
+                      transformStyle: 'preserve-3d',
+                      position: 'relative',
+                      width: '100%',
+                      height: '100%',
+                      borderRadius: '2rem',
+                      boxShadow: isCenter
+                        ? '0 24px 64px rgba(0,0,0,0.13), 0 4px 16px rgba(0,0,0,0.07)'
+                        : '0 4px 20px rgba(0,0,0,0.05)',
+                    }}
+                  >
+                    {/* Front face */}
+                    <div
+                      className="absolute inset-0 rounded-[2rem] flex flex-col justify-center px-8 md:px-10 py-8 bg-[#f5f5f5]"
+                      style={{ backfaceVisibility: 'hidden' }}
+                    >
+                      <p className="text-sm font-semibold uppercase tracking-[0.14em] text-gray-400 leading-relaxed">
+                        {fact.label}?
                       </p>
-                    )}
-                  </div>
+                      {isCenter && (
+                        <p className="mt-6 text-[10px] text-gray-300 font-medium tracking-wide">
+                          Hover of tik om te onthullen
+                        </p>
+                      )}
+                    </div>
+
+                    {/* Back face */}
+                    <div
+                      className="absolute inset-0 rounded-[2rem] flex flex-col justify-center px-8 md:px-10 py-8"
+                      style={{
+                        backfaceVisibility: 'hidden',
+                        transform: 'rotateY(180deg)',
+                        background: 'linear-gradient(135deg, #1ea4f2 0%, #0d8fd8 55%, #0a7abf 100%)',
+                      }}
+                    >
+                      <div className="absolute inset-0 rounded-[2rem] pointer-events-none" style={{ background: 'radial-gradient(ellipse at 15% 30%, rgba(255,255,255,0.18) 0%, transparent 60%)' }} />
+                      <p className="relative z-10 text-sm font-semibold uppercase tracking-[0.14em] text-white/60 leading-relaxed mb-5">
+                        {fact.label}
+                      </p>
+                      <p className="relative z-10 text-2xl md:text-3xl font-bold text-white leading-tight">
+                        {fact.answer}
+                      </p>
+                    </div>
+                  </motion.div>
                 </div>
               </motion.div>
             );

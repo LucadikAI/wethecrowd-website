@@ -103,6 +103,7 @@ export default function Contact() {
                   <input
                     type="text"
                     name="organisatie"
+                    required
                     placeholder="Bedrijfsnaam"
                     className="w-full px-6 py-4 rounded-2xl bg-white border-none focus:ring-2 focus:ring-brand-accent outline-none transition-all"
                   />
@@ -112,7 +113,19 @@ export default function Contact() {
                   <input
                     type="text"
                     name="type_event"
+                    required
                     placeholder="Bijv. Festival, Concert, Zakelijk"
+                    className="w-full px-6 py-4 rounded-2xl bg-white border-none focus:ring-2 focus:ring-brand-accent outline-none transition-all"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-sm font-bold uppercase tracking-widest text-gray-500 ml-2">
+                    Telefoonnummer <span className="text-gray-300 normal-case tracking-normal font-normal">(optioneel)</span>
+                  </label>
+                  <input
+                    type="tel"
+                    name="telefoonnummer"
+                    placeholder="+31 6 12345678"
                     className="w-full px-6 py-4 rounded-2xl bg-white border-none focus:ring-2 focus:ring-brand-accent outline-none transition-all"
                   />
                 </div>

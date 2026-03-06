@@ -185,7 +185,7 @@ export default function Testimonials({ showTitle = true, desktopLayout = 'grid' 
       {showTitle && (
         <div className="container mx-auto px-6 mb-16">
           <div className="max-w-3xl mx-auto text-center">
-            <h2 className="text-4xl md:text-5xl font-bold">Wat anderen zeggen over de energie van WE THE CROWD</h2>
+            <h2 className="text-4xl md:text-5xl font-bold">Wat anderen zeggen over de energie van <span className="text-brand-accent">WE</span> THE CROWD</h2>
           </div>
         </div>
       )}
