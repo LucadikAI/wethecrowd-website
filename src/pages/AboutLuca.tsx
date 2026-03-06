@@ -218,15 +218,15 @@ export default function AboutLuca() {
             </motion.div>
 
             {/* Curved arrow connector — overlaps bottom of quote block and top of photo */}
-            <div className="relative -mt-6 mb-3 z-10">
-              <svg width="100%" viewBox="0 0 360 50" fill="none">
+            <div className="relative -mt-5 mb-6 z-10 flex justify-end pr-8">
+              <svg width="70" height="70" viewBox="0 0 70 70" fill="none">
                 <defs>
-                  <marker id="cq-arrowhead" markerWidth="11" markerHeight="11" refX="6" refY="5.5" orient="auto">
-                    <polyline points="1,1 6,5.5 1,10" stroke="#1a1a1a" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+                  <marker id="cq-arrowhead" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto">
+                    <polyline points="1,1 5,5 1,9" stroke="#1a1a1a" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" fill="none" />
                   </marker>
                 </defs>
                 <path
-                  d="M 8 12 C 130 10, 316 11, 332 42"
+                  d="M 42 8 C 64 20, 52 50, 42 64"
                   stroke="#1a1a1a"
                   strokeWidth="1.5"
                   strokeLinecap="round"
