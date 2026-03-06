@@ -1,5 +1,5 @@
-import { motion, useMotionValue, animate, useTransform } from "motion/react";
-import { useState, useRef, useEffect } from "react";
+import { motion, useMotionValue, animate } from "motion/react";
+import { useRef, useEffect } from "react";
 
 const venues = [
   { id: 1, name: "Olympisch Stadion", image: "/venue-olympisch-stadion.jpg" },
@@ -23,7 +23,7 @@ const venues = [
 
 export default function VenueSlider() {
   const x = useMotionValue(0);
-  const progressValue = useMotionValue(0);
+  const progressValue = useMotionValue(0); // still used for resumeFromPosition math
   const trackRef = useRef<HTMLDivElement>(null);
   const isTouching = useRef(false);
   const touchStartClientX = useRef(0);
@@ -39,10 +39,10 @@ export default function VenueSlider() {
     animControl.current?.stop();
     progressControl.current?.stop();
     animControl.current = animate(x, [0, -hw], {
-      duration: 35, repeat: Infinity, ease: "linear",
+      duration: 60, repeat: Infinity, ease: "linear",
     });
     progressControl.current = animate(progressValue, [0, 1], {
-      duration: 35, repeat: Infinity, ease: "linear",
+      duration: 60, repeat: Infinity, ease: "linear",
     });
   };
 
@@ -59,7 +59,7 @@ export default function VenueSlider() {
     const fraction = Math.abs(normalized) / hw;
     if (fraction === 0) { startInfiniteLoop(); return; }
 
-    const remaining = 35 * (1 - fraction);
+    const remaining = 60 * (1 - fraction);
     progressValue.set(fraction);
 
     animControl.current = animate(x, -hw, {
@@ -165,15 +165,6 @@ export default function VenueSlider() {
           ))}
         </motion.div>
 
-        <div className="relative mt-5 mx-auto w-32 h-1 rounded-full bg-gray-200">
-          <motion.div
-            className="absolute top-0 left-0 h-full w-1/4 rounded-full bg-brand-accent"
-            style={{ left: indicatorLeft }}
-          />
-        </div>
-        <p className="text-center text-[12px] text-gray-400 italic mt-3">
-          Houd vast om te pauzeren · Swipe om te bladeren
-        </p>
       </div>
     </section>
   );
