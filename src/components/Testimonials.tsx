@@ -45,6 +45,20 @@ const testimonials = [
     text: "Tijdens onze samenwerking had Luca als eventmanager alles tot in de puntjes geregeld. Zijn sterke voorbereiding in combinatie met het vermogen om tijdens het event flexibel te schakelen, maakte de samenwerking bijzonder prettig. Bovendien is Luca een prettige en positieve persoon om mee samen te werken.",
     image: "/testimonial-jaouad.jpg"
   },
+  {
+    id: 8,
+    name: "Jojanneke Hendriks",
+    company: "Social impact campaigner",
+    text: "Werken met Luca is een feestje! Hij denkt proactief, werkt professioneel en zorgt dat alles perfect geregeld is. Betrouwbaar, positief en altijd vol energie om er iets moois van te maken.",
+    image: "/testimonial-jojanneke.jpg"
+  },
+  {
+    id: 9,
+    name: "Madelief Tuinhout",
+    company: "Eigenaar @ Bloei",
+    text: "Luca is proactief, sociaal en zichtbaar gepassioneerd over zijn werk, wat sterk naar voren komt in de samenwerking. Hij denkt actief mee, brengt nieuwe ideeën in en zet graag dat extra stapje om het geheel nóg beter te maken.",
+    image: "/testimonial-madelief.jpg"
+  },
 ];
 
 interface TestimonialsProps {

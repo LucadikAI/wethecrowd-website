@@ -56,6 +56,7 @@ export default function Footer() {
         <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-500">
           <p>© {currentYear} WE THE CROWD. Alle rechten voorbehouden.</p>
           <div className="flex gap-8">
+            <a href="/algemene-voorwaarden.pdf" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Algemene Voorwaarden</a>
             <a href="/privacy.pdf" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Privacy Policy</a>
           </div>
         </div>
