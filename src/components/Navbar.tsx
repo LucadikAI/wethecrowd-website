@@ -37,27 +37,31 @@ export default function Navbar() {
 
         {/* Desktop Nav */}
         <div className="hidden md:flex items-center gap-6">
-          {navLinks.map((link) => (
-            <Link
-              key={link.path}
-              to={link.path}
-              className={`text-sm font-semibold hover:text-brand-accent transition-colors ${location.pathname === link.path ? "text-brand-accent" : "text-gray-600"}`}
-            >
-              {link.name}
-            </Link>
-          ))}
-          <motion.div
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.99 }}
-            transition={{ type: "spring", stiffness: 400, damping: 17 }}
-          >
-            <Link
-              to="/contact"
-              className="px-5 py-2 bg-black text-white rounded-full text-sm font-bold hover:brightness-90 transition-colors inline-block"
-            >
-              Bespreek jouw event
-            </Link>
-          </motion.div>
+          {navLinks.map((link) =>
+            link.path === "/contact" ? (
+              <motion.div
+                key={link.path}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.99 }}
+                transition={{ type: "spring", stiffness: 400, damping: 17 }}
+              >
+                <Link
+                  to={link.path}
+                  className="px-5 py-2 bg-black text-white rounded-full text-sm font-bold hover:brightness-90 transition-colors inline-block"
+                >
+                  {link.name}
+                </Link>
+              </motion.div>
+            ) : (
+              <Link
+                key={link.path}
+                to={link.path}
+                className={`text-sm font-semibold hover:text-brand-accent transition-colors ${location.pathname === link.path ? "text-brand-accent" : "text-gray-600"}`}
+              >
+                {link.name}
+              </Link>
+            )
+          )}
         </div>
 
         {/* Mobile Toggle */}
@@ -85,12 +89,6 @@ export default function Navbar() {
                 {link.name}
               </Link>
             ))}
-            <Link
-              to="/contact"
-              className="px-8 py-4 bg-black text-white rounded-full font-bold text-center"
-            >
-              Bespreek jouw event
-            </Link>
           </motion.div>
         )}
       </AnimatePresence>
