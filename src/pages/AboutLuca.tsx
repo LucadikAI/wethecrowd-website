@@ -28,6 +28,16 @@ const springEnter = { type: "spring" as const, stiffness: 200, damping: 20 };
 
 const quoteWords = "Van festivals tot bedrijfsevenementen, als freelancer sta ik klaar voor uiteenlopende producties. Daar ben ik enthousiast over, omdat ik het leuk vind om momenten te creëren die mensen voor altijd bij zullen blijven. Ik combineer hard werken met creatief denken en daarmee hoop ik projecten naar een hoger niveau te tillen. Samen met jou.".split(' ');
 
+const quote2Words = "Met mijn ervaring in de evenementenbranche ben ik steeds meer gefascineerd geraakt door het strategische deel van het werk. Nadenken over creatieve vraagstukken, het marketingverhaal achter een evenement, en hoe alles binnen een grotere strategie past; daar word ik blij van. Ook verdiep ik me graag in de nieuwste AI-toepassingen voor de evenementenbranche en denk ik graag actief mee over hoe deze slim kunnen worden ingezet binnen jouw organisatie.".split(' ');
+
+const quote2Photos = [
+  { src: '/luca-quote2-1.jpg', pos: 'center' },
+  { src: '/luca-quote2-2.jpg', pos: 'center' },
+  { src: '/luca-quote2-3.jpg', pos: 'center' },
+  { src: '/luca-quote2-4.jpg', pos: 'center' },
+  { src: '/luca-quote2-5.jpg', pos: 'center' },
+];
+
 function WordSpan({ word, index, total, scrollYProgress, prefersReducedMotion }: {
   word: string;
   index: number;
@@ -53,9 +63,15 @@ export default function AboutLuca() {
   const touchStartX = useRef(0);
   const lastTouchTime = useRef(0);
   const prefersReducedMotion = useReducedMotion();
+  const [sliderIndex2, setSliderIndex2] = useState(0);
   const quoteSectionRef = useRef<HTMLElement>(null);
+  const quoteSectionRef2 = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
     target: quoteSectionRef,
+    offset: ["start 0.6", "end 0.4"],
+  });
+  const { scrollYProgress: scrollYProgress2 } = useScroll({
+    target: quoteSectionRef2,
     offset: ["start 0.6", "end 0.4"],
   });
 
@@ -85,6 +101,13 @@ export default function AboutLuca() {
     const timer = setInterval(() => {
       setSliderIndex(i => (i + 1) % sliderPhotos.length);
     }, 8000);
+    return () => clearInterval(timer);
+  }, []);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setSliderIndex2(i => (i + 1) % quote2Photos.length);
+    }, 7000);
     return () => clearInterval(timer);
   }, []);
 
@@ -252,6 +275,119 @@ export default function AboutLuca() {
             <span className="block text-[2.5rem] text-brand-accent leading-none -mb-1 select-none" style={{ fontFamily: 'Georgia, serif', opacity: 0.65 }} aria-hidden="true">&#8220;</span>
             <blockquote className="font-semibold text-sm leading-[1.6] tracking-[0.015em] text-gray-900">
               Van festivals tot bedrijfsevenementen, als freelancer sta ik klaar voor uiteenlopende producties. Daar ben ik enthousiast over, omdat ik het leuk vind om momenten te creëren die mensen voor altijd bij zullen blijven. Ik combineer hard werken met creatief denken en daarmee hoop ik projecten naar een hoger niveau te tillen. Samen met jou.{' '}
+              <span
+                className="select-none pointer-events-none not-italic text-brand-accent"
+                style={{ fontSize: '1.6em', lineHeight: 0, verticalAlign: '-0.25em', fontFamily: 'Georgia, serif', opacity: 0.65 }}
+                aria-hidden="true"
+              >
+                &#8221;
+              </span>
+            </blockquote>
+          </div>
+        </div>
+      </section>
+
+      {/* Quote Section 2 — gespiegeld: foto rechts, tekst links */}
+      <section ref={quoteSectionRef2} className="mt-8">
+        {/* Desktop */}
+        <div className="relative hidden md:block" style={{ height: 'clamp(440px, 60vh, 680px)' }}>
+          {/* Foto — rechter 78%, fade op LINKER rand richting tekst */}
+          <motion.div
+            className="absolute top-0 bottom-0 overflow-hidden"
+            initial={prefersReducedMotion ? false : { opacity: 0, scale: 1.03 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true, margin: "0px 0px -60px 0px" }}
+            transition={{ duration: 1.0, ease: 'easeOut' }}
+            style={{
+              right: '1.5rem',
+              width: 'calc(78% - 1.5rem)',
+              borderRadius: '1.5rem',
+              maskImage: 'linear-gradient(to left, black 42%, transparent 90%), linear-gradient(to bottom, black 70%, transparent 100%)',
+              maskComposite: 'intersect',
+              WebkitMaskImage: 'linear-gradient(to left, black 42%, transparent 90%), linear-gradient(to bottom, black 70%, transparent 100%)',
+              WebkitMaskComposite: 'source-in',
+            }}
+          >
+            <AnimatePresence>
+              <motion.img
+                key={sliderIndex2}
+                src={quote2Photos[sliderIndex2].src}
+                alt=""
+                className="absolute inset-0 w-full h-full object-cover"
+                style={{ objectPosition: quote2Photos[sliderIndex2].pos }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 1.2, ease: 'easeInOut' }}
+              />
+            </AnimatePresence>
+            <div className="absolute inset-0" style={{ background: 'rgba(0,0,0,0.38)' }} />
+          </motion.div>
+
+          {/* Quote tekst + decoratie — links */}
+          <motion.div
+            className="absolute top-0 bottom-0 left-0 z-10 flex items-center"
+            style={{ width: '52%' }}
+            initial={prefersReducedMotion ? false : { opacity: 0, y: 28 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "0px 0px -60px 0px" }}
+            transition={{ duration: 0.7, ease: 'easeOut', delay: 0.2 }}
+          >
+            <div className="px-10 lg:px-12 xl:px-14 relative">
+              {/* Decoratief openingsaanhalingsteken */}
+              <span
+                className="absolute -top-10 left-8 text-brand-accent select-none pointer-events-none"
+                style={{ fontSize: '5.5rem', lineHeight: 1, fontFamily: 'Georgia, serif', opacity: 0.65 }}
+                aria-hidden="true"
+              >
+                &#8220;
+              </span>
+
+              <blockquote className="font-semibold text-[0.95rem] lg:text-[1rem] leading-[1.55] tracking-[0.015em]">
+                {quote2Words.map((word, i) => (
+                  <WordSpan
+                    key={i}
+                    word={word}
+                    index={i}
+                    total={quote2Words.length}
+                    scrollYProgress={scrollYProgress2}
+                    prefersReducedMotion={prefersReducedMotion}
+                  />
+                ))}
+                <span
+                  className="text-brand-accent select-none pointer-events-none not-italic"
+                  style={{ fontSize: '1.6em', lineHeight: 0, verticalAlign: '-0.25em', fontFamily: 'Georgia, serif', opacity: 0.65 }}
+                  aria-hidden="true"
+                >
+                  &#8221;
+                </span>
+              </blockquote>
+            </div>
+          </motion.div>
+        </div>
+
+        {/* Mobiel: foto boven, quote eronder */}
+        <div className="md:hidden">
+          <div className="relative overflow-hidden rounded-3xl mx-4 h-72">
+            <AnimatePresence>
+              <motion.img
+                key={sliderIndex2}
+                src={quote2Photos[sliderIndex2].src}
+                alt=""
+                className="absolute inset-0 w-full h-full object-cover"
+                style={{ objectPosition: quote2Photos[sliderIndex2].pos }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 1.2, ease: 'easeInOut' }}
+              />
+            </AnimatePresence>
+            <div className="absolute inset-0" style={{ background: 'rgba(0,0,0,0.38)' }} />
+          </div>
+          <div className="px-6 pt-8 pb-4">
+            <span className="block text-[2.5rem] text-brand-accent leading-none -mb-1 select-none" style={{ fontFamily: 'Georgia, serif', opacity: 0.65 }} aria-hidden="true">&#8220;</span>
+            <blockquote className="font-semibold text-sm leading-[1.6] tracking-[0.015em] text-gray-900">
+              Met mijn ervaring in de evenementenbranche ben ik steeds meer gefascineerd geraakt door het strategische deel van het werk. Nadenken over creatieve vraagstukken, het marketingverhaal achter een evenement, en hoe alles binnen een grotere strategie past; daar word ik blij van. Ook verdiep ik me graag in de nieuwste AI-toepassingen voor de evenementenbranche en denk ik graag actief mee over hoe deze slim kunnen worden ingezet binnen jouw organisatie.{' '}
               <span
                 className="select-none pointer-events-none not-italic text-brand-accent"
                 style={{ fontSize: '1.6em', lineHeight: 0, verticalAlign: '-0.25em', fontFamily: 'Georgia, serif', opacity: 0.65 }}
