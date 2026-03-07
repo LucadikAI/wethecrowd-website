@@ -126,26 +126,24 @@ export default function AboutLuca() {
       {/* Venue Slider */}
       <VenueSlider />
 
-      {/* Quote Section — loose overlap: foto links, tekst zweeft over rechterrand */}
-      <motion.section
-        initial={prefersReducedMotion ? false : { opacity: 0, y: 24 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "0px 0px -60px 0px" }}
-        transition={springEnter}
-        className="mt-16"
-      >
+      {/* Quote Section */}
+      <section className="mt-16">
         {/* Desktop */}
-        <div className="relative hidden md:block" style={{ height: 'clamp(420px, 58vh, 660px)' }}>
-          {/* Foto — linker 70%, met padding links, border-radius en fade op rechter/onderrand */}
-          <div
+        <div className="relative hidden md:block" style={{ height: 'clamp(440px, 60vh, 680px)' }}>
+          {/* Foto — linker 78%, fade-randen + donkere overlay */}
+          <motion.div
             className="absolute top-0 bottom-0 overflow-hidden"
+            initial={prefersReducedMotion ? false : { opacity: 0, scale: 1.03 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true, margin: "0px 0px -60px 0px" }}
+            transition={{ duration: 1.0, ease: 'easeOut' }}
             style={{
               left: '1.5rem',
-              width: 'calc(70% - 1.5rem)',
+              width: 'calc(78% - 1.5rem)',
               borderRadius: '1.5rem',
-              maskImage: 'linear-gradient(to right, black 45%, transparent 92%), linear-gradient(to bottom, black 72%, transparent 100%)',
+              maskImage: 'linear-gradient(to right, black 42%, transparent 90%), linear-gradient(to bottom, black 70%, transparent 100%)',
               maskComposite: 'intersect',
-              WebkitMaskImage: 'linear-gradient(to right, black 45%, transparent 92%), linear-gradient(to bottom, black 72%, transparent 100%)',
+              WebkitMaskImage: 'linear-gradient(to right, black 42%, transparent 90%), linear-gradient(to bottom, black 70%, transparent 100%)',
               WebkitMaskComposite: 'source-in',
             }}
           >
@@ -162,27 +160,51 @@ export default function AboutLuca() {
                 transition={{ duration: 1.2, ease: 'easeInOut' }}
               />
             </AnimatePresence>
-          </div>
+            {/* Donkere cinematic overlay */}
+            <div className="absolute inset-0" style={{ background: 'rgba(0,0,0,0.38)' }} />
+          </motion.div>
 
-          {/* Quote — verder naar links, in het fade-gebied van de foto */}
-          <div
+          {/* Quote tekst + decoratie */}
+          <motion.div
             className="absolute top-0 bottom-0 right-0 z-10 flex items-center"
             style={{ width: '52%' }}
+            initial={prefersReducedMotion ? false : { opacity: 0, y: 28 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "0px 0px -60px 0px" }}
+            transition={{ duration: 0.7, ease: 'easeOut', delay: 0.2 }}
           >
-            <div className="px-10 lg:px-12 xl:px-14" style={{ maxWidth: '420px' }}>
-              <blockquote
-                className="font-semibold text-[0.9rem] lg:text-[0.95rem] leading-[1.6] tracking-[0.015em] text-brand-accent"
-                style={{ textShadow: '0 0 14px rgba(255,255,255,1), 0 0 28px rgba(255,255,255,0.95), 0 0 48px rgba(255,255,255,0.8)' }}
+            <div className="px-10 lg:px-12 xl:px-14 relative" style={{ maxWidth: '400px' }}>
+              {/* Decoratief openingsaanhalingsteken */}
+              <span
+                className="absolute -top-10 left-8 text-brand-accent select-none pointer-events-none"
+                style={{ fontSize: '5.5rem', lineHeight: 1, fontFamily: 'Georgia, serif', opacity: 0.65 }}
+                aria-hidden="true"
               >
-                &#8220;Van festivals tot bedrijfsevenementen, als freelancer sta ik klaar voor uiteenlopende producties. Daar ben ik enthousiast over, omdat ik het leuk vind om momenten te creëren die mensen voor altijd bij zullen blijven. Ik combineer hard werken met creatief denken en daarmee hoop ik projecten naar een hoger niveau te tillen. Samen met jou.&#8221;
-              </blockquote>
+                &#8220;
+              </span>
+
+              {/* Accent-lijn + quote */}
+              <div style={{ borderLeft: '2px solid #1ea4f2', paddingLeft: '1.25rem' }}>
+                <blockquote className="font-semibold text-[0.9rem] lg:text-[0.95rem] leading-[1.6] tracking-[0.015em] text-white">
+                  Van festivals tot bedrijfsevenementen, als freelancer sta ik klaar voor uiteenlopende producties. Daar ben ik enthousiast over, omdat ik het leuk vind om momenten te creëren die mensen voor altijd bij zullen blijven. Ik combineer hard werken met creatief denken en daarmee hoop ik projecten naar een hoger niveau te tillen. Samen met jou.
+                </blockquote>
+              </div>
+
+              {/* Decoratief sluitingsaanhalingsteken */}
+              <span
+                className="block text-right text-brand-accent select-none pointer-events-none mt-1"
+                style={{ fontSize: '4.5rem', lineHeight: 1, fontFamily: 'Georgia, serif', opacity: 0.65 }}
+                aria-hidden="true"
+              >
+                &#8221;
+              </span>
             </div>
-          </div>
+          </motion.div>
         </div>
 
-        {/* Mobiel: foto boven, quote eronder op witte achtergrond */}
+        {/* Mobiel: foto boven met overlay, quote eronder */}
         <div className="md:hidden">
-          <div className="relative overflow-hidden h-72">
+          <div className="relative overflow-hidden rounded-3xl mx-4 h-72">
             <AnimatePresence>
               <motion.img
                 key={sliderIndex}
@@ -196,16 +218,19 @@ export default function AboutLuca() {
                 transition={{ duration: 1.2, ease: 'easeInOut' }}
               />
             </AnimatePresence>
+            <div className="absolute inset-0" style={{ background: 'rgba(0,0,0,0.38)' }} />
           </div>
           <div className="px-6 pt-8 pb-4">
-            <span className="block text-[2.5rem] font-serif text-gray-300 leading-none -mb-1 select-none">&#8220;</span>
-            <blockquote className="text-gray-900 font-bold text-base leading-[1.9]">
-              Van festivals tot bedrijfsevenementen, als freelancer sta ik klaar voor uiteenlopende producties. Daar ben ik enthousiast over, omdat ik het leuk vind om momenten te creëren die mensen voor altijd bij zullen blijven. Ik combineer hard werken met creatief denken en daarmee hoop ik projecten naar een hoger niveau te tillen. Samen met jou.
-            </blockquote>
-            <span className="block text-right text-[2rem] font-serif text-gray-300 leading-none mt-2 select-none">&#8221;</span>
+            <span className="block text-[2.5rem] text-brand-accent leading-none -mb-1 select-none" style={{ fontFamily: 'Georgia, serif', opacity: 0.65 }} aria-hidden="true">&#8220;</span>
+            <div style={{ borderLeft: '2px solid #1ea4f2', paddingLeft: '1rem' }}>
+              <blockquote className="text-gray-900 font-semibold text-sm leading-[1.6] tracking-[0.015em]">
+                Van festivals tot bedrijfsevenementen, als freelancer sta ik klaar voor uiteenlopende producties. Daar ben ik enthousiast over, omdat ik het leuk vind om momenten te creëren die mensen voor altijd bij zullen blijven. Ik combineer hard werken met creatief denken en daarmee hoop ik projecten naar een hoger niveau te tillen. Samen met jou.
+              </blockquote>
+            </div>
+            <span className="block text-right text-[2rem] text-brand-accent leading-none mt-2 select-none" style={{ fontFamily: 'Georgia, serif', opacity: 0.65 }} aria-hidden="true">&#8221;</span>
           </div>
         </div>
-      </motion.section>
+      </section>
 
       {/* Fun Facts Carousel */}
       <div className="mt-20 md:mt-36">
