@@ -1,4 +1,4 @@
-import { motion, AnimatePresence, useReducedMotion } from "motion/react";
+import { motion, AnimatePresence, useReducedMotion, useScroll, useTransform, MotionValue } from "motion/react";
 import { useState, useEffect, useRef } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import VenueSlider from "../components/VenueSlider";
@@ -26,6 +26,25 @@ const sliderPhotos = [
 
 const springEnter = { type: "spring" as const, stiffness: 200, damping: 20 };
 
+const quoteWords = "Van festivals tot bedrijfsevenementen, als freelancer sta ik klaar voor uiteenlopende producties. Daar ben ik enthousiast over, omdat ik het leuk vind om momenten te creëren die mensen voor altijd bij zullen blijven. Ik combineer hard werken met creatief denken en daarmee hoop ik projecten naar een hoger niveau te tillen. Samen met jou.".split(' ');
+
+function WordSpan({ word, index, total, scrollYProgress, prefersReducedMotion }: {
+  word: string;
+  index: number;
+  total: number;
+  scrollYProgress: MotionValue<number>;
+  prefersReducedMotion: boolean | null;
+}) {
+  const start = (index / total) * 0.55;
+  const end = Math.min(start + 0.35, 1);
+  const opacity = useTransform(scrollYProgress, [start, end], [0.12, 1]);
+  return (
+    <motion.span style={{ opacity: prefersReducedMotion ? 1 : opacity, color: 'black' }}>
+      {word}{' '}
+    </motion.span>
+  );
+}
+
 export default function AboutLuca() {
   const [showChild, setShowChild] = useState(false);
   const [sliderIndex, setSliderIndex] = useState(0);
@@ -34,6 +53,11 @@ export default function AboutLuca() {
   const touchStartX = useRef(0);
   const lastTouchTime = useRef(0);
   const prefersReducedMotion = useReducedMotion();
+  const quoteSectionRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: quoteSectionRef,
+    offset: ["start end", "center center"],
+  });
 
   const nextFact = () => {
     setActiveFact(i => (i + 1) % funFacts.length);
@@ -127,7 +151,7 @@ export default function AboutLuca() {
       <VenueSlider />
 
       {/* Quote Section */}
-      <section className="mt-16">
+      <section ref={quoteSectionRef} className="mt-16">
         {/* Desktop */}
         <div className="relative hidden md:block" style={{ height: 'clamp(440px, 60vh, 680px)' }}>
           {/* Foto — linker 78%, fade-randen + donkere overlay */}
@@ -183,20 +207,20 @@ export default function AboutLuca() {
                 &#8220;
               </span>
 
-              <blockquote
-                className="font-semibold text-[0.9rem] lg:text-[0.95rem] leading-[1.6] tracking-[0.015em]"
-                style={{
-                  background: 'linear-gradient(to bottom, rgba(0,0,0,0.22) 0%, rgba(0,0,0,1) 72%)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  backgroundClip: 'text',
-                }}
-              >
-                Van festivals tot bedrijfsevenementen, als freelancer sta ik klaar voor uiteenlopende producties. Daar ben ik enthousiast over, omdat ik het leuk vind om momenten te creëren die mensen voor altijd bij zullen blijven. Ik combineer hard werken met creatief denken en daarmee hoop ik projecten naar een hoger niveau te tillen. Samen met jou.{' '}
-                {/* Sluitingsaanhalingsteken inline direct na tekst */}
+              <blockquote className="font-semibold text-[0.9rem] lg:text-[0.95rem] leading-[1.6] tracking-[0.015em]">
+                {quoteWords.map((word, i) => (
+                  <WordSpan
+                    key={i}
+                    word={word}
+                    index={i}
+                    total={quoteWords.length}
+                    scrollYProgress={scrollYProgress}
+                    prefersReducedMotion={prefersReducedMotion}
+                  />
+                ))}
                 <span
                   className="text-brand-accent select-none pointer-events-none not-italic"
-                  style={{ fontSize: '1.6em', lineHeight: 0, verticalAlign: '-0.25em', fontFamily: 'Georgia, serif', opacity: 0.65, WebkitTextFillColor: '#1ea4f2' }}
+                  style={{ fontSize: '1.6em', lineHeight: 0, verticalAlign: '-0.25em', fontFamily: 'Georgia, serif', opacity: 0.65 }}
                   aria-hidden="true"
                 >
                   &#8221;
@@ -226,19 +250,11 @@ export default function AboutLuca() {
           </div>
           <div className="px-6 pt-8 pb-4">
             <span className="block text-[2.5rem] text-brand-accent leading-none -mb-1 select-none" style={{ fontFamily: 'Georgia, serif', opacity: 0.65 }} aria-hidden="true">&#8220;</span>
-            <blockquote
-              className="font-semibold text-sm leading-[1.6] tracking-[0.015em]"
-              style={{
-                background: 'linear-gradient(to bottom, rgba(0,0,0,0.22) 0%, rgba(0,0,0,1) 72%)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text',
-              }}
-            >
+            <blockquote className="font-semibold text-sm leading-[1.6] tracking-[0.015em] text-gray-900">
               Van festivals tot bedrijfsevenementen, als freelancer sta ik klaar voor uiteenlopende producties. Daar ben ik enthousiast over, omdat ik het leuk vind om momenten te creëren die mensen voor altijd bij zullen blijven. Ik combineer hard werken met creatief denken en daarmee hoop ik projecten naar een hoger niveau te tillen. Samen met jou.{' '}
               <span
-                className="select-none pointer-events-none not-italic"
-                style={{ fontSize: '1.6em', lineHeight: 0, verticalAlign: '-0.25em', fontFamily: 'Georgia, serif', opacity: 0.65, WebkitTextFillColor: '#1ea4f2' }}
+                className="select-none pointer-events-none not-italic text-brand-accent"
+                style={{ fontSize: '1.6em', lineHeight: 0, verticalAlign: '-0.25em', fontFamily: 'Georgia, serif', opacity: 0.65 }}
                 aria-hidden="true"
               >
                 &#8221;
