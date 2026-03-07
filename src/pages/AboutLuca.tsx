@@ -115,7 +115,7 @@ export default function AboutLuca() {
     >
       {/* Photo + Text */}
       <div className="container mx-auto px-6">
-        <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
+        <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-end">
           {/* Left Side: Photo */}
           <motion.div
             initial={prefersReducedMotion ? false : { opacity: 0, x: -30, scale: 0.95 }}
@@ -338,7 +338,7 @@ export default function AboutLuca() {
               </span>
 
               <blockquote className="font-semibold text-[0.95rem] lg:text-[1rem] leading-[1.55] tracking-[0.015em]">
-                {quote2Words.map((word, i) => (
+                {quote2Words.slice(0, -1).map((word, i) => (
                   <WordSpan
                     key={i}
                     word={word}
@@ -347,11 +347,17 @@ export default function AboutLuca() {
                     scrollYProgress={scrollYProgress2}
                     prefersReducedMotion={prefersReducedMotion}
                   />
-                ))}<span
-                  className="text-brand-accent select-none pointer-events-none not-italic"
-                  style={{ fontSize: '1.3em', fontFamily: 'Georgia, serif', opacity: 0.65 }}
-                  aria-hidden="true"
-                >&#8221;</span>
+                ))}<span style={{ whiteSpace: 'nowrap' }}><WordSpan
+                    word={quote2Words[quote2Words.length - 1]}
+                    index={quote2Words.length - 1}
+                    total={quote2Words.length}
+                    scrollYProgress={scrollYProgress2}
+                    prefersReducedMotion={prefersReducedMotion}
+                  /><span
+                    className="text-brand-accent select-none pointer-events-none not-italic"
+                    style={{ fontSize: '1.3em', fontFamily: 'Georgia, serif', opacity: 0.65 }}
+                    aria-hidden="true"
+                  >&#8221;</span></span>
               </blockquote>
             </div>
           </motion.div>
