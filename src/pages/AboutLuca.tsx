@@ -215,6 +215,7 @@ export default function AboutLuca() {
             transition={{ duration: 0.7, ease: 'easeOut', delay: 0.2 }}
           >
             <div className="px-10 lg:px-12 xl:px-14 relative">
+              <div className="w-8 h-0.5 bg-gray-300 rounded-full mb-4" />
               <blockquote className="font-semibold text-[0.95rem] lg:text-[1rem] leading-[1.55] tracking-[0.015em]">
                 {quoteWords.map((word, i) => (
                   <WordSpan
@@ -304,6 +305,7 @@ export default function AboutLuca() {
             transition={{ duration: 0.7, ease: 'easeOut', delay: 0.2 }}
           >
             <div className="px-10 lg:px-12 xl:px-14 relative">
+              <div className="w-8 h-0.5 bg-gray-300 rounded-full mb-4" />
               <blockquote className="font-semibold text-[0.95rem] lg:text-[1rem] leading-[1.55] tracking-[0.015em]">
                 {quote2Words.map((word, i) => (
                   <WordSpan
