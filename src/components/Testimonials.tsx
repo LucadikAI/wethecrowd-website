@@ -8,56 +8,64 @@ const testimonials = [
     name: "Giselle Koning",
     company: "Creatief directeur & partner @ The Groundbreakers",
     text: "Luca is iemand waar je op kunt bouwen. Hij komt goed voorbereid, begrijpt het concept en neemt zijn verantwoordelijkheid. Ook onder druk blijft hij rustig en houdt hij overzicht, waardoor je op hem kunt vertrouwen op belangrijke momenten.",
-    image: "/testimonial-giselle.jpg"
+    image: "/testimonial-giselle.jpg",
+    linkedin: "https://www.linkedin.com/in/giselle-koning-a8891424/"
   },
   {
     id: 4,
     name: "Joram Kaat",
     company: "Presentator & Creative @ EO",
     text: "Luca heeft sowieso de skills en expertise, maar bovenal - en dat maakt het verschil - enorme passie voor zijn werk. En dat voel je in alles! Fijn om mee samen te werken.",
-    image: "/testimonial-joram.jpg"
+    image: "/testimonial-joram.jpg",
+    linkedin: "https://www.linkedin.com/in/joramkaat/"
   },
   {
     id: 3,
     name: "Laura Adèr",
     company: "Co-Founder & Executive Director @ Fairspace",
     text: "De samenwerking met Luca was ontzettend prettig. Met zijn oog voor detail, ruime ervaring en het vermogen om onder tijdsdruk het overzicht te bewaren, zorgt hij ervoor dat je een sterk en professioneel event neerzet.",
-    image: "/testimonial-laura.jpg"
+    image: "/testimonial-laura.jpg",
+    linkedin: "https://www.linkedin.com/in/lauraader/"
   },
   {
     id: 5,
     name: "Tim Dik",
     company: "Eigenaar @ ONETICKETLEFT",
     text: "Luca is altijd 'on top of things' als hij met of voor mij werkt. Hij houdt mij scherp, is taakgericht en pro-actief en zet zijn kennis van trends en de nieuwste tools in voor onze gezamenlijke passie: top evenementen organiseren.",
-    image: "/testimonial-tim.jpg"
+    image: "/testimonial-tim.jpg",
+    linkedin: "https://www.linkedin.com/in/timdik/"
   },
   {
     id: 6,
     name: "Karlijn Eickmans",
     company: "Eventmanager @ DigiQuest Amsterdam",
     text: "Mijn ervaring met Luca is super prettig: gestructureerd, oog voor detail, blijft ontspannen en helder onder druk, gezellig en voldoende ervaring om met een gerust hart verantwoordelijkheden over te dragen.",
-    image: "/testimonial-karlijn.jpg"
+    image: "/testimonial-karlijn.jpg",
+    linkedin: "https://www.linkedin.com/in/karlijneickmans/"
   },
   {
     id: 7,
     name: "Jaouad Najih",
     company: "Trainer @ Janaflexx",
     text: "Tijdens onze samenwerking had Luca als eventmanager alles tot in de puntjes geregeld. Zijn sterke voorbereiding in combinatie met het vermogen om tijdens het event flexibel te schakelen, maakte de samenwerking bijzonder prettig. Bovendien is Luca een prettige en positieve persoon om mee samen te werken.",
-    image: "/testimonial-jaouad.jpg"
+    image: "/testimonial-jaouad.jpg",
+    linkedin: "https://www.linkedin.com/in/jaouad-najih-b525b3166/"
   },
   {
     id: 8,
     name: "Jojanneke Hendriks",
     company: "Social impact campaigner",
     text: "Werken met Luca is een feestje! Hij denkt proactief, werkt professioneel en zorgt dat alles perfect geregeld is. Betrouwbaar, positief en altijd vol energie om er iets moois van te maken.",
-    image: "/testimonial-jojanneke.jpg"
+    image: "/testimonial-jojanneke.jpg",
+    linkedin: "https://www.linkedin.com/in/jojanneke-hendriks-3454ba6/"
   },
   {
     id: 9,
     name: "Madelief Tuinhout",
     company: "Eigenaar @ Bloei",
     text: "Luca is proactief, sociaal en zichtbaar gepassioneerd over zijn werk, wat sterk naar voren komt in de samenwerking. Hij denkt actief mee, brengt nieuwe ideeën in en zet graag dat extra stapje om het geheel nóg beter te maken.",
-    image: "/testimonial-madelief.jpg"
+    image: "/testimonial-madelief.jpg",
+    linkedin: "https://www.linkedin.com/in/madelief-tuinhout-027990205/"
   },
 ];
 
@@ -184,7 +192,13 @@ export default function Testimonials({ showTitle = true, desktopLayout = 'grid' 
           )}
         </div>
         <div>
-          <h4 className="font-bold text-sm leading-tight">{t.name}</h4>
+          {t.linkedin ? (
+            <a href={t.linkedin} target="_blank" rel="noopener noreferrer" className="group inline-block">
+              <h4 className="font-bold text-sm leading-tight group-hover:underline">{t.name}</h4>
+            </a>
+          ) : (
+            <h4 className="font-bold text-sm leading-tight">{t.name}</h4>
+          )}
           <p className="text-[10px] text-gray-500 leading-tight">{t.company}</p>
         </div>
       </div>
@@ -233,10 +247,10 @@ export default function Testimonials({ showTitle = true, desktopLayout = 'grid' 
         </p>
       </div>
 
-      {/* Desktop grid — 2 rows of 3, inside container */}
+      {/* Desktop grid — 2 rows of 4, inside container */}
       {desktopLayout === 'grid' && (
         <div className="container mx-auto px-6">
-          <div className="hidden md:grid md:grid-cols-3 gap-6">
+          <div className="hidden md:grid md:grid-cols-4 gap-6">
             {testimonials.map((t, index) => (
               <motion.div
                 key={t.id}
@@ -262,7 +276,13 @@ export default function Testimonials({ showTitle = true, desktopLayout = 'grid' 
                     )}
                   </div>
                   <div>
-                    <h4 className="font-bold text-sm leading-tight">{t.name}</h4>
+                    {t.linkedin ? (
+                      <a href={t.linkedin} target="_blank" rel="noopener noreferrer" className="group inline-block">
+                        <h4 className="font-bold text-sm leading-tight group-hover:underline">{t.name}</h4>
+                      </a>
+                    ) : (
+                      <h4 className="font-bold text-sm leading-tight">{t.name}</h4>
+                    )}
                     <p className="text-[10px] text-gray-500 leading-tight">{t.company}</p>
                   </div>
                 </div>
