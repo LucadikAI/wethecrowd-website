@@ -100,14 +100,8 @@ export default function AboutLuca() {
   useEffect(() => {
     const timer = setInterval(() => {
       setSliderIndex(i => (i + 1) % sliderPhotos.length);
-    }, 8000);
-    return () => clearInterval(timer);
-  }, []);
-
-  useEffect(() => {
-    const timer = setInterval(() => {
       setSliderIndex2(i => (i + 1) % quote2Photos.length);
-    }, 7000);
+    }, 8000);
     return () => clearInterval(timer);
   }, []);
 
