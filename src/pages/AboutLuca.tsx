@@ -183,18 +183,25 @@ export default function AboutLuca() {
                 &#8220;
               </span>
 
-              <blockquote className="font-semibold text-[0.9rem] lg:text-[0.95rem] leading-[1.6] tracking-[0.015em] text-gray-900">
-                Van festivals tot bedrijfsevenementen, als freelancer sta ik klaar voor uiteenlopende producties. Daar ben ik enthousiast over, omdat ik het leuk vind om momenten te creëren die mensen voor altijd bij zullen blijven. Ik combineer hard werken met creatief denken en daarmee hoop ik projecten naar een hoger niveau te tillen. Samen met jou.
-              </blockquote>
-
-              {/* Decoratief sluitingsaanhalingsteken */}
-              <span
-                className="block text-right text-brand-accent select-none pointer-events-none mt-1"
-                style={{ fontSize: '4.5rem', lineHeight: 1, fontFamily: 'Georgia, serif', opacity: 0.65 }}
-                aria-hidden="true"
+              <blockquote
+                className="font-semibold text-[0.9rem] lg:text-[0.95rem] leading-[1.6] tracking-[0.015em]"
+                style={{
+                  background: 'linear-gradient(to bottom, rgba(0,0,0,0.22) 0%, rgba(0,0,0,1) 72%)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text',
+                }}
               >
-                &#8221;
-              </span>
+                Van festivals tot bedrijfsevenementen, als freelancer sta ik klaar voor uiteenlopende producties. Daar ben ik enthousiast over, omdat ik het leuk vind om momenten te creëren die mensen voor altijd bij zullen blijven. Ik combineer hard werken met creatief denken en daarmee hoop ik projecten naar een hoger niveau te tillen. Samen met jou.{' '}
+                {/* Sluitingsaanhalingsteken inline direct na tekst */}
+                <span
+                  className="text-brand-accent select-none pointer-events-none not-italic"
+                  style={{ fontSize: '1.6em', lineHeight: 0, verticalAlign: '-0.25em', fontFamily: 'Georgia, serif', opacity: 0.65, WebkitTextFillColor: '#1ea4f2' }}
+                  aria-hidden="true"
+                >
+                  &#8221;
+                </span>
+              </blockquote>
             </div>
           </motion.div>
         </div>
@@ -219,10 +226,24 @@ export default function AboutLuca() {
           </div>
           <div className="px-6 pt-8 pb-4">
             <span className="block text-[2.5rem] text-brand-accent leading-none -mb-1 select-none" style={{ fontFamily: 'Georgia, serif', opacity: 0.65 }} aria-hidden="true">&#8220;</span>
-            <blockquote className="text-gray-900 font-semibold text-sm leading-[1.6] tracking-[0.015em]">
-              Van festivals tot bedrijfsevenementen, als freelancer sta ik klaar voor uiteenlopende producties. Daar ben ik enthousiast over, omdat ik het leuk vind om momenten te creëren die mensen voor altijd bij zullen blijven. Ik combineer hard werken met creatief denken en daarmee hoop ik projecten naar een hoger niveau te tillen. Samen met jou.
+            <blockquote
+              className="font-semibold text-sm leading-[1.6] tracking-[0.015em]"
+              style={{
+                background: 'linear-gradient(to bottom, rgba(0,0,0,0.22) 0%, rgba(0,0,0,1) 72%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text',
+              }}
+            >
+              Van festivals tot bedrijfsevenementen, als freelancer sta ik klaar voor uiteenlopende producties. Daar ben ik enthousiast over, omdat ik het leuk vind om momenten te creëren die mensen voor altijd bij zullen blijven. Ik combineer hard werken met creatief denken en daarmee hoop ik projecten naar een hoger niveau te tillen. Samen met jou.{' '}
+              <span
+                className="select-none pointer-events-none not-italic"
+                style={{ fontSize: '1.6em', lineHeight: 0, verticalAlign: '-0.25em', fontFamily: 'Georgia, serif', opacity: 0.65, WebkitTextFillColor: '#1ea4f2' }}
+                aria-hidden="true"
+              >
+                &#8221;
+              </span>
             </blockquote>
-            <span className="block text-right text-[2rem] text-brand-accent leading-none mt-2 select-none" style={{ fontFamily: 'Georgia, serif', opacity: 0.65 }} aria-hidden="true">&#8221;</span>
           </div>
         </div>
       </section>
