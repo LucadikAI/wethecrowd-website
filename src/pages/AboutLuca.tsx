@@ -126,139 +126,53 @@ export default function AboutLuca() {
       {/* Venue Slider */}
       <VenueSlider />
 
-      {/* Quote & Polaroids + Fact Blocks */}
-      <div className="container mx-auto px-6">
-        {/* Quote & Polaroids Section */}
-        <div className="-mt-12 md:mt-16">
+      {/* Quote Section — cinematic full-bleed */}
+      <div className="container mx-auto px-6 mt-16">
+        <motion.div
+          initial={prefersReducedMotion ? false : { opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "0px 0px -60px 0px" }}
+          transition={springEnter}
+          className="relative overflow-hidden rounded-[2rem] md:rounded-[3rem] shadow-2xl"
+          style={{ minHeight: 'clamp(400px, 58vh, 700px)' }}
+        >
+          {/* Cycling background photos */}
+          <AnimatePresence>
+            <motion.img
+              key={sliderIndex}
+              src={sliderPhotos[sliderIndex].src}
+              alt=""
+              className="absolute inset-0 w-full h-full object-cover"
+              style={{ objectPosition: sliderPhotos[sliderIndex].pos }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 1.2, ease: 'easeInOut' }}
+            />
+          </AnimatePresence>
 
-          {/* Desktop layout */}
-          <div className="hidden md:flex gap-3 items-stretch">
+          {/* Desktop: dark gradient right side for text readability */}
+          <div
+            className="absolute inset-0 hidden md:block"
+            style={{ background: 'linear-gradient(to left, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.52) 40%, transparent 66%)' }}
+          />
+          {/* Mobile: dark gradient at bottom */}
+          <div
+            className="absolute inset-0 md:hidden"
+            style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.45) 52%, transparent 78%)' }}
+          />
 
-            {/* Quote wrapper — shifted up */}
-            <div className="flex-none" style={{ width: '72%', transform: 'translateY(-25%)' }}>
-              <motion.div
-                animate={prefersReducedMotion ? {} : { y: [0, -47, 0] }}
-                transition={{ duration: 7.5, repeat: Infinity, ease: "easeInOut" }}
-                className="h-full"
-              >
-              <motion.div
-                initial={prefersReducedMotion ? false : { opacity: 0, x: -40 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={springEnter}
-                className="relative overflow-hidden shadow-2xl h-full"
-                style={{
-                  borderRadius: '2.5rem',
-                  background: 'linear-gradient(135deg, #1ea4f2 0%, #0d8fd8 55%, #0a7abf 100%)',
-                }}
-              >
-                <div className="absolute inset-0 pointer-events-none" style={{ background: 'radial-gradient(ellipse at 12% 40%, rgba(255,255,255,0.2) 0%, transparent 55%)' }} />
-                <span className="absolute top-2 left-10 text-[7rem] font-serif text-white/10 leading-none select-none pointer-events-none">&#8220;</span>
-                <div className="flex items-center h-full px-12 lg:px-16 py-10">
-                  <blockquote className="relative z-10 text-white font-bold text-xl lg:text-[1.35rem] leading-[1.95] text-left">
-                    Van festivals tot bedrijfsevenementen, als freelancer sta ik klaar voor uiteenlopende producties. Daar ben ik enthousiast over, omdat ik het leuk vind om momenten te creëren die mensen voor altijd bij zullen blijven. Ik combineer hard werken met creatief denken en daarmee hoop ik projecten naar een hoger niveau te tillen. Samen met jou.{' '}
-                    <span className="text-[2.5rem] font-serif text-white/25 leading-none align-bottom inline-block" style={{ lineHeight: 0, verticalAlign: '-0.15em' }}>&#8221;</span>
-                  </blockquote>
-                </div>
-              </motion.div>
-              </motion.div>
-            </div>
-
-            {/* Photo wrapper — shifted down */}
-            <div className="flex-1" style={{ transform: 'translateY(25%)' }}>
-              <motion.div
-                animate={prefersReducedMotion ? {} : { y: [0, 47, 0] }}
-                transition={{ duration: 7.5, repeat: Infinity, ease: "easeInOut" }}
-                className="h-full"
-              >
-              <motion.div
-                initial={prefersReducedMotion ? false : { opacity: 0, x: 20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ ...springEnter, delay: 0.1 }}
-                className="relative overflow-hidden shadow-2xl bg-gray-900 h-full"
-                style={{ borderRadius: '2.5rem' }}
-              >
-                <AnimatePresence>
-                  <motion.img
-                    key={sliderIndex}
-                    src={sliderPhotos[sliderIndex].src}
-                    style={{ objectPosition: sliderPhotos[sliderIndex].pos }}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 1, ease: 'easeInOut' }}
-                    className="absolute inset-0 w-full h-full object-cover"
-                    alt=""
-                  />
-                </AnimatePresence>
-              </motion.div>
-              </motion.div>
+          {/* Quote text — right on desktop, bottom on mobile */}
+          <div className="absolute inset-0 flex items-end md:items-center">
+            <div className="w-full md:w-[48%] md:ml-auto px-8 py-10 md:px-12 md:py-0 lg:px-16">
+              <span className="block text-[3rem] font-serif text-white/30 leading-none -mb-1 select-none">&#8220;</span>
+              <blockquote className="text-white font-bold text-base md:text-[1.05rem] lg:text-[1.2rem] leading-[1.9]">
+                Van festivals tot bedrijfsevenementen, als freelancer sta ik klaar voor uiteenlopende producties. Daar ben ik enthousiast over, omdat ik het leuk vind om momenten te creëren die mensen voor altijd bij zullen blijven. Ik combineer hard werken met creatief denken en daarmee hoop ik projecten naar een hoger niveau te tillen. Samen met jou.
+              </blockquote>
+              <span className="block text-right text-[2rem] font-serif text-white/30 leading-none mt-1 select-none">&#8221;</span>
             </div>
           </div>
-
-          {/* Mobile layout */}
-          <div className="md:hidden">
-            {/* Blue quote block */}
-            <motion.div
-              initial={prefersReducedMotion ? false : { opacity: 0, x: -24 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={springEnter}
-              className="relative overflow-hidden shadow-xl"
-              style={{
-                borderRadius: '2rem',
-                background: 'linear-gradient(135deg, #1ea4f2 0%, #0d8fd8 55%, #0a7abf 100%)',
-              }}
-            >
-              <div className="absolute inset-0 pointer-events-none" style={{ background: 'radial-gradient(ellipse at 12% 40%, rgba(255,255,255,0.2) 0%, transparent 55%)' }} />
-              <span className="absolute top-1 left-7 text-[5rem] font-serif text-white/10 leading-none select-none pointer-events-none">&#8220;</span>
-              <div className="px-8 pt-10 pb-8">
-                <blockquote className="relative z-10 text-white font-bold text-lg leading-[1.85]">
-                  Van festivals tot bedrijfsevenementen, als freelancer sta ik klaar voor uiteenlopende producties. Daar ben ik enthousiast over, omdat ik het leuk vind om momenten te creëren die mensen voor altijd bij zullen blijven. Ik combineer hard werken met creatief denken en daarmee hoop ik projecten naar een hoger niveau te tillen. Samen met jou.{' '}
-                  <span className="text-[2rem] font-serif text-white/25 leading-none inline-block" style={{ lineHeight: 0, verticalAlign: '-0.15em' }}>&#8221;</span>
-                </blockquote>
-              </div>
-            </motion.div>
-
-            {/* Curved arrow connector */}
-            <div className="relative -mt-5 mb-6 z-10 flex justify-end pr-8">
-              <svg width="70" height="70" viewBox="0 0 70 70" fill="none">
-                <defs>
-                  <marker id="cq-arrowhead" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto">
-                    <polyline points="1,1 5,5 1,9" stroke="#1a1a1a" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" fill="none" />
-                  </marker>
-                </defs>
-                <path
-                  d="M 42 8 C 64 20, 52 50, 42 64"
-                  stroke="#1a1a1a"
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                  fill="none"
-                  markerEnd="url(#cq-arrowhead)"
-                />
-              </svg>
-            </div>
-
-            {/* Photo slider */}
-            <div className="relative h-60 rounded-[2rem] overflow-hidden bg-gray-900 shadow-xl">
-              <AnimatePresence>
-                <motion.img
-                  key={sliderIndex}
-                  src={sliderPhotos[sliderIndex].src}
-                  style={{ objectPosition: sliderPhotos[sliderIndex].pos }}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 1, ease: 'easeInOut' }}
-                  className="absolute inset-0 w-full h-full object-cover"
-                  alt=""
-                />
-              </AnimatePresence>
-            </div>
-          </div>
-        </div>
-
+        </motion.div>
       </div>
 
       {/* Fun Facts Carousel */}
