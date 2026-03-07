@@ -126,18 +126,21 @@ export default function AboutLuca() {
       {/* Venue Slider */}
       <VenueSlider />
 
-      {/* Quote Section — split layout: photo left, black quote right */}
+      {/* Quote Section — loose overlap: foto links, tekst zweeft over rechterrand */}
       <motion.section
         initial={prefersReducedMotion ? false : { opacity: 0, y: 24 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "0px 0px -60px 0px" }}
         transition={springEnter}
-        className="mt-16 bg-black overflow-hidden"
+        className="mt-16"
       >
-        {/* Desktop: side-by-side */}
-        <div className="hidden md:flex" style={{ minHeight: 'clamp(480px, 62vh, 740px)' }}>
-          {/* Photo — left 65%, no border-radius */}
-          <div className="relative shrink-0" style={{ width: '65%' }}>
+        {/* Desktop */}
+        <div className="relative hidden md:block" style={{ height: 'clamp(420px, 58vh, 660px)' }}>
+          {/* Foto — linker 70%, geen border-radius, scherpe hoeken */}
+          <div
+            className="absolute top-0 left-0 bottom-0 overflow-hidden"
+            style={{ width: '70%' }}
+          >
             <AnimatePresence>
               <motion.img
                 key={sliderIndex}
@@ -153,24 +156,37 @@ export default function AboutLuca() {
             </AnimatePresence>
           </div>
 
-          {/* Quote — right side, pulls 80px left to overlap photo edge */}
+          {/* Quote — rechts, zweeft ~100px over rechterrand foto heen */}
           <div
-            className="relative z-10 flex items-center bg-black flex-1 py-12 px-10 lg:px-14 xl:px-16"
-            style={{ marginLeft: '-80px' }}
+            className="absolute top-0 bottom-0 right-0 z-10 flex items-center"
+            style={{ width: '40%' }}
           >
-            <div>
-              <span className="block text-[3.5rem] font-serif text-white/20 leading-none -mb-2 select-none">&#8220;</span>
-              <blockquote className="text-white font-bold text-[1.0rem] lg:text-[1.15rem] leading-[1.95]">
+            <div className="px-10 lg:px-12 xl:px-14">
+              <span
+                className="block text-[3rem] font-serif leading-none -mb-2 select-none text-gray-900/25"
+                style={{ textShadow: '0 0 16px rgba(255,255,255,1), 0 0 32px rgba(255,255,255,0.9)' }}
+              >
+                &#8220;
+              </span>
+              <blockquote
+                className="font-bold text-[1.05rem] lg:text-[1.18rem] leading-[1.95] text-gray-900"
+                style={{ textShadow: '0 0 12px rgba(255,255,255,1), 0 0 24px rgba(255,255,255,1), 0 0 40px rgba(255,255,255,0.8)' }}
+              >
                 Van festivals tot bedrijfsevenementen, als freelancer sta ik klaar voor uiteenlopende producties. Daar ben ik enthousiast over, omdat ik het leuk vind om momenten te creëren die mensen voor altijd bij zullen blijven. Ik combineer hard werken met creatief denken en daarmee hoop ik projecten naar een hoger niveau te tillen. Samen met jou.
               </blockquote>
-              <span className="block text-right text-[2.5rem] font-serif text-white/20 leading-none mt-2 select-none">&#8221;</span>
+              <span
+                className="block text-right text-[2rem] font-serif leading-none mt-2 select-none text-gray-900/25"
+                style={{ textShadow: '0 0 16px rgba(255,255,255,1), 0 0 32px rgba(255,255,255,0.9)' }}
+              >
+                &#8221;
+              </span>
             </div>
           </div>
         </div>
 
-        {/* Mobile: stacked — photo top, quote bottom */}
+        {/* Mobiel: foto boven, quote eronder op witte achtergrond */}
         <div className="md:hidden">
-          <div className="relative h-72">
+          <div className="relative overflow-hidden h-72">
             <AnimatePresence>
               <motion.img
                 key={sliderIndex}
@@ -185,12 +201,12 @@ export default function AboutLuca() {
               />
             </AnimatePresence>
           </div>
-          <div className="bg-black px-8 py-10">
-            <span className="block text-[2.5rem] font-serif text-white/20 leading-none -mb-1 select-none">&#8220;</span>
-            <blockquote className="text-white font-bold text-base leading-[1.9]">
+          <div className="px-6 pt-8 pb-4">
+            <span className="block text-[2.5rem] font-serif text-gray-300 leading-none -mb-1 select-none">&#8220;</span>
+            <blockquote className="text-gray-900 font-bold text-base leading-[1.9]">
               Van festivals tot bedrijfsevenementen, als freelancer sta ik klaar voor uiteenlopende producties. Daar ben ik enthousiast over, omdat ik het leuk vind om momenten te creëren die mensen voor altijd bij zullen blijven. Ik combineer hard werken met creatief denken en daarmee hoop ik projecten naar een hoger niveau te tillen. Samen met jou.
             </blockquote>
-            <span className="block text-right text-[2rem] font-serif text-white/20 leading-none mt-2 select-none">&#8221;</span>
+            <span className="block text-right text-[2rem] font-serif text-gray-300 leading-none mt-2 select-none">&#8221;</span>
           </div>
         </div>
       </motion.section>
