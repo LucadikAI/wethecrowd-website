@@ -115,7 +115,7 @@ export default function AboutLuca() {
     >
       {/* Photo + Text */}
       <div className="container mx-auto px-6">
-        <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
+        <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-start">
           {/* Left Side: Photo */}
           <motion.div
             initial={prefersReducedMotion ? false : { opacity: 0, x: -30, scale: 0.95 }}
