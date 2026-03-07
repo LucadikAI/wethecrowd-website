@@ -38,7 +38,7 @@ export const projects: Project[] = [
     title: "DiscoverEU Learning Cycle",
     role: "Producer",
     client: "Bureau Spruit / NJI",
-    impact: "Tweejaarlijkse meet-ups, een knallende kick-off en een afterparty voor jongeren die met een Interrail-pas Europa induiken.",
+    impact: "Tweejaarlijkse meet-ups, een interactieve kick-off en een afterparty voor jongeren die met een Interrail-pas Europa induiken.",
     description: "Jaarlijks organiseren we meet-up's voor Europese jongeren die een interrail pas hebben gewonnen. Het doel is om een community-gevoel te creëren en reizigers te inspireren. Buiten de meet-up's is er ook elk jaar een kick-off en afterparty voor de Nederlandse reizigers. Ik ben verantwoordelijk voor de logistieke planning, afstemming met locaties en on-site coördinatie van deze evenementen.",
     image: "/discovereu.jpg",
     year: "2024-heden",
