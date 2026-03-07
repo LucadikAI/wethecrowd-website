@@ -169,9 +169,9 @@ export default function AboutLuca() {
             className="absolute top-0 bottom-0 right-0 z-10 flex items-center"
             style={{ width: '52%' }}
           >
-            <div className="px-10 lg:px-12 xl:px-14">
+            <div className="px-10 lg:px-12 xl:px-14" style={{ maxWidth: '420px' }}>
               <blockquote
-                className="font-bold text-[1.05rem] lg:text-[1.18rem] leading-[1.95] text-brand-accent"
+                className="font-semibold text-[0.9rem] lg:text-[0.95rem] leading-[1.6] tracking-[0.015em] text-brand-accent"
                 style={{ textShadow: '0 0 14px rgba(255,255,255,1), 0 0 28px rgba(255,255,255,0.95), 0 0 48px rgba(255,255,255,0.8)' }}
               >
                 &#8220;Van festivals tot bedrijfsevenementen, als freelancer sta ik klaar voor uiteenlopende producties. Daar ben ik enthousiast over, omdat ik het leuk vind om momenten te creëren die mensen voor altijd bij zullen blijven. Ik combineer hard werken met creatief denken en daarmee hoop ik projecten naar een hoger niveau te tillen. Samen met jou.&#8221;
