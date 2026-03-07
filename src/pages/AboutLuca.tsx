@@ -28,7 +28,7 @@ const springEnter = { type: "spring" as const, stiffness: 200, damping: 20 };
 
 const quoteWords = "Van festivals tot bedrijfsevenementen, als freelancer sta ik klaar voor uiteenlopende producties. Daar ben ik enthousiast over, omdat ik het leuk vind om momenten te creëren die mensen voor altijd bij zullen blijven. Ik combineer hard werken met creatief denken en daarmee hoop ik projecten naar een hoger niveau te tillen. Samen met jou.".split(' ');
 
-const quote2Words = "Met mijn ervaring in de evenementenbranche ben ik steeds meer gefascineerd geraakt door het strategische deel van het werk. Nadenken over creatieve vraagstukken, het marketingverhaal achter een evenement, en hoe alles binnen een grotere strategie past; daar word ik blij van. Ook verdiep ik me graag in de nieuwste AI-toepassingen voor de evenementenbranche en denk ik graag actief mee over hoe deze slim kunnen worden ingezet binnen jouw organisatie.".split(' ');
+const quote2Words = "Wat mij drijft? Het grotere plaatje. Ik word enthousiast van de strategische puzzel: creatieve vraagstukken oplossen, een sterke marketingstrategie neerzetten en alles laten kloppen binnen een bredere visie. Tegelijkertijd volg ik de nieuwste AI-ontwikkelingen in de evenementensector op de voet en denk ik graag actief mee over hoe jouw organisatie hier slim gebruik van kan maken.".split(' ');
 
 const quote2Photos = [
   { src: '/luca-quote2-1.jpg', pos: 'center' },
@@ -215,15 +215,6 @@ export default function AboutLuca() {
             transition={{ duration: 0.7, ease: 'easeOut', delay: 0.2 }}
           >
             <div className="px-10 lg:px-12 xl:px-14 relative">
-              {/* Decoratief openingsaanhalingsteken */}
-              <span
-                className="absolute -top-10 left-8 text-brand-accent select-none pointer-events-none"
-                style={{ fontSize: '5.5rem', lineHeight: 1, fontFamily: 'Georgia, serif', opacity: 0.65 }}
-                aria-hidden="true"
-              >
-                &#8220;
-              </span>
-
               <blockquote className="font-semibold text-[0.95rem] lg:text-[1rem] leading-[1.55] tracking-[0.015em]">
                 {quoteWords.map((word, i) => (
                   <WordSpan
@@ -235,13 +226,6 @@ export default function AboutLuca() {
                     prefersReducedMotion={prefersReducedMotion}
                   />
                 ))}
-                <span
-                  className="text-brand-accent select-none pointer-events-none not-italic"
-                  style={{ fontSize: '1.6em', lineHeight: 0, verticalAlign: '-0.25em', fontFamily: 'Georgia, serif', opacity: 0.65 }}
-                  aria-hidden="true"
-                >
-                  &#8221;
-                </span>
               </blockquote>
             </div>
           </motion.div>
@@ -266,16 +250,8 @@ export default function AboutLuca() {
             <div className="absolute inset-0" style={{ background: 'rgba(0,0,0,0.38)' }} />
           </div>
           <div className="px-6 pt-8 pb-4">
-            <span className="block text-[2.5rem] text-brand-accent leading-none -mb-1 select-none" style={{ fontFamily: 'Georgia, serif', opacity: 0.65 }} aria-hidden="true">&#8220;</span>
             <blockquote className="font-semibold text-sm leading-[1.6] tracking-[0.015em] text-gray-900">
-              Van festivals tot bedrijfsevenementen, als freelancer sta ik klaar voor uiteenlopende producties. Daar ben ik enthousiast over, omdat ik het leuk vind om momenten te creëren die mensen voor altijd bij zullen blijven. Ik combineer hard werken met creatief denken en daarmee hoop ik projecten naar een hoger niveau te tillen. Samen met jou.{' '}
-              <span
-                className="select-none pointer-events-none not-italic text-brand-accent"
-                style={{ fontSize: '1.6em', lineHeight: 0, verticalAlign: '-0.25em', fontFamily: 'Georgia, serif', opacity: 0.65 }}
-                aria-hidden="true"
-              >
-                &#8221;
-              </span>
+              Van festivals tot bedrijfsevenementen, als freelancer sta ik klaar voor uiteenlopende producties. Daar ben ik enthousiast over, omdat ik het leuk vind om momenten te creëren die mensen voor altijd bij zullen blijven. Ik combineer hard werken met creatief denken en daarmee hoop ik projecten naar een hoger niveau te tillen. Samen met jou.
             </blockquote>
           </div>
         </div>
@@ -328,17 +304,8 @@ export default function AboutLuca() {
             transition={{ duration: 0.7, ease: 'easeOut', delay: 0.2 }}
           >
             <div className="px-10 lg:px-12 xl:px-14 relative">
-              {/* Decoratief openingsaanhalingsteken */}
-              <span
-                className="absolute -top-10 left-8 text-brand-accent select-none pointer-events-none"
-                style={{ fontSize: '5.5rem', lineHeight: 1, fontFamily: 'Georgia, serif', opacity: 0.65 }}
-                aria-hidden="true"
-              >
-                &#8220;
-              </span>
-
               <blockquote className="font-semibold text-[0.95rem] lg:text-[1rem] leading-[1.55] tracking-[0.015em]">
-                {quote2Words.slice(0, -1).map((word, i) => (
+                {quote2Words.map((word, i) => (
                   <WordSpan
                     key={i}
                     word={word}
@@ -347,17 +314,7 @@ export default function AboutLuca() {
                     scrollYProgress={scrollYProgress2}
                     prefersReducedMotion={prefersReducedMotion}
                   />
-                ))}<span style={{ whiteSpace: 'nowrap' }}><WordSpan
-                    word={quote2Words[quote2Words.length - 1]}
-                    index={quote2Words.length - 1}
-                    total={quote2Words.length}
-                    scrollYProgress={scrollYProgress2}
-                    prefersReducedMotion={prefersReducedMotion}
-                  /><span
-                    className="text-brand-accent select-none pointer-events-none not-italic"
-                    style={{ fontSize: '1.3em', fontFamily: 'Georgia, serif', opacity: 0.65 }}
-                    aria-hidden="true"
-                  >&#8221;</span></span>
+                ))}
               </blockquote>
             </div>
           </motion.div>
@@ -382,16 +339,8 @@ export default function AboutLuca() {
             <div className="absolute inset-0" style={{ background: 'rgba(0,0,0,0.38)' }} />
           </div>
           <div className="px-6 pt-8 pb-4">
-            <span className="block text-[2.5rem] text-brand-accent leading-none -mb-1 select-none" style={{ fontFamily: 'Georgia, serif', opacity: 0.65 }} aria-hidden="true">&#8220;</span>
             <blockquote className="font-semibold text-sm leading-[1.6] tracking-[0.015em] text-gray-900">
-              Met mijn ervaring in de evenementenbranche ben ik steeds meer gefascineerd geraakt door het strategische deel van het werk. Nadenken over creatieve vraagstukken, het marketingverhaal achter een evenement, en hoe alles binnen een grotere strategie past; daar word ik blij van. Ook verdiep ik me graag in de nieuwste AI-toepassingen voor de evenementenbranche en denk ik graag actief mee over hoe deze slim kunnen worden ingezet binnen jouw organisatie.{' '}
-              <span
-                className="select-none pointer-events-none not-italic text-brand-accent"
-                style={{ fontSize: '1.6em', lineHeight: 0, verticalAlign: '-0.25em', fontFamily: 'Georgia, serif', opacity: 0.65 }}
-                aria-hidden="true"
-              >
-                &#8221;
-              </span>
+              Wat mij drijft? Het grotere plaatje. Ik word enthousiast van de strategische puzzel: creatieve vraagstukken oplossen, een sterke marketingstrategie neerzetten en alles laten kloppen binnen een bredere visie. Tegelijkertijd volg ik de nieuwste AI-ontwikkelingen in de evenementensector op de voet en denk ik graag actief mee over hoe jouw organisatie hier slim gebruik van kan maken.
             </blockquote>
           </div>
         </div>
