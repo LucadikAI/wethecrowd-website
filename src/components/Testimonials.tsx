@@ -1,4 +1,4 @@
-import { motion, useMotionValue, animate, useTransform, useReducedMotion } from "motion/react";
+import { motion, useMotionValue, animate, useTransform, useReducedMotion, useInView } from "motion/react";
 import { Quote } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 
@@ -256,52 +256,79 @@ export default function Testimonials({ showTitle = true, desktopLayout = 'grid' 
 
       {/* Desktop grid — 2 rows of 4, inside container */}
       {desktopLayout === 'grid' && (
-        <div className="container mx-auto px-6">
-          <div className="hidden md:grid md:grid-cols-4 gap-6">
-            {testimonials.map((t, index) => (
-              <motion.div
-                key={t.id}
-                initial={prefersReducedMotion ? false : { opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "0px 0px 120px 0px" }}
-                transition={{ type: "spring", stiffness: 200, damping: 20, delay: index * 0.06 }}
-                onMouseEnter={() => setHoveredId(t.id)}
-                onMouseLeave={() => setHoveredId(null)}
-                className={`bg-gray-50 p-8 rounded-3xl relative transition-all duration-500 flex flex-col h-full ${
-                  hoveredId !== null && hoveredId !== t.id ? "opacity-40 blur-[2px] scale-95" : "opacity-100 scale-100"
-                } ${hoveredId === t.id ? "scale-105 shadow-xl z-10 bg-white" : ""}`}
-              >
-                <Quote className="absolute top-6 right-6 w-8 h-8 text-brand-accent opacity-10" />
-                <div className="flex items-center gap-3 mb-6">
-                  <div className="w-12 h-12 rounded-full overflow-hidden shadow-sm shrink-0">
-                    {t.image ? (
-                      <img src={t.image} alt={t.name} className={`w-full h-full object-cover ${t.id === 7 ? 'object-center scale-[1.2]' : 'object-top'}`} referrerPolicy="no-referrer" />
-                    ) : (
-                      <div className="w-full h-full bg-brand-accent flex items-center justify-center text-white font-bold text-sm">
-                        {t.name.split(" ").map(n => n[0]).join("").slice(0, 2)}
-                      </div>
-                    )}
-                  </div>
-                  <div>
-                    {t.linkedin ? (
-                      <a href={t.linkedin} target="_blank" rel="noopener noreferrer" className="group/name inline-block">
-                        <h4 className="font-bold text-sm leading-tight group-hover/name:underline group-hover/name:text-brand-accent transition-colors">{t.name}</h4>
-                      </a>
-                    ) : (
-                      <h4 className="font-bold text-sm leading-tight">{t.name}</h4>
-                    )}
-                    <p className="text-[10px] text-gray-500 leading-tight">{t.company}</p>
-                  </div>
-                </div>
-                <p className="text-sm text-gray-700 italic leading-relaxed flex-1 hyphens-auto">
-                  {t.text}
-                </p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
+        <DesktopGrid
+          testimonials={testimonials}
+          hoveredId={hoveredId}
+          setHoveredId={setHoveredId}
+          prefersReducedMotion={prefersReducedMotion}
+        />
       )}
 
     </section>
+  );
+}
+
+// Separate component so useInView ref attaches to the mounted grid element
+interface DesktopGridProps {
+  testimonials: { id: number; name: string; company: string; text: string; image: string; linkedin: string }[];
+  hoveredId: number | null;
+  setHoveredId: (id: number | null) => void;
+  prefersReducedMotion: boolean | null;
+}
+
+function DesktopGrid({ testimonials, hoveredId, setHoveredId, prefersReducedMotion }: DesktopGridProps) {
+  const gridRef = useRef<HTMLDivElement>(null);
+  const isInView = useInView(gridRef, { once: true, margin: "0px 0px -80px 0px" });
+
+  return (
+    <div className="container mx-auto px-6">
+      <div ref={gridRef} className="hidden md:grid md:grid-cols-4 gap-6">
+        {testimonials.map((t, index) => (
+          <motion.div
+            key={t.id}
+            initial={{ opacity: 0, x: -40 }}
+            animate={
+              prefersReducedMotion
+                ? { opacity: 1, x: 0 }
+                : isInView
+                ? { opacity: 1, x: 0 }
+                : { opacity: 0, x: -40 }
+            }
+            transition={{ type: "spring", stiffness: 200, damping: 20, delay: prefersReducedMotion ? 0 : index * 0.3 }}
+            onMouseEnter={() => setHoveredId(t.id)}
+            onMouseLeave={() => setHoveredId(null)}
+            className={`bg-gray-50 p-8 rounded-3xl relative transition-all duration-500 flex flex-col h-full ${
+              hoveredId !== null && hoveredId !== t.id ? "opacity-40 blur-[2px] scale-95" : "opacity-100 scale-100"
+            } ${hoveredId === t.id ? "scale-105 shadow-xl z-10 bg-white" : ""}`}
+          >
+            <Quote className="absolute top-6 right-6 w-8 h-8 text-brand-accent opacity-10" />
+            <div className="flex items-center gap-3 mb-6">
+              <div className="w-12 h-12 rounded-full overflow-hidden shadow-sm shrink-0">
+                {t.image ? (
+                  <img src={t.image} alt={t.name} className={`w-full h-full object-cover ${t.id === 7 ? 'object-center scale-[1.2]' : 'object-top'}`} referrerPolicy="no-referrer" />
+                ) : (
+                  <div className="w-full h-full bg-brand-accent flex items-center justify-center text-white font-bold text-sm">
+                    {t.name.split(" ").map(n => n[0]).join("").slice(0, 2)}
+                  </div>
+                )}
+              </div>
+              <div>
+                {t.linkedin ? (
+                  <a href={t.linkedin} target="_blank" rel="noopener noreferrer" className="group/name inline-block">
+                    <h4 className="font-bold text-sm leading-tight group-hover/name:underline group-hover/name:text-brand-accent transition-colors">{t.name}</h4>
+                  </a>
+                ) : (
+                  <h4 className="font-bold text-sm leading-tight">{t.name}</h4>
+                )}
+                <p className="text-[10px] text-gray-500 leading-tight">{t.company}</p>
+              </div>
+            </div>
+            <p className="text-sm text-gray-700 italic leading-relaxed flex-1 hyphens-auto">
+              {t.text}
+            </p>
+          </motion.div>
+        ))}
+      </div>
+    </div>
   );
 }
