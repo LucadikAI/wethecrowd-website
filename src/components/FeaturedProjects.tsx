@@ -16,7 +16,7 @@ export default function FeaturedProjects() {
           <motion.div
             initial={prefersReducedMotion ? false : { opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            viewport={{ once: true, margin: "0px 0px 120px 0px" }}
             transition={{ type: "spring", stiffness: 200, damping: 20 }}
           >
             <h2 className="text-4xl md:text-5xl font-bold">Knallers van projecten</h2>
@@ -40,10 +40,10 @@ export default function FeaturedProjects() {
           {featuredProjects.map((project, index) => (
             <motion.div
               key={project.id}
-              initial={prefersReducedMotion ? false : { opacity: 0, y: 30 }}
+              initial={prefersReducedMotion ? false : { opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ type: "spring", stiffness: 200, damping: 20, delay: index * 0.1 }}
+              viewport={{ once: true, margin: "0px 0px 120px 0px" }}
+              transition={{ type: "spring", stiffness: 200, damping: 20, delay: index * 0.08 }}
               whileHover="hovered"
               whileTap="hovered"
               animate="rest"

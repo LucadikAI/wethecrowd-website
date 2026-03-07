@@ -217,7 +217,7 @@ export default function Testimonials({ showTitle = true, desktopLayout = 'grid' 
             className="max-w-3xl mx-auto text-center"
             initial={prefersReducedMotion ? false : { opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            viewport={{ once: true, margin: "0px 0px 120px 0px" }}
             transition={{ type: "spring", stiffness: 200, damping: 20 }}
           >
             <h2 className="text-4xl md:text-5xl font-bold">Wat anderen zeggen over de energie van <span className="text-brand-accent">WE</span> THE CROWD</h2>
@@ -261,10 +261,10 @@ export default function Testimonials({ showTitle = true, desktopLayout = 'grid' 
             {testimonials.map((t, index) => (
               <motion.div
                 key={t.id}
-                initial={prefersReducedMotion ? false : { opacity: 0, y: 30 }}
+                initial={prefersReducedMotion ? false : { opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ type: "spring", stiffness: 200, damping: 20, delay: index * 0.08 }}
+                viewport={{ once: true, margin: "0px 0px 120px 0px" }}
+                transition={{ type: "spring", stiffness: 200, damping: 20, delay: index * 0.06 }}
                 onMouseEnter={() => setHoveredId(t.id)}
                 onMouseLeave={() => setHoveredId(null)}
                 className={`bg-gray-50 p-8 rounded-3xl relative transition-all duration-500 flex flex-col h-full ${
