@@ -136,10 +136,18 @@ export default function AboutLuca() {
       >
         {/* Desktop */}
         <div className="relative hidden md:block" style={{ height: 'clamp(420px, 58vh, 660px)' }}>
-          {/* Foto — linker 70%, geen border-radius, scherpe hoeken */}
+          {/* Foto — linker 70%, met padding links, border-radius en fade op rechter/onderrand */}
           <div
-            className="absolute top-0 left-0 bottom-0 overflow-hidden"
-            style={{ width: '70%' }}
+            className="absolute top-0 bottom-0 overflow-hidden"
+            style={{
+              left: '1.5rem',
+              width: 'calc(70% - 1.5rem)',
+              borderRadius: '1.5rem',
+              maskImage: 'linear-gradient(to right, black 45%, transparent 92%), linear-gradient(to bottom, black 72%, transparent 100%)',
+              maskComposite: 'intersect',
+              WebkitMaskImage: 'linear-gradient(to right, black 45%, transparent 92%), linear-gradient(to bottom, black 72%, transparent 100%)',
+              WebkitMaskComposite: 'source-in',
+            }}
           >
             <AnimatePresence>
               <motion.img
