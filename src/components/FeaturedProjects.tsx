@@ -54,7 +54,7 @@ export default function FeaturedProjects() {
                   ? { opacity: 1, y: 0 }
                   : { opacity: 0, y: 28 }
               }
-              transition={{ ...springCard, delay: prefersReducedMotion ? 0 : index * 3 }}
+              transition={{ ...springCard, delay: prefersReducedMotion ? 0 : index * 0.15 }}
             >
               {/* Inner card — handles hover variants for blobs */}
               <motion.div
