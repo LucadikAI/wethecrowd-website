@@ -153,7 +153,7 @@ export default function VenueSlider() {
               {/* Gray tint overlay */}
               <div
                 className="absolute inset-0"
-                style={{ background: 'rgba(100, 100, 100, 0.22)' }}
+                style={{ background: 'rgba(80, 80, 80, 0.42)' }}
               />
               {/* Venue name */}
               <span className="absolute top-4 left-4 text-white text-xs font-semibold leading-tight drop-shadow-[0_1px_3px_rgba(0,0,0,0.6)] max-w-[75%]">
