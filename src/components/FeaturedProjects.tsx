@@ -1,11 +1,12 @@
 import { motion } from "motion/react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { projects } from "../data/projects";
 
 export default function FeaturedProjects() {
-  // Take the first 3 projects for the home page
   const featuredProjects = projects.slice(0, 3);
+  const [hoveredId, setHoveredId] = useState<number | null>(null);
 
   return (
     <section className="py-24 bg-white">
@@ -38,7 +39,13 @@ export default function FeaturedProjects() {
               whileHover="hovered"
               whileTap="hovered"
               animate="rest"
-              className={`group relative flex flex-col h-full rounded-3xl p-6 border overflow-hidden ${index % 2 === 0 ? "border-gray-200" : "border-[#c9e8f9]"}`}
+              onMouseEnter={() => setHoveredId(project.id)}
+              onMouseLeave={() => setHoveredId(null)}
+              className={`group relative flex flex-col h-full rounded-3xl p-6 border overflow-hidden transition-all duration-500
+                ${index % 2 === 0 ? "border-gray-200" : "border-[#c9e8f9]"}
+                ${hoveredId === project.id ? "md:scale-[1.04] md:shadow-2xl md:z-20" : ""}
+                ${hoveredId !== null && hoveredId !== project.id ? "md:opacity-40 md:blur-[2px] md:scale-[0.97]" : ""}
+              `}
             >
               {/* Animated background blobs */}
               <motion.div
