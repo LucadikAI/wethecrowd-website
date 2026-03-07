@@ -126,54 +126,74 @@ export default function AboutLuca() {
       {/* Venue Slider */}
       <VenueSlider />
 
-      {/* Quote Section — cinematic full-bleed */}
-      <div className="container mx-auto px-6 mt-16">
-        <motion.div
-          initial={prefersReducedMotion ? false : { opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "0px 0px -60px 0px" }}
-          transition={springEnter}
-          className="relative overflow-hidden rounded-[2rem] md:rounded-[3rem] shadow-2xl"
-          style={{ minHeight: 'clamp(400px, 58vh, 700px)' }}
-        >
-          {/* Cycling background photos */}
-          <AnimatePresence>
-            <motion.img
-              key={sliderIndex}
-              src={sliderPhotos[sliderIndex].src}
-              alt=""
-              className="absolute inset-0 w-full h-full object-cover"
-              style={{ objectPosition: sliderPhotos[sliderIndex].pos }}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 1.2, ease: 'easeInOut' }}
-            />
-          </AnimatePresence>
+      {/* Quote Section — split layout: photo left, black quote right */}
+      <motion.section
+        initial={prefersReducedMotion ? false : { opacity: 0, y: 24 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "0px 0px -60px 0px" }}
+        transition={springEnter}
+        className="mt-16 bg-black overflow-hidden"
+      >
+        {/* Desktop: side-by-side */}
+        <div className="hidden md:flex" style={{ minHeight: 'clamp(480px, 62vh, 740px)' }}>
+          {/* Photo — left 65%, no border-radius */}
+          <div className="relative shrink-0" style={{ width: '65%' }}>
+            <AnimatePresence>
+              <motion.img
+                key={sliderIndex}
+                src={sliderPhotos[sliderIndex].src}
+                alt=""
+                className="absolute inset-0 w-full h-full object-cover"
+                style={{ objectPosition: sliderPhotos[sliderIndex].pos }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 1.2, ease: 'easeInOut' }}
+              />
+            </AnimatePresence>
+          </div>
 
-          {/* Desktop: dark gradient right side for text readability */}
+          {/* Quote — right side, pulls 80px left to overlap photo edge */}
           <div
-            className="absolute inset-0 hidden md:block"
-            style={{ background: 'linear-gradient(to left, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.52) 40%, transparent 66%)' }}
-          />
-          {/* Mobile: dark gradient at bottom */}
-          <div
-            className="absolute inset-0 md:hidden"
-            style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.45) 52%, transparent 78%)' }}
-          />
-
-          {/* Quote text — right on desktop, bottom on mobile */}
-          <div className="absolute inset-0 flex items-end md:items-center">
-            <div className="w-full md:w-[48%] md:ml-auto px-8 py-10 md:px-12 md:py-0 lg:px-16">
-              <span className="block text-[3rem] font-serif text-white/30 leading-none -mb-1 select-none">&#8220;</span>
-              <blockquote className="text-white font-bold text-base md:text-[1.05rem] lg:text-[1.2rem] leading-[1.9]">
+            className="relative z-10 flex items-center bg-black flex-1 py-12 px-10 lg:px-14 xl:px-16"
+            style={{ marginLeft: '-80px' }}
+          >
+            <div>
+              <span className="block text-[3.5rem] font-serif text-white/20 leading-none -mb-2 select-none">&#8220;</span>
+              <blockquote className="text-white font-bold text-[1.0rem] lg:text-[1.15rem] leading-[1.95]">
                 Van festivals tot bedrijfsevenementen, als freelancer sta ik klaar voor uiteenlopende producties. Daar ben ik enthousiast over, omdat ik het leuk vind om momenten te creëren die mensen voor altijd bij zullen blijven. Ik combineer hard werken met creatief denken en daarmee hoop ik projecten naar een hoger niveau te tillen. Samen met jou.
               </blockquote>
-              <span className="block text-right text-[2rem] font-serif text-white/30 leading-none mt-1 select-none">&#8221;</span>
+              <span className="block text-right text-[2.5rem] font-serif text-white/20 leading-none mt-2 select-none">&#8221;</span>
             </div>
           </div>
-        </motion.div>
-      </div>
+        </div>
+
+        {/* Mobile: stacked — photo top, quote bottom */}
+        <div className="md:hidden">
+          <div className="relative h-72">
+            <AnimatePresence>
+              <motion.img
+                key={sliderIndex}
+                src={sliderPhotos[sliderIndex].src}
+                alt=""
+                className="absolute inset-0 w-full h-full object-cover"
+                style={{ objectPosition: sliderPhotos[sliderIndex].pos }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 1.2, ease: 'easeInOut' }}
+              />
+            </AnimatePresence>
+          </div>
+          <div className="bg-black px-8 py-10">
+            <span className="block text-[2.5rem] font-serif text-white/20 leading-none -mb-1 select-none">&#8220;</span>
+            <blockquote className="text-white font-bold text-base leading-[1.9]">
+              Van festivals tot bedrijfsevenementen, als freelancer sta ik klaar voor uiteenlopende producties. Daar ben ik enthousiast over, omdat ik het leuk vind om momenten te creëren die mensen voor altijd bij zullen blijven. Ik combineer hard werken met creatief denken en daarmee hoop ik projecten naar een hoger niveau te tillen. Samen met jou.
+            </blockquote>
+            <span className="block text-right text-[2rem] font-serif text-white/20 leading-none mt-2 select-none">&#8221;</span>
+          </div>
+        </div>
+      </motion.section>
 
       {/* Fun Facts Carousel */}
       <div className="mt-20 md:mt-36">
