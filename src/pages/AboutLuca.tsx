@@ -288,7 +288,7 @@ export default function AboutLuca() {
       </section>
 
       {/* Quote Section 2 — gespiegeld: foto rechts, tekst links */}
-      <section ref={quoteSectionRef2} className="mt-8">
+      <section ref={quoteSectionRef2} className="mt-16">
         {/* Desktop */}
         <div className="relative hidden md:block" style={{ height: 'clamp(440px, 60vh, 680px)' }}>
           {/* Foto — rechter 78%, fade op LINKER rand richting tekst */}
@@ -353,14 +353,11 @@ export default function AboutLuca() {
                     scrollYProgress={scrollYProgress2}
                     prefersReducedMotion={prefersReducedMotion}
                   />
-                ))}
-                <span
+                ))}<span
                   className="text-brand-accent select-none pointer-events-none not-italic"
-                  style={{ fontSize: '1.6em', lineHeight: 0, verticalAlign: '-0.25em', fontFamily: 'Georgia, serif', opacity: 0.65 }}
+                  style={{ fontSize: '1.3em', fontFamily: 'Georgia, serif', opacity: 0.65 }}
                   aria-hidden="true"
-                >
-                  &#8221;
-                </span>
+                >&#8221;</span>
               </blockquote>
             </div>
           </motion.div>
