@@ -173,7 +173,7 @@ export default function AboutLuca() {
             viewport={{ once: true, margin: "0px 0px -60px 0px" }}
             transition={{ duration: 0.7, ease: 'easeOut', delay: 0.2 }}
           >
-            <div className="px-10 lg:px-12 xl:px-14 relative" style={{ maxWidth: '400px' }}>
+            <div className="px-10 lg:px-12 xl:px-14 relative">
               {/* Decoratief openingsaanhalingsteken */}
               <span
                 className="absolute -top-10 left-8 text-brand-accent select-none pointer-events-none"
@@ -183,12 +183,9 @@ export default function AboutLuca() {
                 &#8220;
               </span>
 
-              {/* Accent-lijn + quote */}
-              <div style={{ borderLeft: '2px solid #1ea4f2', paddingLeft: '1.25rem' }}>
-                <blockquote className="font-semibold text-[0.9rem] lg:text-[0.95rem] leading-[1.6] tracking-[0.015em] text-white">
-                  Van festivals tot bedrijfsevenementen, als freelancer sta ik klaar voor uiteenlopende producties. Daar ben ik enthousiast over, omdat ik het leuk vind om momenten te creëren die mensen voor altijd bij zullen blijven. Ik combineer hard werken met creatief denken en daarmee hoop ik projecten naar een hoger niveau te tillen. Samen met jou.
-                </blockquote>
-              </div>
+              <blockquote className="font-semibold text-[0.9rem] lg:text-[0.95rem] leading-[1.6] tracking-[0.015em] text-gray-900">
+                Van festivals tot bedrijfsevenementen, als freelancer sta ik klaar voor uiteenlopende producties. Daar ben ik enthousiast over, omdat ik het leuk vind om momenten te creëren die mensen voor altijd bij zullen blijven. Ik combineer hard werken met creatief denken en daarmee hoop ik projecten naar een hoger niveau te tillen. Samen met jou.
+              </blockquote>
 
               {/* Decoratief sluitingsaanhalingsteken */}
               <span
@@ -222,11 +219,9 @@ export default function AboutLuca() {
           </div>
           <div className="px-6 pt-8 pb-4">
             <span className="block text-[2.5rem] text-brand-accent leading-none -mb-1 select-none" style={{ fontFamily: 'Georgia, serif', opacity: 0.65 }} aria-hidden="true">&#8220;</span>
-            <div style={{ borderLeft: '2px solid #1ea4f2', paddingLeft: '1rem' }}>
-              <blockquote className="text-gray-900 font-semibold text-sm leading-[1.6] tracking-[0.015em]">
-                Van festivals tot bedrijfsevenementen, als freelancer sta ik klaar voor uiteenlopende producties. Daar ben ik enthousiast over, omdat ik het leuk vind om momenten te creëren die mensen voor altijd bij zullen blijven. Ik combineer hard werken met creatief denken en daarmee hoop ik projecten naar een hoger niveau te tillen. Samen met jou.
-              </blockquote>
-            </div>
+            <blockquote className="text-gray-900 font-semibold text-sm leading-[1.6] tracking-[0.015em]">
+              Van festivals tot bedrijfsevenementen, als freelancer sta ik klaar voor uiteenlopende producties. Daar ben ik enthousiast over, omdat ik het leuk vind om momenten te creëren die mensen voor altijd bij zullen blijven. Ik combineer hard werken met creatief denken en daarmee hoop ik projecten naar een hoger niveau te tillen. Samen met jou.
+            </blockquote>
             <span className="block text-right text-[2rem] text-brand-accent leading-none mt-2 select-none" style={{ fontFamily: 'Georgia, serif', opacity: 0.65 }} aria-hidden="true">&#8221;</span>
           </div>
         </div>
