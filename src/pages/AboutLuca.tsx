@@ -56,7 +56,7 @@ export default function AboutLuca() {
   const quoteSectionRef = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
     target: quoteSectionRef,
-    offset: ["start end", "center center"],
+    offset: ["start 0.6", "end 0.4"],
   });
 
   const nextFact = () => {
@@ -207,7 +207,7 @@ export default function AboutLuca() {
                 &#8220;
               </span>
 
-              <blockquote className="font-semibold text-[0.9rem] lg:text-[0.95rem] leading-[1.6] tracking-[0.015em]">
+              <blockquote className="font-semibold text-[0.95rem] lg:text-[1rem] leading-[1.55] tracking-[0.015em]">
                 {quoteWords.map((word, i) => (
                   <WordSpan
                     key={i}
