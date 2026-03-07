@@ -1,9 +1,12 @@
-import { motion } from "motion/react";
+import { motion, useReducedMotion } from "motion/react";
 import { Mail, Linkedin, Send, CircleCheck } from "lucide-react";
 import { useState } from "react";
 
+const springEnter = { type: "spring" as const, stiffness: 200, damping: 20 };
+
 export default function Contact() {
   const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
+  const prefersReducedMotion = useReducedMotion();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -19,18 +22,24 @@ export default function Contact() {
 
   return (
     <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
+      initial={prefersReducedMotion ? false : { opacity: 0, y: 16 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -8, transition: { duration: 0.15, ease: "easeIn" } }}
+      transition={springEnter}
       className="pt-32 pb-24"
     >
       <div className="container mx-auto px-6">
         <div className="grid lg:grid-cols-2 gap-16 items-start">
           {/* Left Side: Content */}
           <div>
-            <h1 className="text-5xl md:text-7xl font-bold mb-8 leading-tight">
+            <motion.h1
+              initial={prefersReducedMotion ? false : { opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ ...springEnter, delay: 0.05 }}
+              className="text-5xl md:text-7xl font-bold mb-8 leading-tight"
+            >
               Laten we samen iets creëren dat impact heeft.
-            </h1>
+            </motion.h1>
             <p className="text-xl text-gray-600 mb-12 leading-relaxed">
               Nieuwe samenwerkingen, sparsessies of complexe productievraagstukken? Daar sta ik altijd voor open. Of je nu een stagemanager zoekt of een volledige productie wilt uitbesteden: laten we kijken wat we voor elkaar kunnen betekenen.
             </p>
@@ -63,9 +72,9 @@ export default function Contact() {
 
           {/* Right Side: Form */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={prefersReducedMotion ? false : { opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
+            transition={{ ...springEnter, delay: 0.12 }}
             className="bg-gray-50 p-8 md:p-12 rounded-[3rem] shadow-sm"
           >
             {status === "success" ? (
@@ -84,7 +93,7 @@ export default function Contact() {
                       name="naam"
                       required
                       placeholder="Jouw naam"
-                      className="w-full px-6 py-4 rounded-2xl bg-white border-none focus:ring-2 focus:ring-brand-accent outline-none transition-all"
+                      className="w-full px-6 py-4 rounded-2xl bg-white border-none focus:ring-2 focus:ring-brand-accent outline-none transition-shadow"
                     />
                   </div>
                   <div className="space-y-2">
@@ -94,7 +103,7 @@ export default function Contact() {
                       name="email"
                       required
                       placeholder="jouw@email.nl"
-                      className="w-full px-6 py-4 rounded-2xl bg-white border-none focus:ring-2 focus:ring-brand-accent outline-none transition-all"
+                      className="w-full px-6 py-4 rounded-2xl bg-white border-none focus:ring-2 focus:ring-brand-accent outline-none transition-shadow"
                     />
                   </div>
                 </div>
@@ -105,7 +114,7 @@ export default function Contact() {
                     name="organisatie"
                     required
                     placeholder="Bedrijfsnaam"
-                    className="w-full px-6 py-4 rounded-2xl bg-white border-none focus:ring-2 focus:ring-brand-accent outline-none transition-all"
+                    className="w-full px-6 py-4 rounded-2xl bg-white border-none focus:ring-2 focus:ring-brand-accent outline-none transition-shadow"
                   />
                 </div>
                 <div className="space-y-2">
@@ -115,7 +124,7 @@ export default function Contact() {
                     name="type_event"
                     required
                     placeholder="Bijv. Festival, Concert, Zakelijk"
-                    className="w-full px-6 py-4 rounded-2xl bg-white border-none focus:ring-2 focus:ring-brand-accent outline-none transition-all"
+                    className="w-full px-6 py-4 rounded-2xl bg-white border-none focus:ring-2 focus:ring-brand-accent outline-none transition-shadow"
                   />
                 </div>
                 <div className="space-y-2">
@@ -126,7 +135,7 @@ export default function Contact() {
                     type="tel"
                     name="telefoonnummer"
                     placeholder="+31 6 12345678"
-                    className="w-full px-6 py-4 rounded-2xl bg-white border-none focus:ring-2 focus:ring-brand-accent outline-none transition-all"
+                    className="w-full px-6 py-4 rounded-2xl bg-white border-none focus:ring-2 focus:ring-brand-accent outline-none transition-shadow"
                   />
                 </div>
                 <div className="space-y-2">
@@ -136,20 +145,23 @@ export default function Contact() {
                     required
                     rows={5}
                     placeholder="Vertel me over je plannen..."
-                    className="w-full px-6 py-4 rounded-2xl bg-white border-none focus:ring-2 focus:ring-brand-accent outline-none transition-all resize-none"
+                    className="w-full px-6 py-4 rounded-2xl bg-white border-none focus:ring-2 focus:ring-brand-accent outline-none transition-shadow resize-none"
                   ></textarea>
                 </div>
                 {status === "error" && (
                   <p className="text-red-500 text-sm text-center">Er ging iets mis. Probeer het opnieuw of mail direct naar luca@wethecrowd.nl.</p>
                 )}
-                <button
+                <motion.button
                   type="submit"
                   disabled={status === "sending"}
-                  className="w-full py-5 bg-brand-accent text-white rounded-2xl font-bold text-lg flex items-center justify-center gap-3 hover:brightness-90 transition-all group disabled:opacity-60 disabled:cursor-not-allowed"
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.99 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 17 }}
+                  className="w-full py-5 bg-brand-accent text-white rounded-2xl font-bold text-lg flex items-center justify-center gap-3 hover:brightness-90 transition-colors group disabled:opacity-60 disabled:cursor-not-allowed"
                 >
                   {status === "sending" ? "Versturen..." : "Verstuur bericht"}
                   <Send className="w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-                </button>
+                </motion.button>
               </form>
             )}
           </motion.div>

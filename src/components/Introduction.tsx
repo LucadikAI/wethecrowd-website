@@ -1,9 +1,10 @@
-import { motion, useScroll, useTransform } from "motion/react";
+import { motion, useScroll, useTransform, useReducedMotion } from "motion/react";
 import { useRef } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, Star } from "lucide-react";
 
 export default function Introduction() {
+  const prefersReducedMotion = useReducedMotion();
   const sectionRef = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -20,17 +21,17 @@ export default function Introduction() {
 
         {/* Left Side: Portrait */}
         <motion.div
-          style={{ scale: scrollScale, opacity: scrollOpacity }}
+          style={prefersReducedMotion ? {} : { scale: scrollScale, opacity: scrollOpacity }}
           className="relative"
         >
-          {/* Floating blob — rendered first so photo sits on top naturally */}
+          {/* Floating blob */}
           <motion.div
-            animate={{ y: [0, -20, 0], rotate: [0, 5, -5, 0] }}
+            animate={prefersReducedMotion ? {} : { y: [0, -20, 0], rotate: [0, 5, -5, 0] }}
             transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
             className="absolute -bottom-8 -left-4 w-24 h-24 bg-brand-accent rounded-full flex items-center justify-center shadow-xl"
           >
             <motion.div
-              animate={{ rotate: 360 }}
+              animate={prefersReducedMotion ? {} : { rotate: 360 }}
               transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
             >
               <Star className="w-8 h-8 text-white fill-white" />
@@ -40,10 +41,9 @@ export default function Introduction() {
           {/* 3D perspective wrapper */}
           <div style={{ perspective: '1000px' }}>
             <motion.div
-              style={{ rotateY, rotateX, transformStyle: 'preserve-3d' }}
+              style={prefersReducedMotion ? {} : { rotateY, rotateX, transformStyle: 'preserve-3d' }}
               className="aspect-[3/4] rounded-3xl shadow-2xl relative"
             >
-              {/* Inner div handles overflow-hidden separately so preserve-3d works */}
               <div className="w-full h-full rounded-3xl overflow-hidden">
                 <img
                   src="/luca-portret.jpg"
@@ -59,10 +59,10 @@ export default function Introduction() {
 
         {/* Right Side: Text */}
         <motion.div
-          initial={{ opacity: 0, x: 50 }}
+          initial={prefersReducedMotion ? false : { opacity: 0, x: 40 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
+          transition={{ type: "spring", stiffness: 200, damping: 20 }}
         >
           <h2 className="text-4xl md:text-5xl font-bold mb-8 leading-tight">
             Ik ben Luca. <br />

@@ -1,4 +1,4 @@
-import { motion } from "motion/react";
+import { motion, useReducedMotion } from "motion/react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
@@ -7,35 +7,43 @@ import { projects } from "../data/projects";
 export default function FeaturedProjects() {
   const featuredProjects = projects.slice(0, 3);
   const [hoveredId, setHoveredId] = useState<number | null>(null);
+  const prefersReducedMotion = useReducedMotion();
 
   return (
     <section className="py-24 bg-white">
       <div className="container mx-auto px-6">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={prefersReducedMotion ? false : { opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
+            transition={{ type: "spring", stiffness: 200, damping: 20 }}
           >
             <h2 className="text-4xl md:text-5xl font-bold">Knallers van projecten</h2>
           </motion.div>
-          <Link 
-            to="/projecten" 
-            className="text-brand-accent font-bold flex items-center gap-2 group"
+          <motion.div
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.99 }}
+            transition={{ type: "spring", stiffness: 400, damping: 17 }}
           >
-            Bekijk alle projecten
-            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-          </Link>
+            <Link
+              to="/projecten"
+              className="text-brand-accent font-bold flex items-center gap-2 group"
+            >
+              Bekijk alle projecten
+              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+            </Link>
+          </motion.div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {featuredProjects.map((project, index) => (
             <motion.div
               key={project.id}
-              initial={{ opacity: 0, y: 20 }}
+              initial={prefersReducedMotion ? false : { opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
+              transition={{ type: "spring", stiffness: 200, damping: 20, delay: index * 0.1 }}
               whileHover="hovered"
               whileTap="hovered"
               animate="rest"
@@ -53,7 +61,7 @@ export default function FeaturedProjects() {
                   rest: { scale: 0.7, x: 20, y: -20, opacity: 0 },
                   hovered: { scale: 1.4, x: -10, y: -30, opacity: 1 },
                 }}
-                transition={{ duration: 0.6, ease: "easeOut" }}
+                transition={{ type: "spring", stiffness: 200, damping: 20 }}
                 className="absolute -top-10 -right-10 w-48 h-48 rounded-full bg-[#1ea4f2]/20 blur-3xl pointer-events-none"
               />
               <motion.div
@@ -61,7 +69,7 @@ export default function FeaturedProjects() {
                   rest: { scale: 0.6, x: -20, y: 20, opacity: 0 },
                   hovered: { scale: 1.3, x: 10, y: 30, opacity: 1 },
                 }}
-                transition={{ duration: 0.7, ease: "easeOut", delay: 0.05 }}
+                transition={{ type: "spring", stiffness: 200, damping: 20, delay: 0.05 }}
                 className="absolute -bottom-10 -left-10 w-56 h-56 rounded-full bg-[#1ea4f2]/12 blur-3xl pointer-events-none"
               />
               <motion.div
@@ -69,7 +77,7 @@ export default function FeaturedProjects() {
                   rest: { opacity: 0 },
                   hovered: { opacity: 1 },
                 }}
-                transition={{ duration: 0.4 }}
+                transition={{ type: "spring", stiffness: 300, damping: 25 }}
                 className="absolute inset-0 rounded-3xl pointer-events-none"
                 style={{ background: "linear-gradient(135deg, #f0faff 0%, #e0f4fd 60%, #ffffff 100%)" }}
               />

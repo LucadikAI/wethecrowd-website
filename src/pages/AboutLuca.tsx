@@ -1,4 +1,4 @@
-import { motion, AnimatePresence } from "motion/react";
+import { motion, AnimatePresence, useReducedMotion } from "motion/react";
 import { useState, useEffect, useRef } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import VenueSlider from "../components/VenueSlider";
@@ -24,6 +24,8 @@ const sliderPhotos = [
   { src: '/luca-werk-10.jpg', pos: 'top'    },
 ];
 
+const springEnter = { type: "spring" as const, stiffness: 200, damping: 20 };
+
 export default function AboutLuca() {
   const [showChild, setShowChild] = useState(false);
   const [sliderIndex, setSliderIndex] = useState(0);
@@ -31,6 +33,7 @@ export default function AboutLuca() {
   const [revealedFact, setRevealedFact] = useState<number | null>(null);
   const touchStartX = useRef(0);
   const lastTouchTime = useRef(0);
+  const prefersReducedMotion = useReducedMotion();
 
   const nextFact = () => {
     setActiveFact(i => (i + 1) % funFacts.length);
@@ -63,9 +66,10 @@ export default function AboutLuca() {
 
   return (
     <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
+      initial={prefersReducedMotion ? false : { opacity: 0, y: 16 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -8, transition: { duration: 0.15, ease: "easeIn" } }}
+      transition={springEnter}
       className="pt-40 pb-24"
     >
       {/* Photo + Text */}
@@ -73,9 +77,9 @@ export default function AboutLuca() {
         <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
           {/* Left Side: Photo */}
           <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8 }}
+            initial={prefersReducedMotion ? false : { opacity: 0, x: -30, scale: 0.95 }}
+            animate={{ opacity: 1, x: 0, scale: 1 }}
+            transition={{ ...springEnter, delay: 0.05 }}
             className="relative"
           >
             <div
@@ -100,9 +104,9 @@ export default function AboutLuca() {
 
           {/* Right Side: Content */}
           <motion.div
-            initial={{ opacity: 0, x: 30 }}
+            initial={prefersReducedMotion ? false : { opacity: 0, x: 30 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
+            transition={{ ...springEnter, delay: 0.12 }}
           >
             <h1 className="text-6xl md:text-8xl font-bold mb-12 tracking-tight">
               Ik ben Luca.
@@ -133,15 +137,15 @@ export default function AboutLuca() {
             {/* Quote wrapper — shifted up */}
             <div className="flex-none" style={{ width: '72%', transform: 'translateY(-25%)' }}>
               <motion.div
-                animate={{ y: [0, -47, 0] }}
+                animate={prefersReducedMotion ? {} : { y: [0, -47, 0] }}
                 transition={{ duration: 7.5, repeat: Infinity, ease: "easeInOut" }}
                 className="h-full"
               >
               <motion.div
-                initial={{ opacity: 0, x: -20 }}
+                initial={prefersReducedMotion ? false : { opacity: 0, x: -40 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.7 }}
+                transition={springEnter}
                 className="relative overflow-hidden shadow-2xl h-full"
                 style={{
                   borderRadius: '2.5rem',
@@ -163,15 +167,15 @@ export default function AboutLuca() {
             {/* Photo wrapper — shifted down */}
             <div className="flex-1" style={{ transform: 'translateY(25%)' }}>
               <motion.div
-                animate={{ y: [0, 47, 0] }}
+                animate={prefersReducedMotion ? {} : { y: [0, 47, 0] }}
                 transition={{ duration: 7.5, repeat: Infinity, ease: "easeInOut" }}
                 className="h-full"
               >
               <motion.div
-                initial={{ opacity: 0, x: 20 }}
+                initial={prefersReducedMotion ? false : { opacity: 0, x: 20 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.7, delay: 0.15 }}
+                transition={{ ...springEnter, delay: 0.1 }}
                 className="relative overflow-hidden shadow-2xl bg-gray-900 h-full"
                 style={{ borderRadius: '2.5rem' }}
               >
@@ -197,10 +201,10 @@ export default function AboutLuca() {
           <div className="md:hidden">
             {/* Blue quote block */}
             <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={prefersReducedMotion ? false : { opacity: 0, x: -24 }}
+              whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.7 }}
+              transition={springEnter}
               className="relative overflow-hidden shadow-xl"
               style={{
                 borderRadius: '2rem',
@@ -217,7 +221,7 @@ export default function AboutLuca() {
               </div>
             </motion.div>
 
-            {/* Curved arrow connector — overlaps bottom of quote block and top of photo */}
+            {/* Curved arrow connector */}
             <div className="relative -mt-5 mb-6 z-10 flex justify-end pr-8">
               <svg width="70" height="70" viewBox="0 0 70 70" fill="none">
                 <defs>
@@ -261,9 +265,10 @@ export default function AboutLuca() {
       <div className="mt-20 md:mt-36">
         <div className="container mx-auto px-6">
           <motion.p
-            initial={{ opacity: 0, y: 10 }}
+            initial={prefersReducedMotion ? false : { opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
+            transition={springEnter}
             className="text-center text-[10px] font-semibold uppercase tracking-[0.22em] text-gray-400 mb-10"
           >
             Meer over mij
@@ -311,7 +316,7 @@ export default function AboutLuca() {
                   filter: isCenter ? 'blur(0px)' : 'blur(1.5px)',
                   zIndex: isCenter ? 10 : 5,
                 }}
-                transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
+                transition={prefersReducedMotion ? { duration: 0 } : { type: "spring", stiffness: 200, damping: 22 }}
                 className="absolute top-1/2 -translate-y-1/2 left-[calc(50%-150px)] md:left-[calc(50%-195px)] w-[300px] md:w-[390px] cursor-pointer"
                 style={{ pointerEvents: isVisible ? 'auto' : 'none' }}
                 onPointerEnter={(e) => { if (isCenter && e.pointerType === 'mouse') setRevealedFact(i); }}
@@ -331,7 +336,7 @@ export default function AboutLuca() {
                 >
                   <motion.div
                     animate={{ rotateY: isRevealed ? 180 : 0 }}
-                    transition={{ duration: 0.55, ease: [0.4, 0, 0.2, 1] }}
+                    transition={prefersReducedMotion ? { duration: 0 } : { type: "spring", stiffness: 200, damping: 22 }}
                     style={{
                       transformStyle: 'preserve-3d',
                       position: 'relative',

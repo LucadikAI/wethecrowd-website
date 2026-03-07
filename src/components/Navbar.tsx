@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { motion, AnimatePresence } from "motion/react";
+import { motion, AnimatePresence, useReducedMotion } from "motion/react";
 import { Menu, X } from "lucide-react";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
+  const prefersReducedMotion = useReducedMotion();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -37,20 +38,26 @@ export default function Navbar() {
         {/* Desktop Nav */}
         <div className="hidden md:flex items-center gap-6">
           {navLinks.map((link) => (
-            <Link 
-              key={link.path} 
-              to={link.path} 
+            <Link
+              key={link.path}
+              to={link.path}
               className={`text-sm font-semibold hover:text-brand-accent transition-colors ${location.pathname === link.path ? "text-brand-accent" : "text-gray-600"}`}
             >
               {link.name}
             </Link>
           ))}
-          <Link 
-            to="/contact" 
-            className="px-5 py-2 bg-black text-white rounded-full text-sm font-bold hover:brightness-90 transition-all"
+          <motion.div
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.99 }}
+            transition={{ type: "spring", stiffness: 400, damping: 17 }}
           >
-            Bespreek jouw event
-          </Link>
+            <Link
+              to="/contact"
+              className="px-5 py-2 bg-black text-white rounded-full text-sm font-bold hover:brightness-90 transition-colors inline-block"
+            >
+              Bespreek jouw event
+            </Link>
+          </motion.div>
         </div>
 
         {/* Mobile Toggle */}
@@ -62,23 +69,24 @@ export default function Navbar() {
       {/* Mobile Nav */}
       <AnimatePresence>
         {isOpen && (
-          <motion.div 
-            initial={{ opacity: 0, scale: 0.95, y: 10 }}
+          <motion.div
+            initial={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, scale: 0.97, y: 8 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: 10 }}
+            exit={{ opacity: 0, scale: 0.97, y: 8, transition: { duration: 0.15, ease: "easeIn" } }}
+            transition={{ type: "spring", stiffness: 300, damping: 25 }}
             className="absolute top-full left-0 w-full mt-4 bg-white/90 backdrop-blur-xl border border-gray-100 rounded-3xl shadow-2xl md:hidden py-8 px-6 flex flex-col gap-6"
           >
             {navLinks.map((link) => (
-              <Link 
-                key={link.path} 
-                to={link.path} 
+              <Link
+                key={link.path}
+                to={link.path}
                 className="text-2xl font-bold hover:text-brand-accent transition-colors"
               >
                 {link.name}
               </Link>
             ))}
-            <Link 
-              to="/contact" 
+            <Link
+              to="/contact"
               className="px-8 py-4 bg-black text-white rounded-full font-bold text-center"
             >
               Bespreek jouw event

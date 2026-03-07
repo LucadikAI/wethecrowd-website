@@ -1,4 +1,4 @@
-import { motion } from "motion/react";
+import { motion, useReducedMotion } from "motion/react";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 
@@ -11,38 +11,37 @@ interface MarqueeProps {
 
 function MarqueeLine({ text, duration, reverse = false, highlightWord }: MarqueeProps) {
   const renderContent = (index: number) => {
-    const shouldHighlight = index % 3 === 1; // Highlight every 3rd occurrence
-    
+    const shouldHighlight = index % 3 === 1;
+
     if (highlightWord && shouldHighlight) {
       const parts = text.split(new RegExp(`(${highlightWord})`, 'gi'));
       return (
         <>
           {parts.map((part, i) => (
-            part.toLowerCase() === highlightWord.toLowerCase() 
-              ? <span key={i} className="text-brand-accent">{part}</span> 
+            part.toLowerCase() === highlightWord.toLowerCase()
+              ? <span key={i} className="text-brand-accent">{part}</span>
               : part
           ))}
           {" • "}
         </>
       );
     }
-    
+
     return `${text} • `;
   };
-  
+
   return (
     <div className="flex overflow-hidden whitespace-nowrap py-1">
-      <motion.div 
+      <motion.div
         initial={{ x: reverse ? "-50%" : "0%" }}
         animate={{ x: reverse ? "0%" : "-50%" }}
-        transition={{ 
-          duration: duration, 
-          repeat: Infinity, 
-          ease: "linear" 
+        transition={{
+          duration: duration,
+          repeat: Infinity,
+          ease: "linear"
         }}
         className="flex text-[16vw] md:text-[7vw] font-bold uppercase tracking-tighter text-gray-900 leading-none"
       >
-        {/* Repeat enough times to cover the screen width twice */}
         {[...Array(10)].map((_, i) => (
           <span key={i} className="inline-block px-4">
             {renderContent(i)}
@@ -54,14 +53,14 @@ function MarqueeLine({ text, duration, reverse = false, highlightWord }: Marquee
 }
 
 export default function Hero() {
+  const prefersReducedMotion = useReducedMotion();
+
   return (
     <section className="relative min-h-screen flex flex-col items-center overflow-hidden bg-white">
-      {/* Mobile: vaste spacer boven marquee zodat die gecentreerd staat */}
-      {/* Desktop: flex-1 zodat alles samen gecentreerd wordt */}
       <div className="h-[28vh] md:hidden" />
       <div className="hidden md:block md:flex-1" />
 
-      {/* Marquee Section - Three Lines */}
+      {/* Marquee Section */}
       <div className="relative z-10 w-full flex flex-col">
         <MarqueeLine text="Creatieve oplossingen" duration={60} highlightWord="Creatieve" />
         <MarqueeLine text="Strakke uitvoering" duration={80} reverse highlightWord="uitvoering" />
@@ -70,9 +69,9 @@ export default function Hero() {
 
       {/* Description & Buttons Block */}
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
+        initial={prefersReducedMotion ? false : { opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, delay: 0.5 }}
+        transition={{ type: "spring", stiffness: 200, damping: 20, delay: 0.3 }}
         className="mt-10 flex flex-col items-center text-center px-6 pb-10 md:pb-0 w-full"
       >
         <p className="text-lg md:text-xl text-gray-600 leading-relaxed font-light max-w-2xl mb-10">
@@ -80,23 +79,34 @@ export default function Hero() {
         </p>
 
         <div className="flex flex-col sm:flex-row gap-4">
-          <Link
-            to="/projecten"
-            className="px-8 py-3.5 bg-brand-accent text-white rounded-full font-bold flex items-center justify-center gap-2 hover:brightness-90 transition-all group text-sm"
+          <motion.div
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.99 }}
+            transition={{ type: "spring", stiffness: 400, damping: 17 }}
           >
-            Bekijk alle projecten
-            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-          </Link>
-          <Link
-            to="/contact"
-            className="px-8 py-3.5 border border-gray-200 text-gray-900 rounded-full font-bold flex items-center justify-center hover:bg-gray-50 transition-all text-sm"
+            <Link
+              to="/projecten"
+              className="px-8 py-3.5 bg-brand-accent text-white rounded-full font-bold flex items-center justify-center gap-2 hover:brightness-90 transition-colors group text-sm"
+            >
+              Bekijk alle projecten
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            </Link>
+          </motion.div>
+          <motion.div
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.99 }}
+            transition={{ type: "spring", stiffness: 400, damping: 17 }}
           >
-            Werk met mij
-          </Link>
+            <Link
+              to="/contact"
+              className="px-8 py-3.5 border border-gray-200 text-gray-900 rounded-full font-bold flex items-center justify-center hover:bg-gray-50 transition-colors text-sm"
+            >
+              Werk met mij
+            </Link>
+          </motion.div>
         </div>
       </motion.div>
 
-      {/* Desktop: bottom spacer */}
       <div className="hidden md:block md:flex-1" />
     </section>
   );

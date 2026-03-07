@@ -1,4 +1,4 @@
-import { motion, useMotionValue, animate, useTransform } from "motion/react";
+import { motion, useMotionValue, animate, useTransform, useReducedMotion } from "motion/react";
 import { Quote } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 
@@ -76,6 +76,7 @@ interface TestimonialsProps {
 
 export default function Testimonials({ showTitle = true, desktopLayout = 'grid' }: TestimonialsProps) {
   const [hoveredId, setHoveredId] = useState<number | null>(null);
+  const prefersReducedMotion = useReducedMotion();
 
   const x = useMotionValue(0);
   const progressValue = useMotionValue(0);
@@ -212,9 +213,15 @@ export default function Testimonials({ showTitle = true, desktopLayout = 'grid' 
       {/* Title — inside container */}
       {showTitle && (
         <div className="container mx-auto px-6 mb-16">
-          <div className="max-w-3xl mx-auto text-center">
+          <motion.div
+            className="max-w-3xl mx-auto text-center"
+            initial={prefersReducedMotion ? false : { opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ type: "spring", stiffness: 200, damping: 20 }}
+          >
             <h2 className="text-4xl md:text-5xl font-bold">Wat anderen zeggen over de energie van <span className="text-brand-accent">WE</span> THE CROWD</h2>
-          </div>
+          </motion.div>
         </div>
       )}
 
@@ -254,10 +261,10 @@ export default function Testimonials({ showTitle = true, desktopLayout = 'grid' 
             {testimonials.map((t, index) => (
               <motion.div
                 key={t.id}
-                initial={{ opacity: 0, y: 30 }}
+                initial={prefersReducedMotion ? false : { opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: index * 0.08 }}
+                transition={{ type: "spring", stiffness: 200, damping: 20, delay: index * 0.08 }}
                 onMouseEnter={() => setHoveredId(t.id)}
                 onMouseLeave={() => setHoveredId(null)}
                 className={`bg-gray-50 p-8 rounded-3xl relative transition-all duration-500 flex flex-col h-full ${

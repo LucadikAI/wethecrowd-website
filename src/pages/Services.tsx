@@ -1,4 +1,4 @@
-import { motion } from "motion/react";
+import { motion, useReducedMotion } from "motion/react";
 import { ArrowRight, Zap, Users, Layout, Mic2, ChevronLeft, ChevronRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useRef, useState } from "react";
@@ -36,10 +36,13 @@ const services = [
   }
 ];
 
+const springEnter = { type: "spring" as const, stiffness: 200, damping: 20 };
+
 export default function Services() {
   const [activeCard, setActiveCard] = useState(0);
   const [flippedCard, setFlippedCard] = useState<number | null>(null);
   const touchStartX = useRef(0);
+  const prefersReducedMotion = useReducedMotion();
 
   const nextCard = () => {
     setActiveCard(i => (i + 1) % services.length);
@@ -64,9 +67,10 @@ export default function Services() {
 
   return (
     <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
+      initial={prefersReducedMotion ? false : { opacity: 0, y: 16 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -8, transition: { duration: 0.15, ease: "easeIn" } }}
+      transition={springEnter}
       className="pt-32 pb-24"
     >
       {/* Page background tint when card is flipped */}
@@ -78,12 +82,17 @@ export default function Services() {
       />
 
       <div className="container mx-auto px-6">
-        <div className="max-w-3xl mb-20">
+        <motion.div
+          className="max-w-3xl mb-20"
+          initial={prefersReducedMotion ? false : { opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ ...springEnter, delay: 0.05 }}
+        >
           <h1 className="text-5xl md:text-7xl font-bold mb-8">Van idee tot impact.</h1>
           <p className="text-xl text-gray-600 leading-relaxed">
             WE THE CROWD helpt op verschillende manieren. Geen standaard lijstjes, maar gerichte ondersteuning waar het telt.
           </p>
-        </div>
+        </motion.div>
 
         {/* Cards Carousel */}
         <div className="mb-24">
@@ -128,7 +137,7 @@ export default function Services() {
                     filter: isCenter ? 'blur(0px)' : 'blur(1.5px)',
                     zIndex: isCenter ? 10 : 5,
                   }}
-                  transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
+                  transition={prefersReducedMotion ? { duration: 0 } : { type: "spring", stiffness: 200, damping: 22 }}
                   className="absolute top-1/2 -translate-y-1/2 left-[calc(50%-150px)] md:left-[calc(50%-195px)] w-[300px] md:w-[390px] cursor-pointer"
                   style={{ pointerEvents: isVisible ? 'auto' : 'none' }}
                   onPointerEnter={(e) => { if (isCenter && e.pointerType === 'mouse') setFlippedCard(i); }}
@@ -148,7 +157,7 @@ export default function Services() {
                   >
                     <motion.div
                       animate={{ rotateY: isFlipped ? 180 : 0 }}
-                      transition={{ duration: 0.55, ease: [0.4, 0, 0.2, 1] }}
+                      transition={prefersReducedMotion ? { duration: 0 } : { type: "spring", stiffness: 200, damping: 22 }}
                       style={{
                         transformStyle: 'preserve-3d',
                         position: 'relative',
@@ -232,13 +241,20 @@ export default function Services() {
 
         <div className="bg-brand-accent text-white p-12 md:p-20 rounded-[3rem] text-center">
           <h2 className="text-4xl md:text-5xl font-bold mb-8">Klaar om jouw event naar een hoger niveau te tillen?</h2>
-          <Link
-            to="/contact"
-            className="inline-flex items-center gap-3 px-10 py-5 bg-white text-brand-accent rounded-full font-bold text-xl hover:scale-105 transition-transform"
+          <motion.div
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.99 }}
+            transition={{ type: "spring", stiffness: 400, damping: 17 }}
+            className="inline-block"
           >
-            Bespreek jouw event
-            <ArrowRight className="w-6 h-6" />
-          </Link>
+            <Link
+              to="/contact"
+              className="inline-flex items-center gap-3 px-10 py-5 bg-white text-brand-accent rounded-full font-bold text-xl hover:brightness-95 transition-colors"
+            >
+              Bespreek jouw event
+              <ArrowRight className="w-6 h-6" />
+            </Link>
+          </motion.div>
         </div>
       </div>
     </motion.div>
