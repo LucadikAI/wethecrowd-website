@@ -194,7 +194,7 @@ export default function Testimonials({ showTitle = true, desktopLayout = 'grid' 
         <div>
           {t.linkedin ? (
             <a href={t.linkedin} target="_blank" rel="noopener noreferrer" className="group inline-block">
-              <h4 className="font-bold text-sm leading-tight group-hover:underline">{t.name}</h4>
+              <h4 className="font-bold text-sm leading-tight group-hover:underline group-hover:text-brand-accent transition-colors">{t.name}</h4>
             </a>
           ) : (
             <h4 className="font-bold text-sm leading-tight">{t.name}</h4>
@@ -277,8 +277,8 @@ export default function Testimonials({ showTitle = true, desktopLayout = 'grid' 
                   </div>
                   <div>
                     {t.linkedin ? (
-                      <a href={t.linkedin} target="_blank" rel="noopener noreferrer" className="group inline-block">
-                        <h4 className="font-bold text-sm leading-tight group-hover:underline">{t.name}</h4>
+                      <a href={t.linkedin} target="_blank" rel="noopener noreferrer" className="group/name inline-block">
+                        <h4 className="font-bold text-sm leading-tight group-hover/name:underline group-hover/name:text-brand-accent transition-colors">{t.name}</h4>
                       </a>
                     ) : (
                       <h4 className="font-bold text-sm leading-tight">{t.name}</h4>
