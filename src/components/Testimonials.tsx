@@ -73,7 +73,7 @@ const testimonials = [
     company: "Eigenaar & creatief projectleider @ Bureau Spruit",
     text: "Ik werk graag met Luca. Hij is proactief en denkt in mogelijkheden. Daardoor ziet hij vaak al oplossingen voordat er een probleem ontstaat. Dat zorgt voor rust en overzicht. Zo blijft er ruimte voor aandacht voor details.",
     image: "/testimonial-bas.jpg",
-    linkedin: ""
+    linkedin: "https://www.linkedin.com/in/baswierikx/"
   },
 ];
 
