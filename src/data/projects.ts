@@ -161,5 +161,44 @@ export const projects: Project[] = [
     year: "2025",
     location: "Amsterdam",
     gallery: []
+  },
+  {
+    id: 13,
+    slug: "che70-festival",
+    title: "CHE70 Festival",
+    role: "Artiestenbegeleider",
+    client: "ONETICKETLEFT / CHE",
+    impact: "Een groots jubileum voor 2.000 studenten en alumni van het CHE om het 70-jarig jubileum te vieren van de Hogeschool.",
+    description: "Tijdens de viering van het jubileum van de Christelijk Hogeschool Ede was ik verantwoordelijk voor de begeleiding van verschillende artiesten. Bezoekers konden zowel binnen als buiten luisteren naar optredens en genieten van cabaretiers en andere acts.",
+    image: "/che70-festival.jpg",
+    year: "2024",
+    location: "Ede",
+    gallery: []
+  },
+  {
+    id: 14,
+    slug: "hour-of-power-live-2024",
+    title: "Hour of Power Live 2024",
+    role: "Stagemanager",
+    client: "Hour of Power",
+    impact: "In drie dagen toerde de productie van Groningen tot Barneveld, met drie uitverkochte shows en optredens van onder andere het ZA-EL Gospel Choir.",
+    description: "Drie dagen, drie steden, drie uitverkochte shows. Van Groningen tot Barneveld reisde ik mee als stagemanager van een tourproductie met onder andere het ZA-EL Gospel Choir. Mijn rol: ervoor zorgen dat elke artiest op het juiste moment op de juiste plek stond, dat overgangen soepel verliepen en dat het publiek niets merkte van de georganiseerde chaos achter het podium.",
+    image: "/hour-of-power-2024.jpg",
+    year: "2024",
+    location: "Groningen, Barneveld & Utrecht",
+    gallery: []
+  },
+  {
+    id: 15,
+    slug: "24-uurs-corporate-event",
+    title: "24-Uurs evenement — Corporate Event",
+    role: "Stagemanager",
+    client: "IDTV+",
+    impact: "Dit jaarlijks terugkerende evenement in Hotel Huis ter Duin bracht medewerkers van een Big Four-organisatie samen voor twee dagen vol inspiratie en verbinding.",
+    description: "In mijn rol als stagemanager was ik twee dagen lang het aanspreekpunt voor de vele (internationale) sprekers. In nauwe samenwerking met de showcaller zorgde ik ervoor dat het programma soepel en volgens planning verliep.",
+    image: "/24uur-corporate-event.jpg",
+    year: "2023",
+    location: "Grand Hotel Huis ter Duin",
+    gallery: []
   }
 ];
