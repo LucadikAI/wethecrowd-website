@@ -73,7 +73,7 @@ export default function Introduction() {
               Ik werk al jaren achter de schermen van festivals, concerten en grote producties. Wat mij drijft is dat moment waarop alles samenkomt: de techniek klopt, de artiest staat er, het publiek gaat erin mee en de timing zit goed.
             </p>
             <p>
-              Ik ben iemand die creatief denkt maar ook goed weet wat er praktisch nodig is om het neer te zetten. Ideeën bedenken is één ding, ze ook goed uitvoeren is waar het voor mij om draait. Een sterk event gaat verder dan een goed draaiboek. Uiteindelijk draait het om de beleving van de bezoeker.
+              Ik beweeg graag tussen het creatieve en het praktische. Niet alleen meedenken over het concept, maar ook zorgen dat het op de dag zelf klopt; van tijdlijn tot beleving. Dat is waar ik het verschil wil maken.
             </p>
           </div>
           <Link
