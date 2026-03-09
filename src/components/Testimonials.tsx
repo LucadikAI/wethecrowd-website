@@ -67,6 +67,14 @@ const testimonials = [
     image: "/testimonial-madelief.jpg",
     linkedin: "https://www.linkedin.com/in/madelief-tuinhout-027990205/"
   },
+  {
+    id: 10,
+    name: "Bas Wierikx",
+    company: "Eigenaar & creatief projectleider @ Bureau Spruit",
+    text: "Ik werk graag met Luca. Hij is proactief en denkt in mogelijkheden. Daardoor ziet hij vaak al oplossingen voordat er een probleem ontstaat. Dat zorgt voor rust en overzicht. Zo blijft er ruimte voor aandacht voor details.",
+    image: "/testimonial-bas.jpg",
+    linkedin: ""
+  },
 ];
 
 interface TestimonialsProps {
@@ -282,7 +290,7 @@ function DesktopGrid({ testimonials, hoveredId, setHoveredId, prefersReducedMoti
 
   return (
     <div className="container mx-auto px-6">
-      <div ref={gridRef} className="hidden md:grid md:grid-cols-4 gap-6">
+      <div ref={gridRef} className="hidden md:grid md:grid-cols-3 gap-6">
         {testimonials.map((t, index) => (
           <motion.div
             key={t.id}
