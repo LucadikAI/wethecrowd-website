@@ -10,6 +10,10 @@ const logos = [
   { name: "TGB", src: "/logo-tgb.png" },
   { name: "Possibilize", src: "/logo-possibilize.png" },
   { name: "Bureau Spruit", src: "/logo-bureau-spruit.png" },
+  { name: "410 MGMT Co.", src: "/logo-410-mgmt.jpg" },
+  { name: "CHE", src: "/logo-che.jpg" },
+  { name: "EO", src: "/logo-eo.png" },
+  { name: "Hour of Power", src: "/logo-hour-of-power.webp" },
 ];
 
 interface LogoSliderProps {
