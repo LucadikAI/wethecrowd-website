@@ -34,13 +34,13 @@ export default function LogoSlider({ showTitle = true }: LogoSliderProps) {
         <div className="logo-slider-track flex items-center">
           {/* First set of logos */}
           {logos.map((logo, i) => (
-            <div key={`logo-1-${i}`} className="w-[250px] flex justify-center px-10 grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all duration-300">
+            <div key={`logo-1-${i}`} className="w-[320px] flex justify-center px-16 grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all duration-300">
               <img src={logo.src} alt={logo.name} className="h-12 object-contain" referrerPolicy="no-referrer" />
             </div>
           ))}
           {/* Second set of logos for seamless loop */}
           {logos.map((logo, i) => (
-            <div key={`logo-2-${i}`} className="w-[250px] flex justify-center px-10 grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all duration-300">
+            <div key={`logo-2-${i}`} className="w-[320px] flex justify-center px-16 grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all duration-300">
               <img src={logo.src} alt={logo.name} className="h-12 object-contain" referrerPolicy="no-referrer" />
             </div>
           ))}
