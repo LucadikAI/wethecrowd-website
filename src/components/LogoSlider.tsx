@@ -6,7 +6,6 @@ const logos = [
   { name: "Go and Tell", src: "/logo-go-and-tell.webp" },
   { name: "Denk Producties", src: "/logo-denk-producties.png" },
   { name: "Fairspace", src: "/logo-fairspace.png" },
-  { name: "NJi", src: "/logo-nji.png" },
   { name: "TGB", src: "/logo-tgb.png" },
   { name: "Possibilize", src: "/logo-possibilize.png" },
   { name: "Bureau Spruit", src: "/logo-bureau-spruit.png" },
