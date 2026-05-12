@@ -95,6 +95,19 @@ export const projects: Project[] = [
     gallery: []
   },
   {
+    id: 16,
+    slug: "nationale-viering-bevrijding",
+    title: "Nationale Viering van de Bevrijding",
+    role: "Showcontent & Assistent Stagemanager",
+    client: "The Groundbreakers",
+    impact: "Een bijzondere viering met de traditionele 5-mei lezing en optredens voor 380 genodigden, waaronder minister-president Rob Jetten.",
+    description: "In opdracht van The Groundbreakers stuurde ik in de voorbereiding de showcontent aan: in korte tijd alle elementen bij elkaar brengen tot één samenhangend programma. Op de repetitie- en showdag was ik als assistent stagemanager verantwoordelijk voor de uitvoering achter de schermen, zodat alles precies zo samenkwam als bedacht. Op het programma stonden de traditionele 5-mei lezing door Splinter Chabot, presentatie van Brecht van Hulten, en optredens van Gary \"Duimalot\" Gravenbeek, Lakshmi Swami Persaud en Young Jazz Society. Onder de 380 genodigden bevond zich onder andere minister-president Rob Jetten.",
+    image: "/nationale-viering-bevrijding.jpg",
+    year: "2026",
+    location: "Nederland",
+    gallery: []
+  },
+  {
     id: 9,
     slug: "oud-en-nieuw-utrecht",
     title: "Oud & Nieuw Utrecht",
