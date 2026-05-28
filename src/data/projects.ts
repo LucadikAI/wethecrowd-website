@@ -82,19 +82,6 @@ export const projects: Project[] = [
     gallery: []
   },
   {
-    id: 4,
-    slug: "the-paper-kites-tourcoordinatie",
-    title: "The Paper Kites — Tourtransport coördinator",
-    role: "Tourtransport coördinator",
-    client: "410 MGMT Co.",
-    impact: "Volledige coördinatie van het transport voor de Australische indie-folk band The Paper Kites tijdens hun bezoek aan Amsterdam.",
-    description: "Toen er op korte termijn transport nodig was voor de gear van de Australische band The Paper Kites, schakelde WE THE CROWD direct. Ik coördineerde een chauffeur en busje en zorgde ervoor dat alle apparatuur en bagage soepel tussen het hotel, het Amsterdamse Bostheater en het vliegveld werd vervoerd.",
-    image: "/paper-kites-cover.jpg",
-    year: "2025",
-    location: "Amsterdam",
-    gallery: []
-  },
-  {
     id: 8,
     slug: "postnl-sinterklaasviering",
     title: "Post-NL Sinterklaasviering",
@@ -119,6 +106,19 @@ export const projects: Project[] = [
     photoCredit: "Caitlin Sloot",
     year: "2026",
     location: "Domkerk Utrecht",
+    gallery: []
+  },
+  {
+    id: 4,
+    slug: "the-paper-kites-tourcoordinatie",
+    title: "The Paper Kites — Tourtransport coördinator",
+    role: "Tourtransport coördinator",
+    client: "410 MGMT Co.",
+    impact: "Volledige coördinatie van het transport voor de Australische indie-folk band The Paper Kites tijdens hun bezoek aan Amsterdam.",
+    description: "Toen er op korte termijn transport nodig was voor de gear van de Australische band The Paper Kites, schakelde WE THE CROWD direct. Ik coördineerde een chauffeur en busje en zorgde ervoor dat alle apparatuur en bagage soepel tussen het hotel, het Amsterdamse Bostheater en het vliegveld werd vervoerd.",
+    image: "/paper-kites-cover.jpg",
+    year: "2025",
+    location: "Amsterdam",
     gallery: []
   },
   {
