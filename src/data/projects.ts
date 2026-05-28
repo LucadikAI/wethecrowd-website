@@ -69,6 +69,19 @@ export const projects: Project[] = [
     galleryCredits: ["Atacan Tutulmazay", "Atacan Tutulmazay", "Atacan Tutulmazay"]
   },
   {
+    id: 16,
+    slug: "indische-buurt-run-2026",
+    title: "Indische Buurt Run 2026",
+    role: "Projectleider / Eventmanager",
+    client: "Stichting Diversiteitsland",
+    impact: "Grootschalig hardloopevenement voor 400 enthousiaste deelnemers, met aanvullende kinderactiviteiten en horeca in Amsterdam-oost.",
+    description: "Op 24 mei vond de vijfde editie van de Indische Buurt Run plaats in en rondom het Flevopark in Amsterdam. Ik mocht als projectleider de teams aansturen, partners binnenhalen en het hele evenement van begin tot eind begeleiden. Dat in 8 weken. Het resultaat: 400 deelnemers, nog veel meer bezoekers, sterke partnerships met lokale horeca en verhuur, en heel veel blije gezichten.",
+    image: "/indische-buurt-run-2026.jpg",
+    year: "2026",
+    location: "Flevopark Amsterdam",
+    gallery: []
+  },
+  {
     id: 4,
     slug: "the-paper-kites-tourcoordinatie",
     title: "The Paper Kites — Tourtransport coördinator",
@@ -200,19 +213,6 @@ export const projects: Project[] = [
     image: "/hour-of-power-2024.jpg",
     year: "2024",
     location: "Groningen, Barneveld & Utrecht",
-    gallery: []
-  },
-  {
-    id: 16,
-    slug: "indische-buurt-run-2026",
-    title: "Indische Buurt Run 2026",
-    role: "Projectleider / Eventmanager",
-    client: "Stichting Diversiteitsland",
-    impact: "Grootschalig hardloopevenement voor 400 enthousiaste deelnemers, met aanvullende kinderactiviteiten en horeca in Amsterdam-oost.",
-    description: "Op 24 mei vond de vijfde editie van de Indische Buurt Run plaats in en rondom het Flevopark in Amsterdam. Ik mocht als projectleider de teams aansturen, partners binnenhalen en het hele evenement van begin tot eind begeleiden. Dat in 8 weken. Het resultaat: 400 deelnemers, nog veel meer bezoekers, sterke partnerships met lokale horeca en verhuur, en heel veel blije gezichten.",
-    image: "/indische-buurt-run-2026.jpg",
-    year: "2026",
-    location: "Flevopark Amsterdam",
     gallery: []
   },
   {
