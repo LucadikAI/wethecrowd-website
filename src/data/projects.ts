@@ -205,14 +205,14 @@ export const projects: Project[] = [
   {
     id: 14,
     slug: "hour-of-power-live-2024",
-    title: "Hour of Power Live 2024",
+    title: "Hour of Power Live",
     role: "Stagemanager",
     client: "Hour of Power",
-    impact: "In drie dagen toerde de productie van Groningen tot Barneveld, met drie uitverkochte shows en optredens van onder andere het ZA-EL Gospel Choir.",
-    description: "Drie dagen, drie steden, drie uitverkochte shows. Van Groningen tot Barneveld reisde ik mee als stagemanager van een tourproductie met onder andere het ZA-EL Gospel Choir. Mijn rol: ervoor zorgen dat elke artiest op het juiste moment op de juiste plek stond, dat overgangen soepel verliepen en dat het publiek niets merkte van de georganiseerde chaos achter het podium.",
+    impact: "Uitverkochte tourshows in 2024 en 2026 met optredens van onder andere het ZA-EL Gospel Choir en Adem Project.",
+    description: "In 2024 en 2026 reisde ik mee als stagemanager van de Hour of Power Live tour, met uitverkochte shows van Groningen en Barneveld tot Veenendaal en Leeuwarden. Op het programma stonden onder andere het ZA-EL Gospel Choir en Adem Project. Mijn rol: ervoor zorgen dat elke artiest op het juiste moment op de juiste plek stond, dat overgangen soepel verliepen en dat het publiek niets merkte van de georganiseerde chaos achter het podium.",
     image: "/hour-of-power-2024.jpg",
-    year: "2024",
-    location: "Groningen, Barneveld & Utrecht",
+    year: "2024 & 2026",
+    location: "Groningen, Barneveld, Utrecht, Veenendaal & Leeuwarden",
     gallery: []
   },
   {
