@@ -13,6 +13,7 @@ const logos = [
   { name: "CHE", src: "/logo-che.jpg" },
   { name: "EO", src: "/logo-eo.png" },
   { name: "Hour of Power", src: "/logo-hour-of-power.webp" },
+  { name: "Stichting Diversiteitsland", src: "/logo-diversiteitsland.png" },
 ];
 
 interface LogoSliderProps {
@@ -25,7 +26,7 @@ export default function LogoSlider({ showTitle = true }: LogoSliderProps) {
       {showTitle && (
         <div className="container mx-auto px-6 mb-10 text-center">
           <p className="text-sm font-bold uppercase tracking-[0.2em] text-gray-400">
-            Samenwerkingen & Partners
+            Opdrachtgevers
           </p>
         </div>
       )}
