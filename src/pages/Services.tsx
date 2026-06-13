@@ -9,7 +9,7 @@ const services = [
     title: "Eventmanagement / Productie",
     icon: <Layout className="w-6 h-6" />,
     image: "/dienst-eventmanagement.jpg",
-    imagePosition: "object-center",
+    imagePosition: "object-bottom",
     description: "Van eerste briefing tot laatste afbouwmoment. Ik vertaal ideeën naar concrete draaiboeken, zorg voor heldere briefings richting crew en leveranciers en bewaak planning, budget en kwaliteit. Of het nu gaat om locatiecoördinatie, technische afstemming of overall productie-aansturing: ik zorg dat alle onderdelen samenkomen in één kloppend geheel."
   },
   {
@@ -55,7 +55,7 @@ export default function Services() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ ...springEnter, delay: 0.05 }}
         >
-          <h1 className="text-5xl md:text-7xl font-bold mb-8">Van idee tot impact.</h1>
+          <h1 className="text-5xl md:text-7xl font-bold mb-8">Van <span className="text-brand-accent">idee</span> tot impact.</h1>
           <p className="text-xl text-gray-600 leading-relaxed">
             WE THE CROWD helpt op verschillende manieren. Geen standaard lijstjes, maar gerichte ondersteuning waar het telt.
           </p>
