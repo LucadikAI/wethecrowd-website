@@ -70,7 +70,7 @@ export default function Services() {
             return (
               <div
                 key={index}
-                className={`sticky ${isLast ? "" : "mb-8 md:mb-12"}`}
+                className={`md:sticky ${isLast ? "" : "mb-6 md:mb-12"}`}
                 style={{ top: `${96 + index * 36}px` }}
               >
                 <motion.div
@@ -78,7 +78,7 @@ export default function Services() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: "-80px" }}
                   transition={{ duration: 0.5 }}
-                  className="grid md:grid-cols-2 min-h-[460px] rounded-[2.5rem] overflow-hidden bg-brand-primary text-white shadow-2xl"
+                  className="grid md:grid-cols-2 md:min-h-[460px] rounded-[2.5rem] overflow-hidden bg-brand-primary text-white shadow-2xl"
                 >
                   {/* Tekst */}
                   <div className="order-2 md:order-1 p-10 md:p-14 flex flex-col justify-center">
