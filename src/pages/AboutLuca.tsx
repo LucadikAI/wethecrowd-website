@@ -1,5 +1,5 @@
-import { motion, AnimatePresence, useReducedMotion, useScroll, useTransform, MotionValue } from "motion/react";
-import { useState, useEffect, useRef } from "react";
+import { motion, useReducedMotion, useScroll, useTransform, MotionValue } from "motion/react";
+import { useState, useRef } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import VenueSlider from "../components/VenueSlider";
 
@@ -11,45 +11,25 @@ const funFacts = [
   { label: "Aantal evenementen gedraaid in 2025", answer: "19" },
 ];
 
-const sliderPhotos = [
-  { src: '/luca-werk-1.jpg',  pos: 'center' },
-  { src: '/luca-werk-4.jpg',  pos: 'center' },
-  { src: '/luca-werk-6.jpg',  pos: 'center' },
-  { src: '/luca-werk-3.png',  pos: 'center' },
-  { src: '/luca-werk-5.jpg',  pos: 'center' },
-  { src: '/luca-werk-2.jpg',  pos: 'center' },
-  { src: '/luca-werk-7.jpg',  pos: 'center' },
-  { src: '/luca-werk-8.jpg',  pos: 'center' },
-  { src: '/luca-werk-9.jpg',  pos: 'center' },
-  { src: '/luca-werk-10.jpg', pos: 'top'    },
-];
-
 const springEnter = { type: "spring" as const, stiffness: 200, damping: 20 };
 
 const quoteWords = "Van festivals tot bedrijfsevenementen, als freelancer sta ik klaar voor uiteenlopende producties. Daar ben ik enthousiast over, omdat ik het leuk vind om momenten te creëren die mensen voor altijd bij zullen blijven. Ik combineer hard werken met creatief denken en daarmee hoop ik projecten naar een hoger niveau te tillen. Samen met jou.".split(' ');
 
 const quote2Words = "Wat mij drijft? Het grotere plaatje. Ik word enthousiast van de strategische puzzel: creatieve vraagstukken oplossen, een sterke marketingstrategie neerzetten en alles laten kloppen binnen een bredere visie. Tegelijkertijd volg ik de nieuwste AI-ontwikkelingen in de evenementensector op de voet en denk ik graag actief mee over hoe jouw organisatie hier slim gebruik van kan maken.".split(' ');
 
-const quote2Photos = [
-  { src: '/luca-quote2-1.jpg', pos: 'center' },
-  { src: '/luca-quote2-2.jpg', pos: 'center' },
-  { src: '/luca-quote2-3.jpg', pos: 'center' },
-  { src: '/luca-quote2-4.jpg', pos: 'center' },
-  { src: '/luca-quote2-5.jpg', pos: 'center' },
-];
-
-function WordSpan({ word, index, total, scrollYProgress, prefersReducedMotion }: {
+function WordSpan({ word, index, total, scrollYProgress, prefersReducedMotion, light = false }: {
   word: string;
   index: number;
   total: number;
   scrollYProgress: MotionValue<number>;
   prefersReducedMotion: boolean | null;
+  light?: boolean;
 }) {
   const start = (index / total) * 0.55;
   const end = Math.min(start + 0.35, 1);
-  const opacity = useTransform(scrollYProgress, [start, end], [0.12, 1]);
+  const opacity = useTransform(scrollYProgress, [start, end], [light ? 0.22 : 0.12, 1]);
   return (
-    <motion.span style={{ opacity: prefersReducedMotion ? 1 : opacity, color: 'black' }}>
+    <motion.span style={{ opacity: prefersReducedMotion ? 1 : opacity, color: light ? 'white' : 'black' }}>
       {word}{' '}
     </motion.span>
   );
@@ -57,13 +37,11 @@ function WordSpan({ word, index, total, scrollYProgress, prefersReducedMotion }:
 
 export default function AboutLuca() {
   const [showChild, setShowChild] = useState(false);
-  const [sliderIndex, setSliderIndex] = useState(0);
   const [activeFact, setActiveFact] = useState(0);
   const [revealedFact, setRevealedFact] = useState<number | null>(null);
   const touchStartX = useRef(0);
   const lastTouchTime = useRef(0);
   const prefersReducedMotion = useReducedMotion();
-  const [sliderIndex2, setSliderIndex2] = useState(0);
   const quoteSectionRef = useRef<HTMLElement>(null);
   const quoteSectionRef2 = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
@@ -96,14 +74,6 @@ export default function AboutLuca() {
       diff > 0 ? nextFact() : prevFact();
     }
   };
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setSliderIndex(i => (i + 1) % sliderPhotos.length);
-      setSliderIndex2(i => (i + 1) % quote2Photos.length);
-    }, 8000);
-    return () => clearInterval(timer);
-  }, []);
 
   return (
     <motion.div
@@ -167,56 +137,39 @@ export default function AboutLuca() {
       {/* Venue Slider */}
       <VenueSlider />
 
-      {/* Quote Section */}
-      <section ref={quoteSectionRef} className="mt-16">
+      {/* Quote Section — grote foto als leidend element, tekstblok in de foto */}
+      <section ref={quoteSectionRef} className="mt-16 md:mt-24">
         {/* Desktop */}
-        <div className="relative hidden md:block" style={{ height: 'clamp(440px, 60vh, 680px)' }}>
-          {/* Foto — linker 78%, fade-randen + donkere overlay */}
+        <div className="relative hidden md:block">
+          {/* Grote foto — verspringt naar rechts */}
           <motion.div
-            className="absolute top-0 bottom-0 overflow-hidden"
-            initial={prefersReducedMotion ? false : { opacity: 0, scale: 1.03 }}
+            className="relative overflow-hidden rounded-[2.5rem] ml-[10%] mr-6"
+            style={{ height: 'clamp(480px, 66vh, 720px)' }}
+            initial={prefersReducedMotion ? false : { opacity: 0, scale: 1.04 }}
             whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true, margin: "0px 0px -60px 0px" }}
+            viewport={{ once: true, margin: "0px 0px -80px 0px" }}
             transition={{ duration: 1.0, ease: 'easeOut' }}
-            style={{
-              left: '1.5rem',
-              width: 'calc(78% - 1.5rem)',
-              borderRadius: '1.5rem',
-              maskImage: 'linear-gradient(to right, black 42%, transparent 90%), linear-gradient(to bottom, black 70%, transparent 100%)',
-              maskComposite: 'intersect',
-              WebkitMaskImage: 'linear-gradient(to right, black 42%, transparent 90%), linear-gradient(to bottom, black 70%, transparent 100%)',
-              WebkitMaskComposite: 'source-in',
-            }}
           >
-            <AnimatePresence>
-              <motion.img
-                key={sliderIndex}
-                src={sliderPhotos[sliderIndex].src}
-                alt=""
-                className="absolute inset-0 w-full h-full object-cover"
-                style={{ objectPosition: sliderPhotos[sliderIndex].pos }}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 1.2, ease: 'easeInOut' }}
-              />
-            </AnimatePresence>
-            {/* Donkere cinematic overlay */}
-            <div className="absolute inset-0" style={{ background: 'rgba(0,0,0,0.38)' }} />
-          </motion.div>
-
-          {/* Quote tekst + decoratie */}
-          <motion.div
-            className="absolute top-0 bottom-0 right-0 z-10 flex items-center"
-            style={{ width: '52%' }}
-            initial={prefersReducedMotion ? false : { opacity: 0, y: 28 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "0px 0px -60px 0px" }}
-            transition={{ duration: 0.7, ease: 'easeOut', delay: 0.2 }}
-          >
-            <div className="px-10 lg:px-12 xl:px-14 relative">
-              <div className="w-8 h-0.5 bg-gray-300 rounded-full mb-4" />
-              <blockquote className="font-semibold text-[0.95rem] lg:text-[1rem] leading-[1.55] tracking-[0.015em]">
+            <img
+              src="/luca-werk-6.jpg"
+              alt="Luca aan het werk tijdens een concert"
+              className="absolute inset-0 w-full h-full object-cover"
+            />
+            {/* Gradient voor leesbaarheid van het tekstblok */}
+            <div
+              className="absolute inset-0"
+              style={{ background: 'linear-gradient(to right, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.45) 42%, rgba(0,0,0,0.12) 72%, rgba(0,0,0,0) 100%)' }}
+            />
+            {/* Tekstblok in de foto */}
+            <motion.div
+              className="absolute left-10 lg:left-16 xl:left-20 top-1/2 -translate-y-1/2 max-w-xl pr-10"
+              initial={prefersReducedMotion ? false : { opacity: 0, y: 28 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "0px 0px -80px 0px" }}
+              transition={{ duration: 0.7, ease: 'easeOut', delay: 0.25 }}
+            >
+              <div className="w-8 h-0.5 bg-white/60 rounded-full mb-5" />
+              <blockquote className="font-semibold text-lg lg:text-xl leading-[1.6] tracking-[0.01em]">
                 {quoteWords.map((word, i) => (
                   <WordSpan
                     key={i}
@@ -225,32 +178,41 @@ export default function AboutLuca() {
                     total={quoteWords.length}
                     scrollYProgress={scrollYProgress}
                     prefersReducedMotion={prefersReducedMotion}
+                    light
                   />
                 ))}
               </blockquote>
-            </div>
+            </motion.div>
+          </motion.div>
+
+          {/* Verspringende accentfoto — valt over de onderrand */}
+          <motion.div
+            className="absolute -bottom-20 right-[7%] w-[220px] lg:w-[260px] aspect-[4/5] rounded-3xl overflow-hidden shadow-2xl hidden lg:block z-10"
+            initial={prefersReducedMotion ? false : { opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "0px 0px -40px 0px" }}
+            transition={{ ...springEnter, delay: 0.15 }}
+          >
+            <img
+              src="/luca-werk-1.jpg"
+              alt="Luca met team"
+              className="absolute inset-0 w-full h-full object-cover"
+            />
           </motion.div>
         </div>
 
-        {/* Mobiel: foto boven met overlay, quote eronder */}
+        {/* Mobiel: foto met overlappend tekstblok */}
         <div className="md:hidden">
-          <div className="relative overflow-hidden rounded-3xl mx-4 h-72">
-            <AnimatePresence>
-              <motion.img
-                key={sliderIndex}
-                src={sliderPhotos[sliderIndex].src}
-                alt=""
-                className="absolute inset-0 w-full h-full object-cover"
-                style={{ objectPosition: sliderPhotos[sliderIndex].pos }}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 1.2, ease: 'easeInOut' }}
-              />
-            </AnimatePresence>
-            <div className="absolute inset-0" style={{ background: 'rgba(0,0,0,0.38)' }} />
+          <div className="relative overflow-hidden rounded-3xl mx-4 h-[380px]">
+            <img
+              src="/luca-werk-6.jpg"
+              alt="Luca aan het werk tijdens een concert"
+              className="absolute inset-0 w-full h-full object-cover"
+            />
+            <div className="absolute inset-0" style={{ background: 'rgba(0,0,0,0.22)' }} />
           </div>
-          <div className="px-6 pt-8 pb-4">
+          <div className="relative z-10 -mt-16 mx-6 bg-white rounded-3xl shadow-xl p-6">
+            <div className="w-8 h-0.5 bg-gray-300 rounded-full mb-4" />
             <blockquote className="font-semibold text-sm leading-[1.6] tracking-[0.015em] text-gray-900">
               Van festivals tot bedrijfsevenementen, als freelancer sta ik klaar voor uiteenlopende producties. Daar ben ik enthousiast over, omdat ik het leuk vind om momenten te creëren die mensen voor altijd bij zullen blijven. Ik combineer hard werken met creatief denken en daarmee hoop ik projecten naar een hoger niveau te tillen. Samen met jou.
             </blockquote>
@@ -258,55 +220,38 @@ export default function AboutLuca() {
         </div>
       </section>
 
-      {/* Quote Section 2 — gespiegeld: foto rechts, tekst links */}
-      <section ref={quoteSectionRef2} className="mt-16">
+      {/* Quote Section 2 — gespiegeld: foto verspringt naar links, tekst rechts in de foto */}
+      <section ref={quoteSectionRef2} className="mt-24 md:mt-40">
         {/* Desktop */}
-        <div className="relative hidden md:block" style={{ height: 'clamp(440px, 60vh, 680px)' }}>
-          {/* Foto — rechter 78%, fade op LINKER rand richting tekst */}
+        <div className="relative hidden md:block">
+          {/* Grote foto — verspringt naar links */}
           <motion.div
-            className="absolute top-0 bottom-0 overflow-hidden"
-            initial={prefersReducedMotion ? false : { opacity: 0, scale: 1.03 }}
+            className="relative overflow-hidden rounded-[2.5rem] ml-6 mr-[10%]"
+            style={{ height: 'clamp(480px, 66vh, 720px)' }}
+            initial={prefersReducedMotion ? false : { opacity: 0, scale: 1.04 }}
             whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true, margin: "0px 0px -60px 0px" }}
+            viewport={{ once: true, margin: "0px 0px -80px 0px" }}
             transition={{ duration: 1.0, ease: 'easeOut' }}
-            style={{
-              right: '1.5rem',
-              width: 'calc(78% - 1.5rem)',
-              borderRadius: '1.5rem',
-              maskImage: 'linear-gradient(to left, black 42%, transparent 90%), linear-gradient(to bottom, black 70%, transparent 100%)',
-              maskComposite: 'intersect',
-              WebkitMaskImage: 'linear-gradient(to left, black 42%, transparent 90%), linear-gradient(to bottom, black 70%, transparent 100%)',
-              WebkitMaskComposite: 'source-in',
-            }}
           >
-            <AnimatePresence>
-              <motion.img
-                key={sliderIndex2}
-                src={quote2Photos[sliderIndex2].src}
-                alt=""
-                className="absolute inset-0 w-full h-full object-cover"
-                style={{ objectPosition: quote2Photos[sliderIndex2].pos }}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 1.2, ease: 'easeInOut' }}
-              />
-            </AnimatePresence>
-            <div className="absolute inset-0" style={{ background: 'rgba(0,0,0,0.38)' }} />
-          </motion.div>
-
-          {/* Quote tekst + decoratie — links */}
-          <motion.div
-            className="absolute top-0 bottom-0 left-0 z-10 flex items-center"
-            style={{ width: '52%' }}
-            initial={prefersReducedMotion ? false : { opacity: 0, y: 28 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "0px 0px -60px 0px" }}
-            transition={{ duration: 0.7, ease: 'easeOut', delay: 0.2 }}
-          >
-            <div className="px-10 lg:px-12 xl:px-14 relative">
-              <div className="w-8 h-0.5 bg-gray-300 rounded-full mb-4" />
-              <blockquote className="font-semibold text-[0.95rem] lg:text-[1rem] leading-[1.55] tracking-[0.015em]">
+            <img
+              src="/luca-quote2-1.jpg"
+              alt="Uitverkochte arena tijdens een show"
+              className="absolute inset-0 w-full h-full object-cover"
+            />
+            <div
+              className="absolute inset-0"
+              style={{ background: 'linear-gradient(to left, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.45) 42%, rgba(0,0,0,0.12) 72%, rgba(0,0,0,0) 100%)' }}
+            />
+            {/* Tekstblok in de foto — rechts */}
+            <motion.div
+              className="absolute right-10 lg:right-16 xl:right-20 top-1/2 -translate-y-1/2 max-w-xl pl-10"
+              initial={prefersReducedMotion ? false : { opacity: 0, y: 28 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "0px 0px -80px 0px" }}
+              transition={{ duration: 0.7, ease: 'easeOut', delay: 0.25 }}
+            >
+              <div className="w-8 h-0.5 bg-white/60 rounded-full mb-5" />
+              <blockquote className="font-semibold text-lg lg:text-xl leading-[1.6] tracking-[0.01em]">
                 {quote2Words.map((word, i) => (
                   <WordSpan
                     key={i}
@@ -315,32 +260,41 @@ export default function AboutLuca() {
                     total={quote2Words.length}
                     scrollYProgress={scrollYProgress2}
                     prefersReducedMotion={prefersReducedMotion}
+                    light
                   />
                 ))}
               </blockquote>
-            </div>
+            </motion.div>
+          </motion.div>
+
+          {/* Verspringende accentfoto — valt over de onderrand, links */}
+          <motion.div
+            className="absolute -bottom-20 left-[7%] w-[220px] lg:w-[260px] aspect-[4/5] rounded-3xl overflow-hidden shadow-2xl hidden lg:block z-10"
+            initial={prefersReducedMotion ? false : { opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "0px 0px -40px 0px" }}
+            transition={{ ...springEnter, delay: 0.15 }}
+          >
+            <img
+              src="/luca-werk-8.jpg"
+              alt="Backstage voorbereiding met microfoons"
+              className="absolute inset-0 w-full h-full object-cover"
+            />
           </motion.div>
         </div>
 
-        {/* Mobiel: foto boven, quote eronder */}
+        {/* Mobiel: foto met overlappend tekstblok */}
         <div className="md:hidden">
-          <div className="relative overflow-hidden rounded-3xl mx-4 h-72">
-            <AnimatePresence>
-              <motion.img
-                key={sliderIndex2}
-                src={quote2Photos[sliderIndex2].src}
-                alt=""
-                className="absolute inset-0 w-full h-full object-cover"
-                style={{ objectPosition: quote2Photos[sliderIndex2].pos }}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 1.2, ease: 'easeInOut' }}
-              />
-            </AnimatePresence>
-            <div className="absolute inset-0" style={{ background: 'rgba(0,0,0,0.38)' }} />
+          <div className="relative overflow-hidden rounded-3xl mx-4 h-[380px]">
+            <img
+              src="/luca-quote2-1.jpg"
+              alt="Uitverkochte arena tijdens een show"
+              className="absolute inset-0 w-full h-full object-cover"
+            />
+            <div className="absolute inset-0" style={{ background: 'rgba(0,0,0,0.22)' }} />
           </div>
-          <div className="px-6 pt-8 pb-4">
+          <div className="relative z-10 -mt-16 mx-6 bg-white rounded-3xl shadow-xl p-6">
+            <div className="w-8 h-0.5 bg-gray-300 rounded-full mb-4" />
             <blockquote className="font-semibold text-sm leading-[1.6] tracking-[0.015em] text-gray-900">
               Wat mij drijft? Het grotere plaatje. Ik word enthousiast van de strategische puzzel: creatieve vraagstukken oplossen, een sterke marketingstrategie neerzetten en alles laten kloppen binnen een bredere visie. Tegelijkertijd volg ik de nieuwste AI-ontwikkelingen in de evenementensector op de voet en denk ik graag actief mee over hoe jouw organisatie hier slim gebruik van kan maken.
             </blockquote>
@@ -349,7 +303,7 @@ export default function AboutLuca() {
       </section>
 
       {/* Fun Facts Carousel */}
-      <div className="mt-20 md:mt-36">
+      <div className="mt-20 md:mt-44">
         <div className="container mx-auto px-6">
           <motion.p
             initial={prefersReducedMotion ? false : { opacity: 0, y: 10 }}
