@@ -98,7 +98,7 @@ export default function AboutLuca() {
               onClick={() => setShowChild(prev => !prev)}
             >
               <img
-                src="/luca-nu.jpg"
+                src="/luca-portret.jpg"
                 alt="Luca nu"
                 className={`w-full h-full object-cover transition-opacity duration-700 group-hover:opacity-0 ${showChild ? "opacity-0" : ""}`}
               />
@@ -110,6 +110,7 @@ export default function AboutLuca() {
               <div className={`absolute bottom-8 left-1/2 -translate-x-1/2 bg-white/20 backdrop-blur-md px-4 py-2 rounded-full text-white text-xs font-bold transition-opacity pointer-events-none group-hover:opacity-100 ${showChild ? "opacity-100" : "opacity-0"}`}>
                 Toen & Nu
               </div>
+              <span className={`absolute bottom-3 left-5 text-[10px] text-white/70 font-medium z-10 select-none transition-opacity duration-700 group-hover:opacity-0 ${showChild ? "opacity-0" : ""}`}>© Caitlin Sloot</span>
             </div>
           </motion.div>
 
