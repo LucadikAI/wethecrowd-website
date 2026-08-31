@@ -83,16 +83,37 @@ export const projects: Project[] = [
   },
   {
     id: 8,
-    slug: "postnl-sinterklaasviering",
-    title: "Post-NL Sinterklaasviering",
-    role: "Eventmanager op locatie",
+    slug: "the-groundbreakers-brand-experiences",
+    title: "PostNL, Hoog Catharijne & Veronica",
+    role: "Project- en eventmanager",
     client: "The Groundbreakers",
-    impact: "Een geslaagd kinderfeest georganiseerd door The Groundbreakers, met twee shows op één dag in Assen.",
-    description: "Voor The Groundbreakers was ik als eventmanager aanwezig in Assen. Ik zorgde dat de op- en afbouw strak verliep, dat de twee shows volgens planning werden gedraaid en dat hosts en techniek goed werden aangestuurd. Daarnaast deed ik de afstemming met de enige echte Sinterklaas, zodat alles achter de schermen soepel liep. Het resultaat was een groot en geslaagd kinderfeest.",
-    image: "/postnl-sinterklaas.jpg",
-    year: "2025",
-    location: "Assen",
-    gallery: []
+    impact: "Drie brand experiences voor The Groundbreakers: een Sinterklaasviering voor PostNL in Assen, Badeendjesbaai met een 8 meter hoge badeend in Hoog Catharijne en de guerrilla-tour van de Radio Veronica Cheersquad.",
+    description: `Voor The Groundbreakers werk ik als project- en eventmanager aan uiteenlopende brand experiences. Van kinderfeest tot zomeractivatie en guerrilla-tour: steeds met dezelfde opdracht, namelijk het voortraject strak houden en op locatie zorgen dat het plan ook echt gebeurt.
+
+## Badeendjesbaai — Hoog Catharijne, Utrecht
+
+Acht weken lang draaide mijn werk vooral om badeendjes. Heel. Veel. Badeendjes. Voor Hoog Catharijne toverden we The Mall de Stadskamer om tot Badeendjesbaai: een zomerse activatie met een 8 meter hoge badeend, een creatieve zone en een badeendjesrace. Kinderen konden er hun eigen badeendje adopteren, waarbij alle opbrengsten naar Het Vergeten Kind gingen. Als projectmanager leidde ik het evenement zowel in de voorbereiding als op locatie in goede banen. Het werd een weekend met heel veel lachende gezichtjes, dobberende eendjes en mooie donaties.
+
+## Radio Veronica Cheersquad — Den Haag & Nijmegen
+
+In opdracht van Mediahuis Radio ontwikkelde en produceerde The Groundbreakers een guerrilla-activatie om de Top 3000 onder de aandacht te brengen: rebels, humoristisch en natuurlijk vol muziek. Een week lang dook de Cheersquad op onverwachte plekken in Nederland op, met pompons, campagneborden en een choreografie op een remix van de beste nummers aller tijden. Ik was eventmanager op locatie in Den Haag en Nijmegen en zorgde dat de squad daar op het juiste moment op de juiste plek stond.
+
+## PostNL Sinterklaasviering — Assen
+
+Als eventmanager op locatie zorgde ik dat de op- en afbouw strak verliep, dat de twee shows op één dag volgens planning werden gedraaid en dat hosts en techniek goed werden aangestuurd. Daarnaast deed ik de afstemming met de enige echte Sinterklaas, zodat alles achter de schermen soepel liep. Het resultaat was een groot en geslaagd kinderfeest.`,
+    image: "/tgb-badeendjesbaai.jpg",
+    photoCredit: "Martin Hols",
+    year: "2025-2026",
+    location: "Utrecht, Den Haag, Nijmegen & Assen",
+    gallery: [
+      "/tgb-gallery-1.jpg",
+      "/tgb-gallery-2.jpg",
+      "/tgb-gallery-3.jpg",
+      "/tgb-gallery-4.jpg",
+      "/veronica-cheersquad.jpg",
+      "/postnl-sinterklaas.jpg"
+    ],
+    galleryCredits: ["Martin Hols", "Martin Hols", "Martin Hols", "Martin Hols", null, null]
   },
   {
     id: 16,

@@ -97,7 +97,19 @@ export default function ProjectDetail() {
           <div className="max-w-4xl mx-auto mb-24">
             <h2 className="text-3xl font-bold mb-8">Over het project</h2>
             <div className="text-xl text-gray-700 leading-relaxed space-y-6">
-              <p>{project.description}</p>
+              {project.description
+                .split(/\n\s*\n/)
+                .map((block) => block.trim())
+                .filter(Boolean)
+                .map((block, i) =>
+                  block.startsWith("## ") ? (
+                    <h3 key={i} className="text-2xl font-bold text-black pt-6">
+                      {block.slice(3)}
+                    </h3>
+                  ) : (
+                    <p key={i}>{block}</p>
+                  )
+                )}
             </div>
           </div>
         )}
