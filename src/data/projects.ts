@@ -87,8 +87,8 @@ export const projects: Project[] = [
     title: "PostNL, Hoog Catharijne & Veronica",
     role: "Project- en eventmanager",
     client: "The Groundbreakers",
-    impact: "Drie brand experiences voor The Groundbreakers: een Sinterklaasviering voor PostNL in Assen, Badeendjesbaai met een 8 meter hoge badeend in Hoog Catharijne en de guerrilla-tour van de Radio Veronica Cheersquad.",
-    description: `Voor The Groundbreakers werk ik als project- en eventmanager aan uiteenlopende brand experiences. Van kinderfeest tot zomeractivatie en guerrilla-tour: steeds met dezelfde opdracht, namelijk het voortraject strak houden en op locatie zorgen dat het plan ook echt gebeurt.
+    impact: "Drie activaties voor The Groundbreakers: een Sinterklaasviering voor PostNL in Assen, Badeendjesbaai met een 8 meter hoge badeend in Hoog Catharijne en de guerrilla-tour van de Radio Veronica Cheersquad.",
+    description: `Voor The Groundbreakers werk ik als project- en eventmanager aan uiteenlopende brand experiences en events. Van kinderfeest tot zomeractivatie en guerrilla-tour: steeds met dezelfde opdracht, namelijk het voortraject strak houden en op locatie zorgen dat het plan ook echt gebeurt.
 
 ## Badeendjesbaai — Hoog Catharijne, Utrecht
 
@@ -107,13 +107,10 @@ Als eventmanager op locatie zorgde ik dat de op- en afbouw strak verliep, dat de
     location: "Utrecht, Den Haag, Nijmegen & Assen",
     gallery: [
       "/tgb-gallery-1.jpg",
-      "/tgb-gallery-2.jpg",
-      "/tgb-gallery-3.jpg",
-      "/tgb-gallery-4.jpg",
       "/veronica-cheersquad.jpg",
       "/postnl-sinterklaas.jpg"
     ],
-    galleryCredits: ["Martin Hols", "Martin Hols", "Martin Hols", "Martin Hols", null, null]
+    galleryCredits: ["Martin Hols", null, null]
   },
   {
     id: 16,
