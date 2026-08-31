@@ -87,7 +87,7 @@ export const projects: Project[] = [
     title: "PostNL, Hoog Catharijne & Veronica",
     role: "Project- en eventmanager",
     client: "The Groundbreakers",
-    impact: "Drie activaties voor The Groundbreakers: een Sinterklaasviering voor PostNL in Assen, Badeendjesbaai met een 8 meter hoge badeend in Hoog Catharijne en de guerrilla-tour van de Radio Veronica Cheersquad.",
+    impact: "Diverse activaties en events voor The Groundbreakers: een Sinterklaasviering voor PostNL in Assen, Badeendjesbaai met een 8 meter hoge badeend in Hoog Catharijne en de guerrilla-tour van de Radio Veronica Cheersquad.",
     description: `Voor The Groundbreakers werk ik als project- en eventmanager aan uiteenlopende brand experiences en events. Van kinderfeest tot zomeractivatie en guerrilla-tour: steeds met dezelfde opdracht, namelijk het voortraject strak houden en op locatie zorgen dat het plan ook echt gebeurt.
 
 ## Badeendjesbaai — Hoog Catharijne, Utrecht
