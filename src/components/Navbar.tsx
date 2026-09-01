@@ -25,6 +25,7 @@ export default function Navbar() {
     { name: "Over mij", path: "/over-luca" },
     { name: "Diensten", path: "/dit-doe-ik-graag" },
     { name: "Projecten", path: "/projecten" },
+    { name: "Jubileum", path: "/jubileum" },
     { name: "Contact", path: "/contact" },
   ];
 

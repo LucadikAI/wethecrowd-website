@@ -9,6 +9,7 @@ import AboutLuca from "./pages/AboutLuca";
 import Services from "./pages/Services";
 import Projects from "./pages/Projects";
 import ProjectDetail from "./pages/ProjectDetail";
+import Jubileum from "./pages/Jubileum";
 import Contact from "./pages/Contact";
 
 function ScrollToTop() {
@@ -34,6 +35,7 @@ function AppContent() {
             <Route path="/dit-doe-ik-graag" element={<Services />} />
             <Route path="/projecten" element={<Projects />} />
             <Route path="/projecten/:slug" element={<ProjectDetail />} />
+            <Route path="/jubileum" element={<Jubileum />} />
             <Route path="/contact" element={<Contact />} />
           </Routes>
         </AnimatePresence>

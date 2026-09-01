@@ -66,3 +66,21 @@
   from { left: 0%; }
   to { left: 75%; }
 }
+
+/* Verticale ticker op de jubileumpagina. De reeks staat er twee keer; de
+   animatie schuift precies één helft op, zodat de tekst naadloos doorloopt. */
+@keyframes verticalTicker {
+  0% { transform: translateY(0%); }
+  100% { transform: translateY(-50%); }
+}
+
+.animate-vertical-ticker {
+  animation: verticalTicker 16s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-vertical-ticker,
+  .logo-slider-track {
+    animation: none;
+  }
+}
