@@ -1,4 +1,4 @@
-import { motion, animate, useMotionValue, useReducedMotion } from "motion/react";
+import { motion, animate, easeIn, useMotionValue, useReducedMotion, useScroll, useTransform } from "motion/react";
 import { useEffect, useId, useLayoutEffect, useRef, useState } from "react";
 import type { MouseEvent as ReactMouseEvent, PointerEvent as ReactPointerEvent } from "react";
 import { Link } from "react-router-dom";
@@ -29,6 +29,9 @@ function opening(text: string, sentences = 2): string {
 
 const [eventmanagement, artiestenbegeleiding, stagemanagement, showcalling] = services;
 
+/** Zweefbeweging in rust: x en y hebben elk een eigen tempo, zodat het niet mechanisch loopt. */
+type Float = { x: number[]; y: number[]; xDuration: number; yDuration: number };
+
 type Card = {
   /** Titel, met soft hyphens (­) op de plekken waar hij mag afbreken. */
   title: string;
@@ -40,6 +43,7 @@ type Card = {
   isNew?: boolean;
   rotate: number;
   y: number;
+  float: Float;
 };
 
 const cards: Card[] = [
@@ -51,6 +55,7 @@ const cards: Card[] = [
     tone: "white",
     rotate: -5,
     y: 22,
+    float: { x: [0, 9, -6, 0], y: [0, -14, 5, 0], xDuration: 7.4, yDuration: 5.6 },
   },
   {
     title: "Artiesten­begeleiding",
@@ -60,6 +65,7 @@ const cards: Card[] = [
     tone: "blue",
     rotate: 3,
     y: -12,
+    float: { x: [0, -8, 7, 0], y: [0, 10, -12, 0], xDuration: 6.3, yDuration: 7.1 },
   },
   {
     title: "Artiesten­boeking",
@@ -71,6 +77,7 @@ const cards: Card[] = [
     isNew: true,
     rotate: -2,
     y: 30,
+    float: { x: [0, 7, -9, 0], y: [0, -16, 4, 0], xDuration: 8.2, yDuration: 6.4 },
   },
   {
     title: "Stage­management",
@@ -80,6 +87,7 @@ const cards: Card[] = [
     tone: "blue",
     rotate: 4,
     y: 0,
+    float: { x: [0, -10, 5, 0], y: [0, -8, 12, 0], xDuration: 6.9, yDuration: 7.8 },
   },
   {
     title: "Showcalling",
@@ -89,8 +97,12 @@ const cards: Card[] = [
     tone: "white",
     rotate: -4,
     y: 18,
+    float: { x: [0, 6, -8, 0], y: [0, -12, 6, 0], xDuration: 7.7, yDuration: 5.9 },
   },
 ];
+
+/** Zoveel px zakken de kaarten maximaal in de bergen terwijl de sectie uit beeld scrolt. */
+const SINK_DEPTH = 420;
 
 type Bounds = { left: number; right: number };
 
@@ -119,6 +131,12 @@ export default function ServiceCards() {
   const boundsRef = useRef<Bounds>(bounds);
   const pointerDown = useRef<{ x: number; y: number } | null>(null);
   const x = useMotionValue(0);
+
+  // Terwijl de sectie naar boven uit beeld scrolt, zakken de kaarten steeds
+  // dieper in de bergen (die vóór de kaarten staan). Begint zodra de bovenkant
+  // van de sectie de bovenkant van het venster raakt.
+  const { scrollYProgress } = useScroll({ target: sectionRef, offset: ["start start", "end start"] });
+  const sinkY = useTransform(scrollYProgress, [0, 1], [0, SINK_DEPTH], { ease: easeIn });
 
   /**
    * Sleepgrenzen: passen alle kaarten in het venster, dan staat de rij vast
@@ -158,6 +176,9 @@ export default function ServiceCards() {
     const padL = parseFloat(trackStyle.paddingLeft) || 0;
     const padR = parseFloat(trackStyle.paddingRight) || 0;
     const gap = parseFloat(trackStyle.columnGap) || 0;
+    // De kaarten vallen over elkaar via een negatieve linkermarge op elke li na de eerste.
+    const secondSlot = track.children[1] as HTMLElement | undefined;
+    const overlap = secondSlot ? -(parseFloat(getComputedStyle(secondSlot).marginLeft) || 0) : 0;
     const openW = parseFloat(getComputedStyle(section).getPropertyValue("--card-w-open")) || 0;
     // Breedte van een dichte kaart: de kleinste van de andere kaarten, zodat een
     // kaart die nog aan het dichtklappen is niet meetelt.
@@ -168,8 +189,9 @@ export default function ServiceCards() {
 
     const vw = vp.clientWidth;
     const n = cards.length;
-    const trackW = padL + padR + (n - 1) * cardW + openW + (n - 1) * gap;
-    const slotLeft = padL + index * (cardW + gap);
+    const step = cardW + gap - overlap;
+    const trackW = padL + padR + (n - 1) * step + openW;
+    const slotLeft = padL + index * step;
     const target = vw / 2 - (slotLeft + openW / 2);
     return trackW <= vw ? target : clampTo(target, { left: vw - trackW, right: 0 });
   };
@@ -283,10 +305,9 @@ export default function ServiceCards() {
         transition={spring}
         className="flex flex-col items-center gap-2 px-[6vw] text-center"
       >
-        <h2 className="text-[length:clamp(32px,4.4vw,56px)] leading-none tracking-[-0.03em]">
+        <h2 className="text-[length:clamp(40px,5.6vw,76px)] leading-none tracking-[-0.03em]">
           Dit doe ik <span className="text-brand-accent">graag</span>
         </h2>
-        <p className="text-base text-gray-600">Sleep door de kaarten en tik er een aan.</p>
         <Link
           to={SERVICES_PATH}
           className="group inline-flex items-center gap-2 text-[15px] font-bold text-brand-accent"
@@ -318,8 +339,8 @@ export default function ServiceCards() {
             dragTransition={{ power: 0.35, timeConstant: 250, bounceStiffness: 200, bounceDamping: 25 }}
             onDragStart={() => setDragging(true)}
             onDragEnd={() => setDragging(false)}
-            style={{ x }}
-            className="absolute bottom-[44px] left-0 flex w-max items-end gap-(--card-gap) px-(--track-pad)"
+            style={{ x, y: reduce ? 0 : sinkY }}
+            className="absolute bottom-[44px] left-0 flex w-max items-end px-(--track-pad)"
           >
             {cards.map((card, i) => {
               const isOpen = active === i;
@@ -346,14 +367,17 @@ export default function ServiceCards() {
                 /* Zweef-wrapper: los van de kaart, zodat het zweven niet botst met rotatie en open-transforms. */
                 <motion.li
                   key={card.title}
-                  initial={false}
-                  animate={bobbing ? { y: [0, -10, 0] } : { y: 0 }}
+                  initial={{ x: 0, y: 0 }}
+                  animate={bobbing ? { x: card.float.x, y: card.float.y } : { x: 0, y: 0 }}
                   transition={
                     bobbing
-                      ? { duration: 6, repeat: Infinity, ease: "easeInOut", delay: i * 0.9 }
+                      ? {
+                          x: { duration: card.float.xDuration, repeat: Infinity, ease: "easeInOut", delay: i * 0.4 },
+                          y: { duration: card.float.yDuration, repeat: Infinity, ease: "easeInOut", delay: i * 0.7 },
+                        }
                       : cardTransition
                   }
-                  className={`shrink-0 ${isOpen ? "relative z-30" : ""}`}
+                  className={`shrink-0 [&:not(:first-child)]:-ml-(--card-overlap) ${isOpen ? "relative z-30" : ""}`}
                 >
                   <motion.div
                     ref={(el) => {

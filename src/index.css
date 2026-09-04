@@ -96,8 +96,10 @@
    CSS-variabelen, zodat de mobiele waarden ook zonder JavaScript gelden en de
    prerender dezelfde afmetingen oplevert als de browser. */
 .service-cards {
-  --card-gap: 22px;
-  --card-w: clamp(170px, calc((100vw - 10vw - 4 * var(--card-gap)) / 5), 280px);
+  /* De kaarten vallen iets over elkaar (overlap), zodat ze groter kunnen en
+     toch alle vijf in beeld passen: 5 kaarten - 4 overlaps = 90vw. */
+  --card-overlap: 40px;
+  --card-w: clamp(190px, calc((90vw + 4 * var(--card-overlap)) / 5), 330px);
   --card-h: calc(var(--card-w) * 1.65);
   --card-w-open: 400px;
   --card-h-open: 560px;
@@ -110,9 +112,9 @@
 
 @media (max-width: 759.98px) {
   .service-cards {
-    --card-gap: 16px;
-    --card-w: 230px;
-    --card-h: 350px;
+    --card-overlap: 24px;
+    --card-w: 250px;
+    --card-h: 412px;
     --card-w-open: 300px;
     --card-h-open: 500px;
     --mountain-h: 180px;
