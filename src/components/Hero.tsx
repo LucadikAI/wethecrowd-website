@@ -52,6 +52,51 @@ function MarqueeLine({ text, duration, reverse = false, highlightWord }: Marquee
   );
 }
 
+/** Intro-tekst en knoppen onder de marquee. Ook gebruikt in het scrollverhaal. */
+export function HeroCopy() {
+  const prefersReducedMotion = useReducedMotion();
+  return (
+  <motion.div
+    initial={prefersReducedMotion ? false : { opacity: 0, y: 20 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ type: "spring", stiffness: 200, damping: 20, delay: 0.3 }}
+    className="mt-10 flex flex-col items-center text-center px-6 pb-10 md:pb-0 w-full"
+  >
+    <p className="text-lg md:text-xl text-gray-600 leading-relaxed font-light max-w-2xl mb-10">
+      <span className="font-bold text-gray-900">WE THE CROWD</span> vertaalt visie naar uitvoering. Van creatieve conceptontwikkeling tot strakke productie en stagemanagement. Alles wat je zoekt om events met blijvende impact te realiseren.
+    </p>
+
+    <div className="flex flex-col sm:flex-row gap-4">
+      <motion.div
+        whileHover={{ scale: 1.02 }}
+        whileTap={{ scale: 0.99 }}
+        transition={{ type: "spring", stiffness: 400, damping: 17 }}
+      >
+        <Link
+          to="/projecten"
+          className="px-8 py-3.5 bg-brand-accent text-white rounded-full font-bold flex items-center justify-center gap-2 hover:brightness-90 transition-colors group text-sm"
+        >
+          Bekijk alle projecten
+          <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+        </Link>
+      </motion.div>
+      <motion.div
+        whileHover={{ scale: 1.02 }}
+        whileTap={{ scale: 0.99 }}
+        transition={{ type: "spring", stiffness: 400, damping: 17 }}
+      >
+        <Link
+          to="/contact"
+          className="px-8 py-3.5 border border-gray-200 text-gray-900 rounded-full font-bold flex items-center justify-center hover:bg-gray-50 transition-colors text-sm"
+        >
+          Werk met mij
+        </Link>
+      </motion.div>
+    </div>
+  </motion.div>
+  );
+}
+
 export default function Hero() {
   const prefersReducedMotion = useReducedMotion();
 
@@ -75,45 +120,7 @@ export default function Hero() {
         <MarqueeLine text="Blijvende impact" duration={70} highlightWord="impact" />
       </div>
 
-      {/* Description & Buttons Block */}
-      <motion.div
-        initial={prefersReducedMotion ? false : { opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ type: "spring", stiffness: 200, damping: 20, delay: 0.3 }}
-        className="mt-10 flex flex-col items-center text-center px-6 pb-10 md:pb-0 w-full"
-      >
-        <p className="text-lg md:text-xl text-gray-600 leading-relaxed font-light max-w-2xl mb-10">
-          <span className="font-bold text-gray-900">WE THE CROWD</span> vertaalt visie naar uitvoering. Van creatieve conceptontwikkeling tot strakke productie en stagemanagement. Alles wat je zoekt om events met blijvende impact te realiseren.
-        </p>
-
-        <div className="flex flex-col sm:flex-row gap-4">
-          <motion.div
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.99 }}
-            transition={{ type: "spring", stiffness: 400, damping: 17 }}
-          >
-            <Link
-              to="/projecten"
-              className="px-8 py-3.5 bg-brand-accent text-white rounded-full font-bold flex items-center justify-center gap-2 hover:brightness-90 transition-colors group text-sm"
-            >
-              Bekijk alle projecten
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </Link>
-          </motion.div>
-          <motion.div
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.99 }}
-            transition={{ type: "spring", stiffness: 400, damping: 17 }}
-          >
-            <Link
-              to="/contact"
-              className="px-8 py-3.5 border border-gray-200 text-gray-900 rounded-full font-bold flex items-center justify-center hover:bg-gray-50 transition-colors text-sm"
-            >
-              Werk met mij
-            </Link>
-          </motion.div>
-        </div>
-      </motion.div>
+      <HeroCopy />
 
       <div className="hidden md:block md:flex-1" />
     </section>
