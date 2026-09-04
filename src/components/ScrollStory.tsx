@@ -93,33 +93,27 @@ const at = (i: number, local: number) => (i + local) / CHAPTER_COUNT;
  */
 const timeline = (i: number) => {
   const first = i === 0;
-  const grabStart = first ? 0.05 : 0.12;
+  const grabStart = first ? 0.05 : 0.06;
   const photosStart = grabStart + 0.3;
   return {
     grab: [grabStart, grabStart + 0.26],
-    /** De regels vervagen terwijl de zin groeit ... */
+    /** De lopende regels vervagen terwijl de eerste zin groeit (alleen hoofdstuk 0). */
     linesOut: [grabStart, grabStart + 0.2],
-    /** ... en komen achter de foto's terug, gedempt en weer lopend. */
-    linesBack: [photosStart, photosStart + 0.15],
     lift: [grabStart + 0.28, grabStart + 0.38],
     photosStart,
     exit: [0.86, 1],
   } as const;
 };
 
-/** Opaciteit van de lopende regels wanneer ze achter de foto's lopen. */
-const LINES_BG = 0.22;
-
 /**
- * Tijdens het oppakken staan de regels stil, zodat de zin exact op de plek
- * van zijn kopie kan beginnen. Daarbuiten lopen ze gewoon door.
+ * Tijdens het oppakken van de eerste zin staan de regels stil, zodat de zin
+ * exact op de plek van zijn kopie kan beginnen. Daarna zijn ze weg.
  */
-const isFrozen = (p: number) =>
-  chapters.some((_, i) => {
-    const l = p * CHAPTER_COUNT - i;
-    const tl = timeline(i);
-    return l >= tl.grab[0] - 0.01 && l < tl.linesOut[1];
-  });
+const isFrozen = (p: number) => {
+  const l = p * CHAPTER_COUNT;
+  const tl = timeline(0);
+  return l >= tl.grab[0] - 0.01;
+};
 
 const clamp01 = (v: number) => Math.min(1, Math.max(0, v));
 const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
@@ -195,6 +189,11 @@ function Phrase({
     const stage = stageRef.current;
     const self = ref.current;
     if (!stage || !self) return;
+    // Latere zinnen komen niet uit de lopende tekst, maar zelf van rechts.
+    if (i > 0) {
+      source.current = { dx: stage.clientWidth * 0.35, dy: 0, scale: 0.45, copy: -1 };
+      return;
+    }
     const copies = stage.querySelectorAll<HTMLElement>(`[data-line="${i}"] [data-phrase]`);
     if (!copies.length) return;
     const stageRect = stage.getBoundingClientRect();
@@ -260,7 +259,9 @@ function Phrase({
   const opacity = useTransform(progress, (p) => {
     const l = local(p);
     if (l < tl.grab[0] || l >= tl.exit[1]) return 0;
-    return 1 - exitT(p);
+    // De eerste zin is meteen zichtbaar (hij vervangt zijn kopie); de andere faden in.
+    const fadeIn = i === 0 ? 1 : clamp01(grabT(p) / 0.4);
+    return fadeIn * (1 - exitT(p));
   });
 
   return (
@@ -349,26 +350,10 @@ function HeroLayer({
     });
   });
 
-  // Zichtbaarheid van de regels over de hele tijdlijn: vol bij het oppakken,
-  // weg terwijl de zin groeit, gedempt achter de foto's, en weer vol zodra de
-  // foto's van het vorige hoofdstuk verdwijnen.
-  const keys: number[] = [];
-  const vals: number[] = [];
-  chapters.forEach((_, i) => {
-    const tl = timeline(i);
-    const isLast = i === CHAPTER_COUNT - 1;
-    if (i === 0) {
-      keys.push(0);
-      vals.push(1);
-    }
-    keys.push(at(i, tl.linesOut[0]), at(i, tl.linesOut[1]), at(i, tl.linesBack[0]), at(i, tl.linesBack[1]));
-    vals.push(1, 0, 0, LINES_BG);
-    if (!isLast) {
-      keys.push(at(i, tl.exit[0]), at(i, tl.exit[1]));
-      vals.push(LINES_BG, 1);
-    }
-  });
-  const linesOpacity = useTransform(progress, keys, vals);
+  // De lopende regels vervagen terwijl de eerste zin eruit groeit en komen
+  // daarna niet meer terug.
+  const tl0 = timeline(0);
+  const linesOpacity = useTransform(progress, [0, at(0, tl0.linesOut[0]), at(0, tl0.linesOut[1])], [1, 1, 0]);
   const copyOpacity = useTransform(progress, [0, at(0, 0.1)], [1, 0]);
   const copyY = useTransform(progress, [0, at(0, 0.1)], ["0svh", "-4svh"]);
   const pointerEvents = useTransform(copyOpacity, (o) => (o > 0.5 ? "auto" : "none"));
