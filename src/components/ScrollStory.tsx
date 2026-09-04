@@ -94,15 +94,32 @@ const at = (i: number, local: number) => (i + local) / CHAPTER_COUNT;
 const timeline = (i: number) => {
   const first = i === 0;
   const grabStart = first ? 0.05 : 0.12;
+  const photosStart = grabStart + 0.3;
   return {
-    linesIn: [0, 0.08],
     grab: [grabStart, grabStart + 0.26],
+    /** De regels vervagen terwijl de zin groeit ... */
     linesOut: [grabStart, grabStart + 0.2],
+    /** ... en komen achter de foto's terug, gedempt en weer lopend. */
+    linesBack: [photosStart, photosStart + 0.15],
     lift: [grabStart + 0.28, grabStart + 0.38],
-    photosStart: grabStart + 0.3,
+    photosStart,
     exit: [0.86, 1],
   } as const;
 };
+
+/** Opaciteit van de lopende regels wanneer ze achter de foto's lopen. */
+const LINES_BG = 0.22;
+
+/**
+ * Tijdens het oppakken staan de regels stil, zodat de zin exact op de plek
+ * van zijn kopie kan beginnen. Daarbuiten lopen ze gewoon door.
+ */
+const isFrozen = (p: number) =>
+  chapters.some((_, i) => {
+    const l = p * CHAPTER_COUNT - i;
+    const tl = timeline(i);
+    return l >= tl.grab[0] - 0.01 && l < tl.linesOut[1];
+  });
 
 const clamp01 = (v: number) => Math.min(1, Math.max(0, v));
 const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
@@ -209,11 +226,16 @@ function Phrase({
   const liftT = (p: number) => clamp01((local(p) - tl.lift[0]) / (tl.lift[1] - tl.lift[0]));
   const exitT = (p: number) => (isLast ? 0 : clamp01((local(p) - tl.exit[0]) / (tl.exit[1] - tl.exit[0])));
 
+  const wasFrozen = useRef(false);
+
   const update = (p: number) => {
     const l = local(p);
-    // Bij het begin van de grab opnieuw meten; de regels staan dan stil.
-    if (l < tl.grab[0] + 0.02) measure();
-    const grabbing = l >= tl.grab[0] && l < tl.exit[1];
+    // Meten op het moment dat de regels bevriezen (vanuit beide scrollrichtingen).
+    const frozen = l >= tl.grab[0] - 0.01 && l < tl.linesOut[1];
+    if (frozen && !wasFrozen.current) measure();
+    wasFrozen.current = frozen;
+    // De opgepakte kopie is verborgen tot de regels weer (onzichtbaar) terugkomen.
+    const grabbing = l >= tl.grab[0] && l < tl.photosStart;
     line.copyOpacity.forEach((mv, idx) =>
       mv.set(grabbing && source.current && idx === source.current.copy ? 0 : 1)
     );
@@ -316,7 +338,7 @@ function HeroLayer({
   const prefersReducedMotion = useReducedMotion();
 
   useAnimationFrame((_, delta) => {
-    if (prefersReducedMotion || progress.get() > 0.002) return;
+    if (prefersReducedMotion || isFrozen(progress.get())) return;
     lines.forEach((line, i) => {
       const { duration, reverse } = chapters[i].marquee;
       const step = (delta / (duration * 1000)) * 50;
@@ -327,17 +349,23 @@ function HeroLayer({
     });
   });
 
-  // Zichtbaarheid van de regels over de hele tijdlijn.
+  // Zichtbaarheid van de regels over de hele tijdlijn: vol bij het oppakken,
+  // weg terwijl de zin groeit, gedempt achter de foto's, en weer vol zodra de
+  // foto's van het vorige hoofdstuk verdwijnen.
   const keys: number[] = [];
   const vals: number[] = [];
   chapters.forEach((_, i) => {
     const tl = timeline(i);
+    const isLast = i === CHAPTER_COUNT - 1;
     if (i === 0) {
-      keys.push(0, at(0, tl.linesOut[0]), at(0, tl.linesOut[1]));
-      vals.push(1, 1, 0);
-    } else {
-      keys.push(at(i, tl.linesIn[0]), at(i, tl.linesIn[1]), at(i, tl.linesOut[0]), at(i, tl.linesOut[1]));
-      vals.push(0, 1, 1, 0);
+      keys.push(0);
+      vals.push(1);
+    }
+    keys.push(at(i, tl.linesOut[0]), at(i, tl.linesOut[1]), at(i, tl.linesBack[0]), at(i, tl.linesBack[1]));
+    vals.push(1, 0, 0, LINES_BG);
+    if (!isLast) {
+      keys.push(at(i, tl.exit[0]), at(i, tl.exit[1]));
+      vals.push(LINES_BG, 1);
     }
   });
   const linesOpacity = useTransform(progress, keys, vals);
