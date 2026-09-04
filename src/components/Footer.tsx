@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Linkedin, Mail } from "lucide-react";
+import { Linkedin, Mail, Phone } from "lucide-react";
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -47,8 +47,21 @@ export default function Footer() {
                 <Mail className="w-4 h-4 shrink-0" />
                 <a href="mailto:luca@wethecrowd.nl" className="hover:text-white transition-colors">luca@wethecrowd.nl</a>
               </li>
-              <li className="whitespace-nowrap text-sm">
-                Amersfoort, Nederland
+              <li className="flex items-center gap-3 whitespace-nowrap">
+                <Phone className="w-4 h-4 shrink-0" />
+                <a href="tel:+31646964338" className="hover:text-white transition-colors">+31 6 46 96 43 38</a>
+              </li>
+              {/* Adres als <address>, zodat het adres in de LocalBusiness-data
+                  ook zichtbaar op de site staat. */}
+              <li>
+                <address className="not-italic text-sm leading-relaxed">
+                  Mozartweg 56h<br />
+                  3816 LT Amersfoort<br />
+                  Nederland
+                </address>
+              </li>
+              <li className="text-sm">
+                KVK 92394469
               </li>
             </ul>
           </div>

@@ -60,8 +60,16 @@ export default function Hero() {
       <div className="h-[28vh] md:hidden" />
       <div className="hidden md:block md:flex-1" />
 
+      {/*
+        De H1 van de homepage. De marquee eronder is bewegend en decoratief, dus
+        de leesbare kop staat als sr-only tekst en de marquee is aria-hidden.
+      */}
+      <h1 className="sr-only">
+        WE THE CROWD: creatieve oplossingen, strakke uitvoering en blijvende impact
+      </h1>
+
       {/* Marquee Section */}
-      <div className="relative z-10 w-full flex flex-col">
+      <div aria-hidden="true" className="relative z-10 w-full flex flex-col">
         <MarqueeLine text="Creatieve oplossingen" duration={60} highlightWord="Creatieve" />
         <MarqueeLine text="Strakke uitvoering" duration={80} reverse highlightWord="uitvoering" />
         <MarqueeLine text="Blijvende impact" duration={70} highlightWord="impact" />

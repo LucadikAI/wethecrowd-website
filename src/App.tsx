@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route, useLocation } from "react-route
 import { useEffect } from "react";
 import { AnimatePresence } from "motion/react";
 import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/react";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Home from "./pages/Home";
@@ -11,6 +12,8 @@ import Projects from "./pages/Projects";
 import ProjectDetail from "./pages/ProjectDetail";
 import Jubileum from "./pages/Jubileum";
 import Contact from "./pages/Contact";
+import NotFound from "./pages/NotFound";
+import useDocumentMeta from "./seo/useDocumentMeta";
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -20,8 +23,9 @@ function ScrollToTop() {
   return null;
 }
 
-function AppContent() {
+export function AppContent() {
   const location = useLocation();
+  useDocumentMeta();
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -37,6 +41,7 @@ function AppContent() {
             <Route path="/projecten/:slug" element={<ProjectDetail />} />
             <Route path="/jubileum" element={<Jubileum />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </AnimatePresence>
       </main>
@@ -50,6 +55,7 @@ export default function App() {
     <Router>
       <AppContent />
       <Analytics />
+      <SpeedInsights />
     </Router>
   );
 }

@@ -33,6 +33,12 @@ export default function JubileumReveal() {
 
   return (
     <div ref={spoelRef} className={`relative w-full ${prefersReducedMotion ? "" : "md:min-h-[170vh]"}`}>
+      <h1 className="sr-only">
+        {jubileum.titelDeel1}
+        {jubileum.titelAccent}
+        {jubileum.titelDeel2}
+      </h1>
+
       <div className={`container mx-auto px-6 ${prefersReducedMotion ? "" : "md:sticky md:top-28"}`}>
         {/* Op mobiel is er geen ruimte voor twee panelen naast elkaar. Daar staat
             alles onder elkaar, zonder schuifdeur en zonder scrollspoel — je ziet
@@ -144,13 +150,19 @@ function TekstPaneel({ className }: { className?: string }) {
           {jubileum.eyebrow}
         </span>
 
-        <h1 className="text-4xl font-bold leading-[1.05] tracking-tight lg:text-6xl">
+        {/* Geen <h1>: dit paneel staat twee keer in de DOM, één keer voor mobiel
+            en één keer voor desktop. De echte H1 staat als sr-only kop boven de
+            sectie, zodat de pagina er precies één heeft. */}
+        <div
+          aria-hidden="true"
+          className="text-4xl font-bold leading-[1.05] tracking-tight lg:text-6xl"
+        >
           {jubileum.titelDeel1}
           <span className="inline-block rounded-2xl bg-brand-accent px-3 pb-1 text-white">
             {jubileum.titelAccent}
           </span>
           {jubileum.titelDeel2}
-        </h1>
+        </div>
 
         <p className="max-w-[400px] text-base leading-relaxed text-gray-400 lg:text-lg">
           {jubileum.intro}

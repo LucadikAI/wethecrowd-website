@@ -1,5 +1,5 @@
 import { motion, useReducedMotion } from "motion/react";
-import { Mail, Linkedin, Send, CircleCheck } from "lucide-react";
+import { Mail, Phone, Linkedin, Send, CircleCheck } from "lucide-react";
 import { useState } from "react";
 
 const springEnter = { type: "spring" as const, stiffness: 200, damping: 20 };
@@ -52,6 +52,15 @@ export default function Contact() {
                 <div>
                   <p className="text-sm text-gray-500 font-bold uppercase tracking-widest">Email</p>
                   <a href="mailto:luca@wethecrowd.nl" className="text-xl font-bold hover:text-brand-accent transition-colors">luca@wethecrowd.nl</a>
+                </div>
+              </div>
+              <div className="flex items-center gap-6 group">
+                <div className="w-14 h-14 rounded-2xl bg-gray-100 flex items-center justify-center group-hover:bg-brand-accent group-hover:text-white transition-colors">
+                  <Phone className="w-6 h-6" />
+                </div>
+                <div>
+                  <p className="text-sm text-gray-500 font-bold uppercase tracking-widest">Telefoon</p>
+                  <a href="tel:+31646964338" className="text-xl font-bold hover:text-brand-accent transition-colors">+31 6 46 96 43 38</a>
                 </div>
               </div>
               <div className="flex items-center gap-6 group">
