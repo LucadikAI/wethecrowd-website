@@ -1,4 +1,5 @@
 import Hero from "../components/Hero";
+import ScrollStory from "../components/ScrollStory";
 import Introduction from "../components/Introduction";
 import ServiceStack from "../components/ServiceStack";
 import FeaturedProjects from "../components/FeaturedProjects";
@@ -16,6 +17,7 @@ export default function Home() {
       transition={{ type: "spring", stiffness: 200, damping: 20 }}
     >
       <Hero />
+      <ScrollStory />
       <Introduction />
       <section className="py-24 bg-white">
         <div className="container mx-auto px-6">
