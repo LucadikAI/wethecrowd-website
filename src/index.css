@@ -8,6 +8,13 @@
   --color-brand-primary: #000000;
   --color-brand-secondary: #ffffff;
   --color-brand-accent: #1ea4f2;
+
+  /* Extra blauwtinten voor de dienstenkaarten op de homepage. */
+  --color-brand-sky: #2fb0f6;
+  --color-brand-deep: #0b6fb0;
+  --color-brand-glacier: #8dd2f8;
+  --color-brand-frost: #e0f4fd;
+  --color-brand-ice: #f0faff;
 }
 
 @layer base {
@@ -82,5 +89,36 @@
   .animate-vertical-ticker,
   .logo-slider-track {
     animation: none;
+  }
+}
+
+/* Dienstenkaarten op de homepage (ServiceCards). De maatvoering staat hier als
+   CSS-variabelen, zodat de mobiele waarden ook zonder JavaScript gelden en de
+   prerender dezelfde afmetingen oplevert als de browser. */
+.service-cards {
+  --card-gap: 22px;
+  --card-w: clamp(170px, calc((100vw - 10vw - 4 * var(--card-gap)) / 5), 280px);
+  --card-h: calc(var(--card-w) * 1.65);
+  --card-w-open: 400px;
+  --card-h-open: 560px;
+  --mountain-h: 200px;
+  --track-pad: 5vw;
+  --open-pad-b: 70px;
+  --open-title: 24px;
+  --open-text: 15px;
+}
+
+@media (max-width: 759.98px) {
+  .service-cards {
+    --card-gap: 16px;
+    --card-w: 230px;
+    --card-h: 350px;
+    --card-w-open: 300px;
+    --card-h-open: 500px;
+    --mountain-h: 180px;
+    --track-pad: 8vw;
+    --open-pad-b: 36px;
+    --open-title: 20px;
+    --open-text: 14px;
   }
 }

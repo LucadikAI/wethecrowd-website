@@ -1,6 +1,6 @@
 import ScrollStory from "../components/ScrollStory";
 import Introduction from "../components/Introduction";
-import ServiceStack from "../components/ServiceStack";
+import ServiceCards from "../components/ServiceCards";
 import FeaturedProjects from "../components/FeaturedProjects";
 import LogoSlider from "../components/LogoSlider";
 import Testimonials from "../components/Testimonials";
@@ -17,14 +17,7 @@ export default function Home() {
     >
       <ScrollStory />
       <Introduction />
-      <section className="py-24 bg-white">
-        <div className="container mx-auto px-6">
-          <ServiceStack
-            title="Dit doe ik graag"
-            link={{ to: "/dit-doe-ik-graag", label: "Bekijk alle diensten" }}
-          />
-        </div>
-      </section>
+      <ServiceCards />
       <FeaturedProjects />
       <LogoSlider />
       <Testimonials />
