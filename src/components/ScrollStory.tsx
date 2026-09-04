@@ -8,7 +8,7 @@ import {
   useTransform,
   type MotionValue,
 } from "motion/react";
-import { useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Hero, { HeroCopy } from "./Hero";
 
 type Photo = { src: string; alt: string };
@@ -425,15 +425,14 @@ function StaticStory() {
  */
 export default function ScrollStory() {
   const prefersReducedMotion = useReducedMotion();
-  const ref = useRef<HTMLElement>(null);
-  const stageRef = useRef<HTMLDivElement>(null);
-  const lines = useLineHandles();
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start start", "end end"],
-  });
+  // De prerender bevat altijd de scrollversie. Pas na het mounten omschakelen
+  // naar de statische variant, anders klopt de HTML bij hydration niet.
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
-  if (prefersReducedMotion) {
+  if (prefersReducedMotion && mounted) {
     return (
       <>
         <Hero />
@@ -443,6 +442,24 @@ export default function ScrollStory() {
       </>
     );
   }
+
+  return <AnimatedStory />;
+}
+
+/**
+ * De scrollgestuurde variant. Staat in een eigen component, zodat useScroll
+ * alleen draait wanneer het element met de ref ook echt gerenderd wordt. Bij
+ * verminderde beweging bestaat dat element niet en gooide motion anders
+ * "Target ref is defined but not hydrated", waardoor de hele homepage leeg bleef.
+ */
+function AnimatedStory() {
+  const ref = useRef<HTMLElement>(null);
+  const stageRef = useRef<HTMLDivElement>(null);
+  const lines = useLineHandles();
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start start", "end end"],
+  });
 
   return (
     <section
