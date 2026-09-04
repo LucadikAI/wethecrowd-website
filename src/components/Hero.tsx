@@ -57,7 +57,7 @@ export default function Hero() {
 
   return (
     <section className="relative min-h-screen flex flex-col items-center overflow-hidden bg-white">
-      <div className="h-[28vh] md:hidden" />
+      <div className="h-[16vh] md:hidden" />
       <div className="hidden md:block md:flex-1" />
 
       {/*

@@ -1,5 +1,6 @@
 import { motion, useReducedMotion, useScroll, useTransform, type MotionValue } from "motion/react";
 import { useRef } from "react";
+import Hero from "./Hero";
 
 type Photo = { src: string; alt: string };
 
@@ -16,8 +17,8 @@ const chapters: Chapter[] = [
     lead: "Creatieve",
     accent: "oplossingen",
     photos: [
-      { src: "/tgb-badeendjesbaai.jpg", alt: "Badeendjesbaai met een reusachtige gele badeend in Hoog Catharijne" },
-      { src: "/veronica-cheersquad.jpg", alt: "Cheersquad van Veronica op het Jaarbeursplein in Utrecht" },
+      { src: "/indische-buurt-run-2026.jpg", alt: "Start van de Indische Buurt Run 2026 onder de boog van Diversiteitsland" },
+      { src: "/home-luca-en-tim-laptop.jpg", alt: "Luca en Tim lachend achter hun laptops tijdens een werksessie" },
       { src: "/fairspace-gallery-1.jpg", alt: "Bezoeker met VR-bril tijdens Fairspace #DoeMeeMet5D" },
     ],
   },
@@ -54,7 +55,7 @@ const photoSlots = [
   },
   {
     className:
-      "left-[38vw] top-[44svh] w-[56vw] aspect-[3/4] md:left-[36vw] md:top-[26svh] md:w-[27vw]",
+      "left-[36vw] top-[44svh] w-[58vw] aspect-[4/3] md:left-[35vw] md:top-[22svh] md:w-[31vw]",
     rotate: 4,
     z: "z-30",
   },
@@ -67,9 +68,31 @@ const photoSlots = [
 ];
 
 const CHAPTER_COUNT = chapters.length;
+/** Lengte van het hero-deel (de marquee) ten opzichte van één hoofdstuk. */
+const INTRO = 0.6;
+const TOTAL = INTRO + CHAPTER_COUNT;
 
 /** Zet een tijdstip binnen hoofdstuk `i` (0..1) om naar de globale scrollvoortgang. */
-const at = (i: number, local: number) => (i + local) / CHAPTER_COUNT;
+const at = (i: number, local: number) => (INTRO + i + local) / TOTAL;
+/** Zet een tijdstip binnen het hero-deel (0..1) om naar de globale scrollvoortgang. */
+const introAt = (local: number) => (local * INTRO) / TOTAL;
+
+/**
+ * De hero (marquee, tekst en knoppen) is het eerste beeld. Zodra je scrolt
+ * blijft de pagina staan en maakt de hero plaats voor de eerste zin.
+ */
+function HeroLayer({ progress }: { progress: MotionValue<number> }) {
+  const opacity = useTransform(progress, [introAt(0.15), introAt(0.6)], [1, 0]);
+  const y = useTransform(progress, [introAt(0.15), introAt(0.6)], ["0svh", "-10svh"]);
+  const scale = useTransform(progress, [introAt(0.15), introAt(0.6)], [1, 0.96]);
+  const pointerEvents = useTransform(opacity, (o) => (o > 0.5 ? "auto" : "none"));
+
+  return (
+    <motion.div style={{ opacity, y, scale, pointerEvents }} className="absolute inset-0">
+      <Hero />
+    </motion.div>
+  );
+}
 
 function ScenePhoto({
   photo,
@@ -222,7 +245,7 @@ function StaticStory() {
 }
 
 /**
- * Vastgepind scrollverhaal onder de hero. De pagina blijft staan terwijl je
+ * Vastgepind openingsscherm van de homepage: eerst de hero met de marquee, De pagina blijft staan terwijl je
  * scrolt; de drie kernzinnen groeien één voor één uit tot groot, met telkens
  * drie foto's die speels over elkaar heen vallen.
  */
@@ -236,9 +259,12 @@ export default function ScrollStory() {
 
   if (prefersReducedMotion) {
     return (
-      <section aria-label="Creatieve oplossingen, strakke uitvoering en blijvende impact" className="bg-white">
-        <StaticStory />
-      </section>
+      <>
+        <Hero />
+        <section aria-label="Creatieve oplossingen, strakke uitvoering en blijvende impact" className="bg-white">
+          <StaticStory />
+        </section>
+      </>
     );
   }
 
@@ -247,9 +273,10 @@ export default function ScrollStory() {
       ref={ref}
       aria-label="Creatieve oplossingen, strakke uitvoering en blijvende impact"
       className="relative bg-white"
-      style={{ height: `${CHAPTER_COUNT * 170}vh` }}
+      style={{ height: `${TOTAL * 170}vh` }}
     >
       <div className="sticky top-0 h-[100svh] overflow-hidden">
+        <HeroLayer progress={scrollYProgress} />
         {chapters.map((chapter, i) => (
           <Scene key={chapter.accent} chapter={chapter} index={i} progress={scrollYProgress} />
         ))}
