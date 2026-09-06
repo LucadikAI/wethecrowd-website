@@ -23,6 +23,7 @@ const logos = {
   fair: { src: "/logo-fairspace-t.png", name: "Fairspace", height: 56 },
   div: { src: "/logo-diversiteitsland-t.png", name: "Stichting Diversiteitsland", height: 32 },
   hop: { src: "/logo-hour-of-power-t.png", name: "Hour of Power", height: 50 },
+  ngsc: { src: "/logo-next-gen-security-t.png", name: "Next Gen Security Conference The Hague", height: 34 },
   gat: { src: "/logo-go-and-tell-t.png", name: "Go and Tell", height: 50 },
 } as const;
 
@@ -68,7 +69,7 @@ const blocks: { rotate: number; marks: Mark[] }[] = [
     marks: [
       { logos: ["hop"], project: "Hour of Power Live", slug: "hour-of-power-live-2024", role: "Stagemanager" },
       { logos: ["otl"], project: "Crown Events", slug: "crown-events", role: "Stagemanager" },
-      { name: "Next-Gen Security Conference", role: "Stagemanager" },
+      { logos: ["ngsc"], project: "Next Gen Security Conference", role: "Assistent-stagemanager" },
     ],
   },
   {
@@ -194,6 +195,7 @@ export default function ServiceBlocks() {
                     src={service.image}
                     alt={service.title.replace(/­/g, "")}
                     draggable={false}
+                    style={{ objectPosition: service.objectPosition ?? "center" }}
                     className={`absolute inset-0 h-full w-full object-cover transition-transform duration-[1200ms] motion-reduce:transition-none ${
                       active ? "scale-100" : "scale-105"
                     }`}

@@ -47,7 +47,7 @@ const organisatie = {
   },
   image: `${SITE_URL}/og-image.jpg`,
   description:
-    "WE THE CROWD is het eventbureau van Luca Dik in Amersfoort. Van creatieve conceptontwikkeling tot productie, artiestenbegeleiding, stagemanagement en showcalling.",
+    "WE THE CROWD vertaalt visie naar uitvoering. Van creatieve conceptontwikkeling tot strakke productie en stagemanagement.",
   address: {
     "@type": "PostalAddress",
     streetAddress: CONTACT.straat,

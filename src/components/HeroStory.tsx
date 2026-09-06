@@ -58,25 +58,30 @@ const chapters: Chapter[] = [
 ];
 
 /**
- * De drie foto's staan om de zin heen: twee erboven en één eronder. De band in
- * het midden blijft vrij, zodat de zin nooit over een foto valt. Vaste plekken,
- * zodat de opstelling voor elke zin hetzelfde aanvoelt en de prerender dezelfde
- * pagina oplevert als de browser.
+ * De zin komt bovenin te staan; de drie foto's spelen daaronder en vallen
+ * speels over elkaar heen. Vaste plekken, zodat de opstelling voor elke zin
+ * hetzelfde aanvoelt en de prerender dezelfde pagina oplevert als de browser.
  */
 const photoSlots = [
   {
-    className: "left-[3vw] top-[10svh] w-[52vw] aspect-[4/3] md:left-[3vw] md:top-[9svh] md:w-[27vw]",
+    className: "left-[4vw] top-[32svh] w-[58vw] aspect-[4/3] md:left-[5vw] md:top-[34svh] md:w-[34vw]",
     rotate: -6,
+    z: "z-10",
   },
   {
-    className: "left-[50vw] top-[22svh] w-[46vw] aspect-[4/3] md:left-[69vw] md:top-[13svh] md:w-[25vw]",
-    rotate: 5,
+    className: "left-[36vw] top-[46svh] w-[58vw] aspect-[4/3] md:left-[35vw] md:top-[25svh] md:w-[31vw]",
+    rotate: 4,
+    z: "z-30",
   },
   {
-    className: "left-[16vw] top-[60svh] w-[64vw] aspect-[16/10] md:left-[35vw] md:top-[61svh] md:w-[29vw]",
+    className: "left-[10vw] top-[62svh] w-[60vw] aspect-[4/3] md:left-[60vw] md:top-[41svh] md:w-[34vw]",
     rotate: -3,
+    z: "z-20",
   },
 ];
+
+/** Zo hoog boven het midden van het scherm komt de opgepakte zin te staan. */
+const PHRASE_LIFT = 0.3;
 
 const COPIES = 10;
 const SPRING = { type: "spring" as const, stiffness: 210, damping: 26 };
@@ -109,21 +114,23 @@ function useLineHandles(): LineHandle[] {
 
 /**
  * De grote zin. Hij begint exact op de plek en het formaat van zijn kopie in de
- * lopende regel en groeit van daaruit naar het midden van het scherm. De
- * voortgang is één veer van 0 naar 1, zodat hij bij het loslaten dezelfde weg
- * terugloopt.
+ * lopende regel en gaat van daaruit naar zijn plek bovenin, waar de foto's
+ * eronder kunnen spelen. De voortgang is één veer van 0 naar 1, zodat hij bij
+ * het loslaten dezelfde weg terugloopt.
  */
 function Phrase({
   chapter,
   open,
   source,
   reduce,
+  stageRef,
   phraseRef,
 }: {
   chapter: Chapter;
   open: boolean;
   source: { current: Source | null };
   reduce: boolean;
+  stageRef: React.RefObject<HTMLDivElement | null>;
   phraseRef: (el: HTMLParagraphElement | null) => void;
 }) {
   const t = useMotionValue(0);
@@ -140,7 +147,10 @@ function Phrase({
   // De bron wordt vlak voor het openen gemeten; op t = 0 valt de zin dus precies
   // over zijn kopie heen en is de wissel niet te zien.
   const x = useTransform(t, (v) => lerp(source.current?.dx ?? 0, 0, v));
-  const y = useTransform(t, (v) => lerp(source.current?.dy ?? 0, 0, v));
+  const y = useTransform(t, (v) => {
+    const lift = -PHRASE_LIFT * (stageRef.current?.clientHeight ?? 0);
+    return lerp(source.current?.dy ?? 0, lift, v);
+  });
   const scale = useTransform(t, (v) => lerp(source.current?.scale ?? 0.85, 1, v));
   const opacity = useTransform(t, [0, 0.3], [0, 1]);
 
@@ -398,7 +408,7 @@ function InteractiveHero() {
                     ? { duration: 0 }
                     : { ...SPRING, delay: active === i ? 0.05 + p * 0.09 : 0 }
                 }
-                className={`absolute z-20 overflow-hidden rounded-2xl bg-gray-100 shadow-2xl md:rounded-3xl ${photoSlots[p].className}`}
+                className={`absolute overflow-hidden rounded-2xl bg-gray-100 shadow-2xl md:rounded-3xl ${photoSlots[p].className} ${photoSlots[p].z}`}
               >
                 <img
                   src={photo.src}
@@ -411,12 +421,13 @@ function InteractiveHero() {
               </motion.figure>
             ))}
 
-            <div className="absolute inset-0 z-30">
+            <div className="absolute inset-0 z-0">
               <Phrase
                 chapter={chapter}
                 open={active === i}
                 source={sources.current[i]}
                 reduce={reduce}
+                stageRef={stageRef}
                 phraseRef={(el) => {
                   phraseRefs.current[i] = el;
                 }}

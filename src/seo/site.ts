@@ -45,9 +45,11 @@ export interface PageMeta {
 const staticPages: PageMeta[] = [
   {
     path: "/",
-    title: "WE THE CROWD | Eventbureau voor productie en stagemanagement",
+    title: "WE THE CROWD | Eventproductie en stagemanagement",
+    // Precies de zin die ook op de homepage staat, zodat de omschrijving in de
+    // zoekresultaten hetzelfde zegt als de pagina zelf.
     description:
-      "WE THE CROWD vertaalt visie naar uitvoering. Van creatieve conceptontwikkeling tot strakke productie, artiestenbegeleiding, stagemanagement en showcalling.",
+      "WE THE CROWD vertaalt visie naar uitvoering. Van creatieve conceptontwikkeling tot strakke productie en stagemanagement.",
   },
   {
     path: "/over-luca",

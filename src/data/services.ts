@@ -2,6 +2,14 @@ export type Service = {
   /** Titel met soft hyphens (­) op de plekken waar hij mag afbreken. */
   title: string;
   image: string;
+  /**
+   * Uitsnede van de foto in het staande beeldvlak van een blok op
+   * /dit-doe-ik-graag. Standaard "center"; lager percentage betekent dat de
+   * foto verder naar beneden schuift en je dus meer van de bovenkant ziet.
+   * De kaarten op de homepage hebben een ander formaat en dus een eigen
+   * uitsnede; die staat in ServiceCards.
+   */
+  objectPosition?: string;
   description: string;
 };
 
@@ -14,11 +22,13 @@ export const services: Service[] = [
   {
     title: "Eventmanagement & productie",
     image: "/dienst-eventmanagement.jpg",
+    objectPosition: "center 18%",
     description: "Van eerste briefing tot laatste afbouwmoment. Ik vertaal ideeën naar concrete draaiboeken, zorg voor heldere briefings richting crew en leveranciers en bewaak planning, budget en kwaliteit. Of het nu gaat om locatiecoördinatie, technische afstemming of overall productie-aansturing: ik zorg dat alle onderdelen samenkomen in één kloppend geheel."
   },
   {
     title: "Artiesten­begeleiding",
     image: "/dienst-artiestenbegeleiding.jpg",
+    objectPosition: "center 22%",
     description: "Zowel in de voorbereiding als tijdens het live moment ben ik het vaste aanspreekpunt voor artiest en management. Van riders en hospitality tot repetities en showflow. Ik werk in kleine settings én grote zalen, en zorg dat artiesten zich volledig kunnen focussen op hun performance."
   },
   {
