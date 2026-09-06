@@ -1,5 +1,6 @@
-import { motion, useReducedMotion, useScroll, useTransform, MotionValue } from "motion/react";
-import { useState, useRef } from "react";
+import { motion, animate, useMotionValue, useReducedMotion, useScroll, useTransform } from "motion/react";
+import type { MotionValue } from "motion/react";
+import { useEffect, useRef, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import VenueSlider from "../components/VenueSlider";
 
@@ -17,21 +18,265 @@ const quoteWords = "Van festivals tot bedrijfsevenementen, als freelancer sta ik
 
 const quote2Words = "Wat mij drijft? Het grotere plaatje. Ik word enthousiast van de strategische puzzel: creatieve vraagstukken oplossen, een sterke marketingstrategie neerzetten en alles laten kloppen binnen een bredere visie. Tegelijkertijd volg ik de nieuwste AI-ontwikkelingen in de evenementensector op de voet en denk ik graag actief mee over hoe jouw organisatie hier slim gebruik van kan maken.".split(' ');
 
-function WordSpan({ word, index, total, scrollYProgress, prefersReducedMotion, light = false }: {
+/** Een woord in het manifest dat met een foto gevuld is in plaats van met zwart. */
+type Photo = { image: string; caption: string };
+type PhotoWordSpec = Photo & { phrase: string };
+
+const paragraphs: { eyebrow: string; words: string[]; photoWords: PhotoWordSpec[] }[] = [
+  {
+    eyebrow: "Wat ik doe",
+    words: quoteWords,
+    photoWords: [
+      { phrase: "festivals", image: "/luca-werk-6.jpg", caption: "Showcalling in de kerk" },
+      { phrase: "creatief denken", image: "/luca-werk-9.jpg", caption: "Concepting met het team" },
+    ],
+  },
+  {
+    eyebrow: "Wat mij drijft",
+    words: quote2Words,
+    photoWords: [
+      { phrase: "Het grotere plaatje.", image: "/luca-werk-7.jpg", caption: "Met het team na de show" },
+    ],
+  },
+];
+
+const strips: { items: Photo[]; startNumber: number; reverse: boolean }[] = [
+  {
+    startNumber: 1,
+    reverse: false,
+    items: [
+      { image: "/luca-werk-6.jpg", caption: "Showcalling in de kerk" },
+      { image: "/luca-werk-8.jpg", caption: "Backstage, vijf minuten voor doors" },
+      { image: "/luca-werk-2.jpg", caption: "Volle zaal" },
+      { image: "/luca-werk-7.jpg", caption: "Met het team na de show" },
+      { image: "/luca-werk-4.jpg", caption: "Opbouwdag" },
+      { image: "/luca-werk-1.jpg", caption: "Crew" },
+    ],
+  },
+  {
+    startNumber: 7,
+    reverse: true,
+    items: [
+      { image: "/luca-quote2-2.jpg", caption: "Regie tijdens de show" },
+      { image: "/luca-quote2-3.jpg", caption: "Volle bak" },
+      { image: "/luca-quote2-4.jpg", caption: "Vlak voor doors" },
+      { image: "/luca-werk-3.png", caption: "Op locatie" },
+      { image: "/luca-quote2-5.jpg", caption: "Podium in opbouw" },
+      { image: "/luca-nu.jpg", caption: "Nu" },
+    ],
+  },
+];
+
+/** Zover dimmen de overige woorden van een alinea zodra een beeldwoord aan staat. */
+const DIMMED = 0.25;
+
+type Segment =
+  | { kind: "word"; word: string; index: number }
+  | { kind: "photo"; text: string; index: number; photo: Photo };
+
+/**
+ * Knipt een alinea op in losse woorden en, waar een beeldwoord staat, één blok
+ * met de hele zinsnede. De woordindex loopt door over de hele alinea, zodat de
+ * reveal van WordSpan zijn volgorde houdt. Staat een zinsnede er niet in — omdat
+ * de tekst is aangepast — dan blijft hij gewoon zwarte tekst.
+ */
+function toSegments(words: string[], photoWords: PhotoWordSpec[]): Segment[] {
+  const starts = new Map<number, PhotoWordSpec>();
+  for (const spec of photoWords) {
+    const phrase = spec.phrase.split(' ');
+    for (let i = 0; i + phrase.length <= words.length; i++) {
+      if (phrase.every((w, k) => words[i + k] === w)) {
+        starts.set(i, spec);
+        break;
+      }
+    }
+  }
+
+  const segments: Segment[] = [];
+  for (let i = 0; i < words.length; ) {
+    const spec = starts.get(i);
+    if (spec) {
+      const length = spec.phrase.split(' ').length;
+      segments.push({ kind: "photo", text: spec.phrase, index: i, photo: spec });
+      i += length;
+    } else {
+      segments.push({ kind: "word", word: words[i], index: i });
+      i += 1;
+    }
+  }
+  return segments;
+}
+
+function WordSpan({ word, index, total, scrollYProgress, prefersReducedMotion, dim }: {
   word: string;
   index: number;
   total: number;
   scrollYProgress: MotionValue<number>;
   prefersReducedMotion: boolean | null;
-  light?: boolean;
+  dim: MotionValue<number>;
 }) {
   const start = (index / total) * 0.55;
   const end = Math.min(start + 0.35, 1);
-  const opacity = useTransform(scrollYProgress, [start, end], [light ? 0.22 : 0.12, 1]);
+  const revealed = useTransform(scrollYProgress, [start, end], [0.12, 1]);
+  // Een gedimde alinea mag een woord nooit lichter maken dan het al was.
+  const opacity = useTransform([revealed, dim], ([r, d]: number[]) => Math.min(r, d));
   return (
-    <motion.span style={{ opacity: prefersReducedMotion ? 1 : opacity, color: light ? 'white' : 'black' }}>
+    <motion.span style={{ opacity: prefersReducedMotion ? dim : opacity, color: 'black' }}>
       {word}{' '}
     </motion.span>
+  );
+}
+
+/**
+ * Een woord waar de foto doorheen loopt: de letters zijn een venster op het
+ * beeld. Hoveren met de muis, of tikken op een aanraakscherm, laat dezelfde foto
+ * groot rechts in beeld springen.
+ */
+function PhotoWord({ text, photo, isOpen, onOpen, onClose }: {
+  text: string;
+  photo: Photo;
+  isOpen: boolean;
+  onOpen: (photo: Photo) => void;
+  onClose: () => void;
+}) {
+  return (
+    <>
+      <button
+        type="button"
+        aria-expanded={isOpen}
+        aria-label={`${text} — toon foto: ${photo.caption}`}
+        onPointerEnter={(e) => { if (e.pointerType === 'mouse') onOpen(photo); }}
+        onPointerLeave={(e) => { if (e.pointerType === 'mouse') onClose(); }}
+        onFocus={() => onOpen(photo)}
+        onBlur={onClose}
+        onClick={(e) => {
+          // Op een aanraakscherm is er geen hover; daar is de tik de schakelaar.
+          if ((e.nativeEvent as PointerEvent).pointerType === 'mouse') return;
+          isOpen ? onClose() : onOpen(photo);
+        }}
+        className="relative inline-block cursor-pointer text-left align-baseline outline-offset-4 focus-visible:outline-3 focus-visible:outline-brand-accent"
+        style={{
+          backgroundImage: `url('${photo.image}')`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundClip: 'text',
+          WebkitBackgroundClip: 'text',
+          color: 'transparent',
+          WebkitTextFillColor: 'transparent',
+          // Zonder deze correctie blijven de letters te donker om te lezen.
+          filter: 'saturate(1.4) contrast(1.15) brightness(1.2)',
+        }}
+      >
+        {text}
+        <span aria-hidden="true" className="absolute inset-x-0 -bottom-1 h-1 rounded-[2px] bg-brand-accent opacity-70" />
+      </button>{' '}
+    </>
+  );
+}
+
+/**
+ * Eén alinea van het manifest. De woorden lichten op terwijl je scrolt; de
+ * beeldwoorden staan altijd vol in beeld en dimmen bij hover de rest van de
+ * alinea, zodat de foto het overneemt.
+ */
+function ManifestParagraph({ eyebrow, words, photoWords, openPhoto, dimmed, onOpen, onClose, prefersReducedMotion }: {
+  eyebrow: string;
+  words: string[];
+  photoWords: PhotoWordSpec[];
+  openPhoto: Photo | null;
+  dimmed: boolean;
+  onOpen: (photo: Photo) => void;
+  onClose: () => void;
+  prefersReducedMotion: boolean | null;
+}) {
+  const paragraphRef = useRef<HTMLParagraphElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: paragraphRef,
+    offset: ["start 0.62", "end 0.4"],
+  });
+
+  const dim = useMotionValue(1);
+  useEffect(() => {
+    const controls = animate(dim, dimmed ? DIMMED : 1, { duration: 0.25, ease: "easeOut" });
+    return () => controls.stop();
+  }, [dim, dimmed]);
+
+  const segments = toSegments(words, photoWords);
+
+  return (
+    <div className="mx-auto max-w-[1040px]">
+      <span className="mb-[22px] block text-[11px] font-bold uppercase tracking-[0.22em] text-gray-400">
+        {eyebrow}
+      </span>
+      <p
+        ref={paragraphRef}
+        className="font-display font-semibold leading-[1.12] tracking-[-0.025em] text-[length:clamp(28px,3.7vw,56px)]"
+      >
+        {segments.map((segment) =>
+          segment.kind === "photo" ? (
+            <PhotoWord
+              key={segment.index}
+              text={segment.text}
+              photo={segment.photo}
+              isOpen={openPhoto?.image === segment.photo.image}
+              onOpen={onOpen}
+              onClose={onClose}
+            />
+          ) : (
+            <WordSpan
+              key={segment.index}
+              word={segment.word}
+              index={segment.index}
+              total={words.length}
+              scrollYProgress={scrollYProgress}
+              prefersReducedMotion={prefersReducedMotion}
+              dim={dim}
+            />
+          )
+        )}
+      </p>
+    </div>
+  );
+}
+
+/**
+ * Een full-bleed rij foto's die tegen de scrollrichting in schuift. De tweede
+ * strook op de pagina loopt de andere kant op, zodat de twee elkaar kruisen.
+ */
+function PhotoStrip({ items, startNumber, reverse, prefersReducedMotion }: {
+  items: Photo[];
+  startNumber: number;
+  reverse: boolean;
+  prefersReducedMotion: boolean | null;
+}) {
+  const stripRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({ target: stripRef, offset: ["start end", "end start"] });
+  const x = useTransform(scrollYProgress, [0, 1], reverse ? ["-12%", "12%"] : ["12%", "-12%"]);
+
+  return (
+    <div ref={stripRef} className="relative my-[90px] overflow-hidden">
+      <motion.div style={{ x: prefersReducedMotion ? 0 : x }} className="flex w-max gap-[18px]">
+        {items.map((item, i) => (
+          <figure key={item.image} className="w-[clamp(240px,26vw,380px)] shrink-0">
+            {/* Om en om liggend en staand; dat geeft de rij ritme. */}
+            <img
+              src={item.image}
+              alt={item.caption}
+              draggable={false}
+              className={`rounded-[22px] object-cover ${
+                i % 2 === 1 ? "ml-[10%] aspect-[3/4] w-[80%]" : "aspect-[4/3] w-full"
+              }`}
+            />
+            <figcaption className="mt-2.5 flex items-center gap-2 text-[12px] font-medium text-gray-500">
+              <span className="font-display text-[11px] font-bold tracking-[0.1em] text-brand-accent">
+                {String(startNumber + i).padStart(2, '0')}
+              </span>
+              {item.caption}
+            </figcaption>
+          </figure>
+        ))}
+      </motion.div>
+    </div>
   );
 }
 
@@ -39,19 +284,19 @@ export default function AboutLuca() {
   const [showChild, setShowChild] = useState(false);
   const [activeFact, setActiveFact] = useState(0);
   const [revealedFact, setRevealedFact] = useState<number | null>(null);
+  // Welk beeldwoord staat aan, en in welke alinea? De laatste foto blijft in de
+  // kaart staan terwijl die uitfadet.
+  const [openWord, setOpenWord] = useState<{ paragraph: number; photo: Photo } | null>(null);
+  const [lastPhoto, setLastPhoto] = useState<Photo | null>(null);
   const touchStartX = useRef(0);
   const lastTouchTime = useRef(0);
   const prefersReducedMotion = useReducedMotion();
-  const quoteSectionRef = useRef<HTMLElement>(null);
-  const quoteSectionRef2 = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: quoteSectionRef,
-    offset: ["start 0.6", "end 0.4"],
-  });
-  const { scrollYProgress: scrollYProgress2 } = useScroll({
-    target: quoteSectionRef2,
-    offset: ["start 0.6", "end 0.4"],
-  });
+
+  const openPhoto = (paragraph: number) => (photo: Photo) => {
+    setOpenWord({ paragraph, photo });
+    setLastPhoto(photo);
+  };
+  const closePhoto = () => setOpenWord(null);
 
   const nextFact = () => {
     setActiveFact(i => (i + 1) % funFacts.length);
@@ -138,173 +383,35 @@ export default function AboutLuca() {
       {/* Venue Slider */}
       <VenueSlider />
 
-      {/* Quote Section — grote foto als leidend element, tekstblok in de foto */}
-      <section ref={quoteSectionRef} className="mt-16 md:mt-24">
-        {/* Desktop */}
-        <div className="relative hidden md:block">
-          {/* Grote foto — verspringt naar rechts */}
-          <motion.div
-            className="relative overflow-hidden rounded-[2.5rem] ml-[10%] mr-6"
-            style={{ height: 'clamp(480px, 66vh, 720px)' }}
-            initial={prefersReducedMotion ? false : { opacity: 0, scale: 1.04 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true, margin: "0px 0px -80px 0px" }}
-            transition={{ duration: 1.0, ease: 'easeOut' }}
-          >
-            <img
-              src="/luca-werk-6.jpg"
-              alt="Luca aan het werk tijdens een concert"
-              className="absolute inset-0 w-full h-full object-cover"
-            />
-            {/* Gradient voor leesbaarheid van het tekstblok */}
-            <div
-              className="absolute inset-0"
-              style={{ background: 'linear-gradient(to right, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.45) 42%, rgba(0,0,0,0.12) 72%, rgba(0,0,0,0) 100%)' }}
-            />
-            {/* Tekstblok in de foto */}
-            <motion.div
-              className="absolute left-10 lg:left-16 xl:left-20 top-1/2 -translate-y-1/2 max-w-xl pr-10"
-              initial={prefersReducedMotion ? false : { opacity: 0, y: 28 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "0px 0px -80px 0px" }}
-              transition={{ duration: 0.7, ease: 'easeOut', delay: 0.25 }}
-            >
-              <div className="w-8 h-0.5 bg-white/60 rounded-full mb-5" />
-              <blockquote className="font-semibold text-lg lg:text-xl leading-[1.6] tracking-[0.01em]">
-                {quoteWords.map((word, i) => (
-                  <WordSpan
-                    key={i}
-                    word={word}
-                    index={i}
-                    total={quoteWords.length}
-                    scrollYProgress={scrollYProgress}
-                    prefersReducedMotion={prefersReducedMotion}
-                    light
-                  />
-                ))}
-              </blockquote>
-            </motion.div>
-          </motion.div>
+      {/* Manifest — de twee teksten dragen nu de pagina. */}
+      <div className="container mx-auto px-6 pt-[120px] pb-10">
+        <ManifestParagraph
+          {...paragraphs[0]}
+          openPhoto={openWord?.paragraph === 0 ? openWord.photo : null}
+          dimmed={openWord?.paragraph === 0}
+          onOpen={openPhoto(0)}
+          onClose={closePhoto}
+          prefersReducedMotion={prefersReducedMotion}
+        />
+      </div>
 
-          {/* Verspringende accentfoto — valt over de onderrand */}
-          <motion.div
-            className="absolute -bottom-20 right-[7%] w-[220px] lg:w-[260px] aspect-[4/5] rounded-3xl overflow-hidden shadow-2xl hidden lg:block z-10"
-            initial={prefersReducedMotion ? false : { opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "0px 0px -40px 0px" }}
-            transition={{ ...springEnter, delay: 0.15 }}
-          >
-            <img
-              src="/luca-werk-1.jpg"
-              alt="Luca met team"
-              className="absolute inset-0 w-full h-full object-cover"
-            />
-          </motion.div>
-        </div>
+      <PhotoStrip {...strips[0]} prefersReducedMotion={prefersReducedMotion} />
 
-        {/* Mobiel: foto met overlappend tekstblok */}
-        <div className="md:hidden">
-          <div className="relative overflow-hidden rounded-3xl mx-4 h-[380px]">
-            <img
-              src="/luca-werk-6.jpg"
-              alt="Luca aan het werk tijdens een concert"
-              className="absolute inset-0 w-full h-full object-cover"
-            />
-            <div className="absolute inset-0" style={{ background: 'rgba(0,0,0,0.22)' }} />
-          </div>
-          <div className="relative z-10 -mt-16 mx-6 bg-white rounded-3xl shadow-xl p-6">
-            <div className="w-8 h-0.5 bg-gray-300 rounded-full mb-4" />
-            <blockquote className="font-semibold text-sm leading-[1.6] tracking-[0.015em] text-gray-900">
-              Van festivals tot bedrijfsevenementen, als freelancer sta ik klaar voor uiteenlopende producties. Daar ben ik enthousiast over, omdat ik het leuk vind om momenten te creëren die mensen voor altijd bij zullen blijven. Ik combineer hard werken met creatief denken en daarmee hoop ik projecten naar een hoger niveau te tillen. Samen met jou.
-            </blockquote>
-          </div>
-        </div>
-      </section>
+      <div className="container mx-auto px-6">
+        <ManifestParagraph
+          {...paragraphs[1]}
+          openPhoto={openWord?.paragraph === 1 ? openWord.photo : null}
+          dimmed={openWord?.paragraph === 1}
+          onOpen={openPhoto(1)}
+          onClose={closePhoto}
+          prefersReducedMotion={prefersReducedMotion}
+        />
+      </div>
 
-      {/* Quote Section 2 — gespiegeld: foto verspringt naar links, tekst rechts in de foto */}
-      <section ref={quoteSectionRef2} className="mt-24 md:mt-40">
-        {/* Desktop */}
-        <div className="relative hidden md:block">
-          {/* Grote foto — verspringt naar links */}
-          <motion.div
-            className="relative overflow-hidden rounded-[2.5rem] ml-6 mr-[10%]"
-            style={{ height: 'clamp(480px, 66vh, 720px)' }}
-            initial={prefersReducedMotion ? false : { opacity: 0, scale: 1.04 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true, margin: "0px 0px -80px 0px" }}
-            transition={{ duration: 1.0, ease: 'easeOut' }}
-          >
-            <img
-              src="/luca-quote2-1.jpg"
-              alt="Uitverkochte arena tijdens een show"
-              className="absolute inset-0 w-full h-full object-cover"
-            />
-            <div
-              className="absolute inset-0"
-              style={{ background: 'linear-gradient(to left, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.45) 42%, rgba(0,0,0,0.12) 72%, rgba(0,0,0,0) 100%)' }}
-            />
-            {/* Tekstblok in de foto — rechts */}
-            <motion.div
-              className="absolute right-10 lg:right-16 xl:right-20 top-1/2 -translate-y-1/2 max-w-xl pl-10"
-              initial={prefersReducedMotion ? false : { opacity: 0, y: 28 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "0px 0px -80px 0px" }}
-              transition={{ duration: 0.7, ease: 'easeOut', delay: 0.25 }}
-            >
-              <div className="w-8 h-0.5 bg-white/60 rounded-full mb-5" />
-              <blockquote className="font-semibold text-lg lg:text-xl leading-[1.6] tracking-[0.01em]">
-                {quote2Words.map((word, i) => (
-                  <WordSpan
-                    key={i}
-                    word={word}
-                    index={i}
-                    total={quote2Words.length}
-                    scrollYProgress={scrollYProgress2}
-                    prefersReducedMotion={prefersReducedMotion}
-                    light
-                  />
-                ))}
-              </blockquote>
-            </motion.div>
-          </motion.div>
-
-          {/* Verspringende accentfoto — valt over de onderrand, links */}
-          <motion.div
-            className="absolute -bottom-20 left-[7%] w-[220px] lg:w-[260px] aspect-[4/5] rounded-3xl overflow-hidden shadow-2xl hidden lg:block z-10"
-            initial={prefersReducedMotion ? false : { opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "0px 0px -40px 0px" }}
-            transition={{ ...springEnter, delay: 0.15 }}
-          >
-            <img
-              src="/luca-werk-8.jpg"
-              alt="Backstage voorbereiding met microfoons"
-              className="absolute inset-0 w-full h-full object-cover"
-            />
-          </motion.div>
-        </div>
-
-        {/* Mobiel: foto met overlappend tekstblok */}
-        <div className="md:hidden">
-          <div className="relative overflow-hidden rounded-3xl mx-4 h-[380px]">
-            <img
-              src="/luca-quote2-1.jpg"
-              alt="Uitverkochte arena tijdens een show"
-              className="absolute inset-0 w-full h-full object-cover"
-            />
-            <div className="absolute inset-0" style={{ background: 'rgba(0,0,0,0.22)' }} />
-          </div>
-          <div className="relative z-10 -mt-16 mx-6 bg-white rounded-3xl shadow-xl p-6">
-            <div className="w-8 h-0.5 bg-gray-300 rounded-full mb-4" />
-            <blockquote className="font-semibold text-sm leading-[1.6] tracking-[0.015em] text-gray-900">
-              Wat mij drijft? Het grotere plaatje. Ik word enthousiast van de strategische puzzel: creatieve vraagstukken oplossen, een sterke marketingstrategie neerzetten en alles laten kloppen binnen een bredere visie. Tegelijkertijd volg ik de nieuwste AI-ontwikkelingen in de evenementensector op de voet en denk ik graag actief mee over hoe jouw organisatie hier slim gebruik van kan maken.
-            </blockquote>
-          </div>
-        </div>
-      </section>
+      <PhotoStrip {...strips[1]} prefersReducedMotion={prefersReducedMotion} />
 
       {/* Fun Facts Carousel */}
-      <div className="mt-20 md:mt-44">
+      <div className="mt-20">
         <div className="container mx-auto px-6">
           <motion.p
             initial={prefersReducedMotion ? false : { opacity: 0, y: 10 }}
@@ -440,6 +547,39 @@ export default function AboutLuca() {
           ))}
         </div>
       </div>
+
+      {/* De foto springt uit de letters: vaste kaart rechts in beeld. */}
+      <motion.div
+        aria-hidden="true"
+        initial={false}
+        animate={
+          openWord
+            ? { opacity: 1, scale: 1, rotate: -2 }
+            : { opacity: 0, scale: prefersReducedMotion ? 1 : 0.9, rotate: prefersReducedMotion ? 0 : 4 }
+        }
+        transition={
+          prefersReducedMotion
+            ? { duration: 0 }
+            : { opacity: { duration: 0.35 }, default: { duration: 0.45, ease: [0.2, 0.8, 0.2, 1] } }
+        }
+        style={{ y: "-50%" }}
+        className="pointer-events-none fixed right-[4vw] top-1/2 z-50 aspect-[4/5] w-[min(280px,60vw)] overflow-hidden rounded-[28px] shadow-[0_50px_100px_-40px_rgba(0,0,0,0.5)] md:w-[min(420px,32vw)]"
+      >
+        {lastPhoto && (
+          <>
+            <img
+              src={lastPhoto.image}
+              alt=""
+              draggable={false}
+              className="h-full w-full object-cover"
+            />
+            <span className="absolute bottom-4 left-[18px] text-[12px] font-semibold text-white [text-shadow:0_2px_8px_rgba(0,0,0,0.6)]">
+              {lastPhoto.caption}
+            </span>
+          </>
+        )}
+      </motion.div>
+
     </motion.div>
   );
 }

@@ -1,18 +1,56 @@
-import { motion, useInView, useReducedMotion } from "motion/react";
-import { useRef, useState } from "react";
+import { motion, useReducedMotion } from "motion/react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { projects } from "../data/projects";
 
 const springCard = { type: "spring" as const, stiffness: 200, damping: 20 };
 
-export default function FeaturedProjects() {
-  const featuredProjects = projects.slice(0, 3);
-  const [hoveredId, setHoveredId] = useState<number | null>(null);
-  const prefersReducedMotion = useReducedMotion();
+/** Zes projecten in de schijnwerper; de rest staat op /projecten. */
+const featuredProjects = projects.slice(0, 6);
 
-  const containerRef = useRef<HTMLDivElement>(null);
-  const isInView = useInView(containerRef, { once: true, margin: "0px 0px -80px 0px" });
+/** Zolang staat een project in beeld voordat het volgende komt (ms). Ook de duur van het balkje. */
+const SLIDE_MS = 6000;
+/** Vanaf deze horizontale verplaatsing (px) telt een veeg op de spot als bladeren. */
+const SWIPE_THRESHOLD = 50;
+
+/** Verloop van links naar rechts, zodat de tekst linksonder op elke foto leesbaar blijft. */
+const SPOT_SHADE = "linear-gradient(to right, rgba(0,0,0,.78), rgba(0,0,0,.35) 50%, rgba(0,0,0,.05))";
+
+/**
+ * Eén project beeldvullend in de schijnwerper, met een strip van zes thumbnails
+ * eronder. Wisselt vanzelf elke zes seconden; hover op de spot pauzeert, hover
+ * of klik op een thumbnail springt er direct heen. Bij verminderde beweging
+ * staat alles stil en blader je alleen met een klik.
+ */
+export default function FeaturedProjects() {
+  const [active, setActive] = useState(0);
+  const [paused, setPaused] = useState(false);
+  const prefersReducedMotion = useReducedMotion();
+  const reduce = prefersReducedMotion === true;
+  const touchStartX = useRef<number | null>(null);
+
+  const total = featuredProjects.length;
+  const go = (next: number) => setActive((next + total) % total);
+
+  // Eén timer per slide: springen naar een ander project laat de effect-cleanup
+  // lopen en start de zes seconden dus vanzelf opnieuw.
+  useEffect(() => {
+    if (reduce || paused) return;
+    const id = window.setTimeout(() => setActive((i) => (i + 1) % total), SLIDE_MS);
+    return () => window.clearTimeout(id);
+  }, [active, paused, reduce, total]);
+
+  const onTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+  };
+  const onTouchEnd = (e: React.TouchEvent) => {
+    const start = touchStartX.current;
+    touchStartX.current = null;
+    if (start === null) return;
+    const delta = start - e.changedTouches[0].clientX;
+    if (Math.abs(delta) > SWIPE_THRESHOLD) go(active + (delta > 0 ? 1 : -1));
+  };
 
   return (
     <section className="py-24 bg-white">
@@ -41,101 +79,121 @@ export default function FeaturedProjects() {
           </motion.div>
         </div>
 
-        <div ref={containerRef} className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {featuredProjects.map((project, index) => (
-            /* Entrance wrapper — handles staggered fade-up */
-            <motion.div
-              key={project.id}
-              initial={{ opacity: 0, y: 28 }}
-              animate={
-                prefersReducedMotion
-                  ? { opacity: 1, y: 0 }
-                  : isInView
-                  ? { opacity: 1, y: 0 }
-                  : { opacity: 0, y: 28 }
-              }
-              transition={{ ...springCard, delay: prefersReducedMotion ? 0 : index * 0.15 }}
-            >
-              {/* Inner card — handles hover variants for blobs */}
-              <motion.div
-                whileHover="hovered"
-                whileTap="hovered"
-                animate="rest"
-                onMouseEnter={() => setHoveredId(project.id)}
-                onMouseLeave={() => setHoveredId(null)}
-                className={`group relative flex flex-col h-full rounded-3xl p-6 border overflow-hidden transition-all duration-500
-                  ${index % 2 === 0 ? "border-gray-200" : "border-[#c9e8f9]"}
-                  ${hoveredId === project.id ? "md:scale-[1.04] md:shadow-2xl md:z-20" : ""}
-                  ${hoveredId !== null && hoveredId !== project.id ? "md:opacity-40 md:blur-[2px] md:scale-[0.97]" : ""}
-                `}
-              >
-                {/* Animated background blobs */}
-                <motion.div
-                  variants={{
-                    rest: { scale: 0.7, x: 20, y: -20, opacity: 0 },
-                    hovered: { scale: 1.4, x: -10, y: -30, opacity: 1 },
-                  }}
-                  transition={{ type: "spring", stiffness: 200, damping: 20 }}
-                  className="absolute -top-10 -right-10 w-48 h-48 rounded-full bg-[#1ea4f2]/20 blur-3xl pointer-events-none"
-                />
-                <motion.div
-                  variants={{
-                    rest: { scale: 0.6, x: -20, y: 20, opacity: 0 },
-                    hovered: { scale: 1.3, x: 10, y: 30, opacity: 1 },
-                  }}
-                  transition={{ type: "spring", stiffness: 200, damping: 20, delay: 0.05 }}
-                  className="absolute -bottom-10 -left-10 w-56 h-56 rounded-full bg-[#1ea4f2]/12 blur-3xl pointer-events-none"
-                />
-                <motion.div
-                  variants={{
-                    rest: { opacity: 0 },
-                    hovered: { opacity: 1 },
-                  }}
-                  transition={{ type: "spring", stiffness: 300, damping: 25 }}
-                  className="absolute inset-0 rounded-3xl pointer-events-none"
-                  style={{ background: "linear-gradient(135deg, #f0faff 0%, #e0f4fd 60%, #ffffff 100%)" }}
-                />
+        {/* De spot zelf: alle zes de slides liggen op elkaar, alleen de actieve is zichtbaar. */}
+        <div
+          className="relative h-[clamp(460px,54vw,640px)] overflow-hidden rounded-[36px] bg-[#111] text-white"
+          onMouseEnter={() => setPaused(true)}
+          onMouseLeave={() => setPaused(false)}
+          onTouchStart={onTouchStart}
+          onTouchEnd={onTouchEnd}
+        >
+          {featuredProjects.map((project, i) => {
+            const isActive = i === active;
 
-                {/* Card content */}
-                <div className="relative z-10">
-                  <Link to={`/projecten/${project.slug}`}>
-                    <div className="aspect-[4/3] rounded-3xl overflow-hidden mb-8 shadow-lg relative shrink-0 cursor-pointer">
-                      <img
-                        src={project.image}
-                        alt={project.title}
-                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                        referrerPolicy="no-referrer"
-                      />
-                      {project.photoCredit && (
-                        <span className="absolute bottom-2 left-3 text-[10px] text-gray-400/80 font-medium z-10 select-none">© {project.photoCredit}</span>
-                      )}
-                    </div>
+            return (
+              <div
+                key={project.slug}
+                aria-hidden={!isActive}
+                className={`absolute inset-0 transition-opacity duration-[800ms] motion-reduce:transition-none ${
+                  isActive ? "opacity-100" : "opacity-0"
+                }`}
+              >
+                <img
+                  src={project.image}
+                  alt={project.title}
+                  draggable={false}
+                  referrerPolicy="no-referrer"
+                  // Ken Burns via motion-safe: de prerender weet niet of de bezoeker
+                  // beweging beperkt, dus die keuze hoort in CSS en niet in de render.
+                  className={`absolute inset-0 h-full w-full object-cover motion-safe:transition-transform motion-safe:duration-[6000ms] motion-safe:ease-linear ${
+                    isActive ? "motion-safe:scale-100" : "motion-safe:scale-[1.06]"
+                  }`}
+                />
+                <div aria-hidden="true" className="absolute inset-0" style={{ background: SPOT_SHADE }} />
+
+                <span
+                  aria-hidden="true"
+                  className="absolute right-10 top-7 font-display font-bold leading-none tracking-[-0.05em] text-white/[.14] text-[length:clamp(80px,12vw,160px)]"
+                >
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+
+                {project.photoCredit && (
+                  <span className="absolute bottom-3 right-5 select-none text-[10px] font-medium text-white/45">
+                    © {project.photoCredit}
+                  </span>
+                )}
+
+                <div
+                  className={`absolute bottom-0 left-0 max-w-[640px] px-[48px] py-[44px] transition-[opacity,transform] duration-700 delay-200 motion-reduce:transition-none ${
+                    isActive ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0"
+                  }`}
+                >
+                  <p className="text-[11px] uppercase tracking-[0.14em]">
+                    <span className="font-bold text-brand-glacier">{project.role}</span>{" "}
+                    <span className="font-medium text-white/60">· {project.client}</span>
+                  </p>
+                  <h3 className="mt-3 mb-3.5 font-bold leading-none text-[length:clamp(30px,3.4vw,50px)]">
+                    {project.title}
+                  </h3>
+                  <p className="mb-[22px] text-[16px] leading-[1.6] text-white/82">{project.impact}</p>
+                  <Link
+                    to={`/projecten/${project.slug}`}
+                    tabIndex={isActive ? 0 : -1}
+                    className="group/link inline-flex items-center gap-2 text-[15px] font-bold text-white outline-offset-4 focus-visible:outline-3 focus-visible:outline-brand-accent"
+                  >
+                    Bekijk project
+                    <ArrowRight className="h-4 w-4 transition-transform group-hover/link:translate-x-1" />
                   </Link>
-                  <div className="flex flex-col flex-1">
-                    <div className="flex flex-col gap-1 mb-4">
-                      <span className="text-xs font-bold text-brand-accent uppercase tracking-wider">{project.role}</span>
-                      <span className="text-xs font-medium text-gray-400 uppercase tracking-wider">In opdracht van {project.client}</span>
-                    </div>
-                    <Link to={`/projecten/${project.slug}`} className="hover:text-brand-accent transition-colors">
-                      <h3 className="text-2xl font-bold mb-4 min-h-[4rem] flex items-start">{project.title}</h3>
-                    </Link>
-                    <p className="text-gray-600 leading-relaxed mb-8 flex-1">
-                      {project.impact}
-                    </p>
-                    <div className="mt-auto pt-4 border-t border-gray-100">
-                      <Link
-                        to={`/projecten/${project.slug}`}
-                        className="inline-flex items-center gap-2 text-brand-accent font-bold group/link"
-                      >
-                        Bekijk project
-                        <ArrowRight className="w-4 h-4 group-hover/link:translate-x-1 transition-transform" />
-                      </Link>
-                    </div>
-                  </div>
                 </div>
-              </motion.div>
-            </motion.div>
-          ))}
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Thumbnailstrip: springen naar een project en tegelijk de teller van zes seconden. */}
+        <div className="mt-[18px] grid grid-cols-3 gap-[14px] md:grid-cols-6">
+          {featuredProjects.map((project, i) => {
+            const isActive = i === active;
+
+            return (
+              <button
+                key={project.slug}
+                type="button"
+                aria-current={isActive}
+                aria-label={`Toon ${project.title}`}
+                onClick={() => setActive(i)}
+                onMouseEnter={() => setActive(i)}
+                className={`relative aspect-[16/10] cursor-pointer overflow-hidden rounded-[16px] transition-opacity duration-300 outline-brand-accent outline-offset-2 focus-visible:outline-3 ${
+                  isActive ? "opacity-100 outline-3" : "opacity-55 hover:opacity-90"
+                }`}
+              >
+                <img
+                  src={project.image}
+                  alt=""
+                  draggable={false}
+                  referrerPolicy="no-referrer"
+                  className="h-full w-full object-cover"
+                />
+                <span
+                  // Rechts begrensd en afbreekbaar: op drie kolommen past een lange
+                  // projectnaam anders niet in de thumbnail.
+                  className="absolute bottom-2.5 left-3 right-3 text-left text-[12px] font-bold text-white [overflow-wrap:anywhere]"
+                  style={{ textShadow: "0 1px 6px rgba(0,0,0,.6)" }}
+                >
+                  {project.title}
+                </span>
+                {/* Balkje loopt in zes seconden vol. De key start de animatie opnieuw bij elke wissel. */}
+                {isActive && (
+                  <span
+                    key={active}
+                    aria-hidden="true"
+                    className="absolute bottom-0 left-0 h-[3px] bg-brand-accent animate-[spotlightProgress_6s_linear_forwards] motion-reduce:hidden"
+                  />
+                )}
+              </button>
+            );
+          })}
         </div>
       </div>
     </section>

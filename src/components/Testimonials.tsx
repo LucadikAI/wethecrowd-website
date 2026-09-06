@@ -1,6 +1,8 @@
-import { motion, useMotionValue, animate, useTransform, useReducedMotion, useInView } from "motion/react";
+import { motion, useMotionValue, animate, useTransform, useReducedMotion, useScroll } from "motion/react";
+import type { MotionValue } from "motion/react";
 import { Quote } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
+import Mountains from "./Mountains";
 
 const testimonials = [
   {
@@ -89,6 +91,13 @@ export default function Testimonials({ showTitle = true, desktopLayout = 'grid' 
   const x = useMotionValue(0);
   const progressValue = useMotionValue(0);
   const trackRef = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLElement>(null);
+  // Loopt van 0 naar 1 terwijl de bovenkant van de sectie van 90% naar 20%
+  // van het venster schuift; precies het bereik waarin de kaarten omhoogkomen.
+  const { scrollYProgress: riseProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start 0.9", "start 0.2"],
+  });
   const isTouching = useRef(false);
   const touchStartClientX = useRef(0);
   const xAtTouchStart = useRef(0);
@@ -216,127 +225,166 @@ export default function Testimonials({ showTitle = true, desktopLayout = 'grid' 
   );
 
   return (
-    <section className="py-24 bg-white overflow-hidden">
+    <section ref={sectionRef} className="relative overflow-hidden bg-white pb-24">
 
-      {/* Title — inside container */}
-      {showTitle && (
-        <div className="container mx-auto px-6 mb-16">
-          <motion.div
-            className="max-w-3xl mx-auto text-center"
-            initial={prefersReducedMotion ? false : { opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "0px 0px 120px 0px" }}
-            transition={{ type: "spring", stiffness: 200, damping: 20 }}
-          >
-            <h2 className="text-4xl md:text-5xl font-bold">Wat anderen zeggen over de energie van <span className="text-brand-accent">WE</span> THE CROWD</h2>
-          </motion.div>
-        </div>
-      )}
-
-      {/* Marquee — full bleed, mobile always + desktop when desktopLayout === 'marquee' */}
-      <div
-        className={desktopLayout === 'marquee' ? '' : 'md:hidden'}
-        onTouchStart={handleTouchStart}
-        onTouchMove={handleTouchMove}
-        onTouchEnd={handleTouchEnd}
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
-      >
-        <motion.div
-          ref={trackRef}
-          style={{ x }}
-          className="flex gap-4 w-max pl-6"
-        >
-          {[...testimonials, ...testimonials].map((t, index) => (
-            <MarqueeCard key={index} t={t} />
-          ))}
-        </motion.div>
-        <div className="relative mt-5 mx-auto w-32 h-1 rounded-full bg-gray-200">
-          <motion.div
-            className="absolute top-0 left-0 h-full w-1/4 rounded-full bg-brand-accent"
-            style={{ left: indicatorLeft }}
-          />
-        </div>
-        <p className="text-center text-[12px] text-gray-400 italic mt-3">
-          Houd vast om te pauzeren · Swipe om te bladeren
-        </p>
+      {/* Spiegelbeeld van de dienstensectie. Eerst de 90px-strook omgedraaid, zodat
+          de logobalk hierboven overloopt in het blauw, daarna het landschap op zijn
+          kop. De bergen liggen vóór de kaarten, die er onder vandaan komen. */}
+      <div aria-hidden="true" className="h-[90px] bg-linear-to-b from-brand-deep to-brand-accent" />
+      <div aria-hidden="true" className="relative z-[2] -mt-px h-[200px]">
+        <Mountains flipped className="h-full w-full" />
+        {/* Witte fade, zodat de bergen oplossen in de sectie eronder. */}
+        <div className="absolute inset-x-0 -bottom-10 h-20 bg-linear-to-b from-transparent to-white to-70%" />
       </div>
 
-      {/* Desktop grid — 2 rows of 4, inside container */}
-      {desktopLayout === 'grid' && (
-        <DesktopGrid
-          testimonials={testimonials}
-          hoveredId={hoveredId}
-          setHoveredId={setHoveredId}
-          prefersReducedMotion={prefersReducedMotion}
-        />
-      )}
+      <div className="relative -mt-[30px]">
+
+        {/* Title — inside container */}
+        {showTitle && (
+          <div className="container relative z-[5] mx-auto px-6 mb-16">
+            <motion.div
+              className="max-w-3xl mx-auto text-center"
+              initial={prefersReducedMotion ? false : { opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "0px 0px 120px 0px" }}
+              transition={{ type: "spring", stiffness: 200, damping: 20 }}
+            >
+              <h2 className="text-4xl md:text-5xl font-bold">Wat anderen zeggen over de energie van <span className="text-brand-accent">WE</span> THE CROWD</h2>
+            </motion.div>
+          </div>
+        )}
+
+        {/* Marquee — full bleed, mobile always + desktop when desktopLayout === 'marquee' */}
+        <div
+          className={desktopLayout === 'marquee' ? '' : 'md:hidden'}
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+        >
+          <motion.div
+            ref={trackRef}
+            style={{ x }}
+            className="flex gap-4 w-max pl-6"
+          >
+            {[...testimonials, ...testimonials].map((t, index) => (
+              <MarqueeCard key={index} t={t} />
+            ))}
+          </motion.div>
+          <div className="relative mt-5 mx-auto w-32 h-1 rounded-full bg-gray-200">
+            <motion.div
+              className="absolute top-0 left-0 h-full w-1/4 rounded-full bg-brand-accent"
+              style={{ left: indicatorLeft }}
+            />
+          </div>
+          <p className="text-center text-[12px] text-gray-400 italic mt-3">
+            Houd vast om te pauzeren · Swipe om te bladeren
+          </p>
+        </div>
+
+        {/* Desktop grid — 2 rows of 4, inside container */}
+        {desktopLayout === 'grid' && (
+          <DesktopGrid
+            testimonials={testimonials}
+            hoveredId={hoveredId}
+            setHoveredId={setHoveredId}
+            prefersReducedMotion={prefersReducedMotion}
+            riseProgress={riseProgress}
+          />
+        )}
+      </div>
 
     </section>
   );
 }
 
-// Separate component so useInView ref attaches to the mounted grid element
+/** Zoveel px liggen de kaarten onder de bergen voordat ze omhoogschuiven. */
+const RISE = 220;
+
 interface DesktopGridProps {
   testimonials: { id: number; name: string; company: string; text: string; image: string; linkedin: string }[];
   hoveredId: number | null;
   setHoveredId: (id: number | null) => void;
   prefersReducedMotion: boolean | null;
+  riseProgress: MotionValue<number>;
 }
 
-function DesktopGrid({ testimonials, hoveredId, setHoveredId, prefersReducedMotion }: DesktopGridProps) {
-  const gridRef = useRef<HTMLDivElement>(null);
-  const isInView = useInView(gridRef, { once: true, margin: "0px 0px -80px 0px" });
-
+function DesktopGrid({ testimonials, hoveredId, setHoveredId, prefersReducedMotion, riseProgress }: DesktopGridProps) {
   return (
-    <div className="container mx-auto px-6">
-      <div ref={gridRef} className="hidden md:grid md:grid-cols-3 gap-6">
+    <div className="container relative z-[1] mx-auto px-6">
+      <div className="hidden md:grid md:grid-cols-3 gap-6">
         {testimonials.map((t, index) => (
-          <motion.div
+          <RisingCard
             key={t.id}
-            initial={{ opacity: 0, x: -40 }}
-            animate={
-              prefersReducedMotion
-                ? { opacity: 1, x: 0 }
-                : isInView
-                ? { opacity: 1, x: 0 }
-                : { opacity: 0, x: -40 }
-            }
-            transition={{ type: "spring", stiffness: 200, damping: 20, delay: prefersReducedMotion ? 0 : index * 0.3 }}
-            onMouseEnter={() => setHoveredId(t.id)}
-            onMouseLeave={() => setHoveredId(null)}
-            className={`bg-gray-50 p-8 rounded-3xl relative transition-all duration-500 flex flex-col h-full ${
-              hoveredId !== null && hoveredId !== t.id ? "opacity-40 blur-[2px] scale-95" : "opacity-100 scale-100"
-            } ${hoveredId === t.id ? "scale-105 shadow-xl z-10 bg-white" : ""}`}
-          >
-            <Quote className="absolute top-6 right-6 w-8 h-8 text-brand-accent opacity-10" />
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-12 h-12 rounded-full overflow-hidden shadow-sm shrink-0">
-                {t.image ? (
-                  <img src={t.image} alt={t.name} className={`w-full h-full object-cover ${t.id === 7 ? 'object-center scale-[1.2]' : 'object-top'}`} referrerPolicy="no-referrer" />
-                ) : (
-                  <div className="w-full h-full bg-brand-accent flex items-center justify-center text-white font-bold text-sm">
-                    {t.name.split(" ").map(n => n[0]).join("").slice(0, 2)}
-                  </div>
-                )}
-              </div>
-              <div>
-                {t.linkedin ? (
-                  <a href={t.linkedin} target="_blank" rel="noopener noreferrer" className="group/name inline-block">
-                    <h4 className="font-bold text-sm leading-tight group-hover/name:underline group-hover/name:text-brand-accent transition-colors">{t.name}</h4>
-                  </a>
-                ) : (
-                  <h4 className="font-bold text-sm leading-tight">{t.name}</h4>
-                )}
-                <p className="text-[10px] text-gray-500 leading-tight">{t.company}</p>
-              </div>
-            </div>
-            <p className="text-sm text-gray-700 italic leading-relaxed flex-1 hyphens-auto">
-              {t.text}
-            </p>
-          </motion.div>
+            t={t}
+            index={index}
+            hoveredId={hoveredId}
+            setHoveredId={setHoveredId}
+            prefersReducedMotion={prefersReducedMotion}
+            riseProgress={riseProgress}
+          />
         ))}
       </div>
     </div>
   );
 }
+
+interface RisingCardProps {
+  t: { id: number; name: string; company: string; text: string; image: string; linkedin: string };
+  index: number;
+  hoveredId: number | null;
+  setHoveredId: (id: number | null) => void;
+  prefersReducedMotion: boolean | null;
+  riseProgress: MotionValue<number>;
+}
+
+/**
+ * Een aanbeveling die onder de bergen vandaan komt: hij begint 220px lager en
+ * schuift op zijn plek terwijl de sectie in beeld scrolt. Elke volgende kaart
+ * loopt een klein stukje achter, zodat ze als een waaier omhoogkomen.
+ */
+function RisingCard({ t, index, hoveredId, setHoveredId, prefersReducedMotion, riseProgress }: RisingCardProps) {
+  const y = useTransform(riseProgress, (p) => {
+    const remaining = 1 - Math.min(1, Math.max(0, (p - index * 0.05) / 0.7));
+    return remaining * remaining * RISE;
+  });
+
+  return (
+    <motion.div
+      style={{ y: prefersReducedMotion ? 0 : y }}
+      onMouseEnter={() => setHoveredId(t.id)}
+      onMouseLeave={() => setHoveredId(null)}
+      className={`bg-gray-50 p-8 rounded-3xl relative transition-all duration-500 flex flex-col h-full ${
+        hoveredId !== null && hoveredId !== t.id ? "opacity-40 blur-[2px] scale-95" : "opacity-100 scale-100"
+      } ${hoveredId === t.id ? "scale-105 shadow-xl z-10 bg-white" : ""}`}
+    >
+      <Quote className="absolute top-6 right-6 w-8 h-8 text-brand-accent opacity-10" />
+      <div className="flex items-center gap-3 mb-6">
+        <div className="w-12 h-12 rounded-full overflow-hidden shadow-sm shrink-0">
+          {t.image ? (
+            <img src={t.image} alt={t.name} className={`w-full h-full object-cover ${t.id === 7 ? 'object-center scale-[1.2]' : 'object-top'}`} referrerPolicy="no-referrer" />
+          ) : (
+            <div className="w-full h-full bg-brand-accent flex items-center justify-center text-white font-bold text-sm">
+              {t.name.split(" ").map(n => n[0]).join("").slice(0, 2)}
+            </div>
+          )}
+        </div>
+        <div>
+          {t.linkedin ? (
+            <a href={t.linkedin} target="_blank" rel="noopener noreferrer" className="group/name inline-block">
+              <h4 className="font-bold text-sm leading-tight group-hover/name:underline group-hover/name:text-brand-accent transition-colors">{t.name}</h4>
+            </a>
+          ) : (
+            <h4 className="font-bold text-sm leading-tight">{t.name}</h4>
+          )}
+          <p className="text-[10px] text-gray-500 leading-tight">{t.company}</p>
+        </div>
+      </div>
+      <p className="text-sm text-gray-700 italic leading-relaxed flex-1 hyphens-auto">
+        {t.text}
+      </p>
+    </motion.div>
+  );
+}
+

@@ -1,9 +1,8 @@
 import { motion, useReducedMotion } from "motion/react";
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
-import LogoSlider from "../components/LogoSlider";
+import ServiceBlocks from "../components/ServiceBlocks";
 import ServiceFlow from "../components/ServiceFlow";
-import ServiceStack from "../components/ServiceStack";
 
 const springEnter = { type: "spring" as const, stiffness: 200, damping: 20 };
 
@@ -31,12 +30,8 @@ export default function Services() {
           </p>
         </motion.div>
 
-        <ServiceStack className="mb-24" />
-      </div>
+        <ServiceBlocks />
 
-      <LogoSlider showTitle={false} />
-
-      <div className="container mx-auto px-6">
         <ServiceFlow />
 
         <div className="bg-brand-accent text-white p-12 md:p-20 rounded-[3rem] text-center">
