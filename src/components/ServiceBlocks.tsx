@@ -69,6 +69,7 @@ const blocks: { rotate: number; marks: Mark[] }[] = [
     marks: [
       { logos: ["hop"], project: "Hour of Power Live", slug: "hour-of-power-live-2024", role: "Stagemanager" },
       { logos: ["otl"], project: "Crown Events", slug: "crown-events", role: "Stagemanager" },
+      { logos: ["tgb"], project: "Nationale Viering van de Bevrijding", slug: "nationale-viering-bevrijding", role: "Assistent-stagemanager" },
       { logos: ["ngsc"], project: "Next Gen Security Conference", role: "Assistent-stagemanager" },
     ],
   },

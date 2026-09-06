@@ -60,7 +60,7 @@ const staticPages: PageMeta[] = [
   },
   {
     path: "/dit-doe-ik-graag",
-    title: "Diensten: productie en stagemanagement | WE THE CROWD",
+    title: "WE THE CROWD - Events met impact",
     description:
       "Eventmanagement en productie, artiestenbegeleiding, stagemanagement en showcalling. Gerichte ondersteuning voor jullie evenement, van briefing tot afbouw.",
     image: "/dienst-eventmanagement.jpg",
