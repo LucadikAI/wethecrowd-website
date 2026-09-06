@@ -1,4 +1,4 @@
-import ScrollStory from "../components/ScrollStory";
+import HeroStory from "../components/HeroStory";
 import Introduction from "../components/Introduction";
 import ServiceCards from "../components/ServiceCards";
 import FeaturedProjects from "../components/FeaturedProjects";
@@ -15,7 +15,7 @@ export default function Home() {
       exit={{ opacity: 0, y: -8, transition: { duration: 0.15, ease: "easeIn" } }}
       transition={{ type: "spring", stiffness: 200, damping: 20 }}
     >
-      <ScrollStory />
+      <HeroStory />
       <Introduction />
       <ServiceCards />
       <FeaturedProjects />

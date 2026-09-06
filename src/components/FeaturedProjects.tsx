@@ -1,4 +1,4 @@
-import { motion, useReducedMotion } from "motion/react";
+import { motion, useAnimationFrame, useMotionValue, useReducedMotion, useTransform } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
@@ -11,6 +11,8 @@ const featuredProjects = projects.slice(0, 6);
 
 /** Zolang staat een project in beeld voordat het volgende komt (ms). Ook de duur van het balkje. */
 const SLIDE_MS = 6000;
+/** Springt de teller na een tabwissel verder dan dit (ms), dan tellen we die tijd niet mee. */
+const MAX_FRAME_MS = 250;
 /** Vanaf deze horizontale verplaatsing (px) telt een veeg op de spot als bladeren. */
 const SWIPE_THRESHOLD = 50;
 
@@ -19,9 +21,9 @@ const SPOT_SHADE = "linear-gradient(to right, rgba(0,0,0,.78), rgba(0,0,0,.35) 5
 
 /**
  * Eén project beeldvullend in de schijnwerper, met een strip van zes thumbnails
- * eronder. Wisselt vanzelf elke zes seconden; hover op de spot pauzeert, hover
- * of klik op een thumbnail springt er direct heen. Bij verminderde beweging
- * staat alles stil en blader je alleen met een klik.
+ * eronder. Wisselt vanzelf elke zes seconden; hover met de muis op de spot
+ * pauzeert, hover of klik op een thumbnail springt er direct heen. Bij
+ * verminderde beweging staat alles stil en blader je alleen met een klik.
  */
 export default function FeaturedProjects() {
   const [active, setActive] = useState(0);
@@ -33,13 +35,30 @@ export default function FeaturedProjects() {
   const total = featuredProjects.length;
   const go = (next: number) => setActive((next + total) % total);
 
-  // Eén timer per slide: springen naar een ander project laat de effect-cleanup
-  // lopen en start de zes seconden dus vanzelf opnieuw.
-  useEffect(() => {
+  // Het balkje en het doorschakelen lopen op dezelfde teller. Eerder was dat
+  // een setTimeout naast een losse CSS-animatie: pauzeerde de timer, dan liep
+  // het balkje gewoon vol zonder dat er iets wisselde.
+  const progress = useMotionValue(0);
+  const barWidth = useTransform(progress, (p) => `${p * 100}%`);
+
+  useAnimationFrame((_, delta) => {
     if (reduce || paused) return;
-    const id = window.setTimeout(() => setActive((i) => (i + 1) % total), SLIDE_MS);
-    return () => window.clearTimeout(id);
-  }, [active, paused, reduce, total]);
+    // Na een tabwissel levert de eerste frame een sprong van seconden op; die
+    // zou meteen een slide doorspoelen.
+    if (delta > MAX_FRAME_MS) return;
+    const next = progress.get() + delta / SLIDE_MS;
+    if (next < 1) {
+      progress.set(next);
+      return;
+    }
+    progress.set(0);
+    setActive((i) => (i + 1) % total);
+  });
+
+  // Handmatig bladeren zet de zes seconden opnieuw op nul.
+  useEffect(() => {
+    progress.set(0);
+  }, [active, progress]);
 
   const onTouchStart = (e: React.TouchEvent) => {
     touchStartX.current = e.touches[0].clientX;
@@ -82,8 +101,9 @@ export default function FeaturedProjects() {
         {/* De spot zelf: alle zes de slides liggen op elkaar, alleen de actieve is zichtbaar. */}
         <div
           className="relative h-[clamp(460px,54vw,640px)] overflow-hidden rounded-[36px] bg-[#111] text-white"
-          onMouseEnter={() => setPaused(true)}
-          onMouseLeave={() => setPaused(false)}
+          onPointerEnter={(e) => { if (e.pointerType === "mouse") setPaused(true); }}
+          onPointerLeave={(e) => { if (e.pointerType === "mouse") setPaused(false); }}
+          onPointerCancel={() => setPaused(false)}
           onTouchStart={onTouchStart}
           onTouchEnd={onTouchEnd}
         >
@@ -163,7 +183,7 @@ export default function FeaturedProjects() {
                 aria-current={isActive}
                 aria-label={`Toon ${project.title}`}
                 onClick={() => setActive(i)}
-                onMouseEnter={() => setActive(i)}
+                onPointerEnter={(e) => { if (e.pointerType === "mouse") setActive(i); }}
                 className={`relative aspect-[16/10] cursor-pointer overflow-hidden rounded-[16px] transition-opacity duration-300 outline-brand-accent outline-offset-2 focus-visible:outline-3 ${
                   isActive ? "opacity-100 outline-3" : "opacity-55 hover:opacity-90"
                 }`}
@@ -183,12 +203,13 @@ export default function FeaturedProjects() {
                 >
                   {project.title}
                 </span>
-                {/* Balkje loopt in zes seconden vol. De key start de animatie opnieuw bij elke wissel. */}
+                {/* Balkje loopt mee met dezelfde teller die doorschakelt, dus het staat
+                    stil zodra de spot gepauzeerd is en het loopt nooit voor of achter. */}
                 {isActive && (
-                  <span
-                    key={active}
+                  <motion.span
                     aria-hidden="true"
-                    className="absolute bottom-0 left-0 h-[3px] bg-brand-accent animate-[spotlightProgress_6s_linear_forwards] motion-reduce:hidden"
+                    style={{ width: barWidth }}
+                    className="absolute bottom-0 left-0 h-[3px] bg-brand-accent motion-reduce:hidden"
                   />
                 )}
               </button>

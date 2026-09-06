@@ -227,10 +227,10 @@ export default function Testimonials({ showTitle = true, desktopLayout = 'grid' 
   return (
     <section ref={sectionRef} className="relative overflow-hidden bg-white pb-24">
 
-      {/* Spiegelbeeld van de dienstensectie. Eerst de 90px-strook omgedraaid, zodat
-          de logobalk hierboven overloopt in het blauw, daarna het landschap op zijn
-          kop. De bergen liggen vóór de kaarten, die er onder vandaan komen. */}
-      <div aria-hidden="true" className="h-[90px] bg-linear-to-b from-brand-deep to-brand-accent" />
+      {/* Spiegelbeeld van de dienstensectie. Eerst een strook die vanuit het wit
+          onder de opdrachtgeversbalk het blauw in loopt, daarna het landschap op
+          zijn kop. De bergen liggen vóór de kaarten, die er onder vandaan komen. */}
+      <div aria-hidden="true" className="h-[120px] bg-linear-to-b from-white to-brand-accent" />
       <div aria-hidden="true" className="relative z-[2] -mt-px h-[200px]">
         <Mountains flipped className="h-full w-full" />
         {/* Witte fade, zodat de bergen oplossen in de sectie eronder. */}

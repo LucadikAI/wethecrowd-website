@@ -3,8 +3,6 @@ export type Service = {
   title: string;
   image: string;
   description: string;
-  /** Zet "· NIEUW" achter het nummer op de dienstenpagina. */
-  isNew?: boolean;
 };
 
 /**
@@ -26,7 +24,6 @@ export const services: Service[] = [
   {
     title: "Artiesten­boeking",
     image: "/dienst-artiesten.jpg",
-    isNew: true,
     description: "Op zoek naar de juiste act voor je programma? Ik denk mee over de line-up, leg contact met management, onderhandel voorwaarden en regel het contract. Zo past de artiest bij je publiek én je budget."
   },
   {

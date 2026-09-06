@@ -5,22 +5,25 @@ import { ArrowRight } from "lucide-react";
 import { services } from "../data/services";
 
 /**
- * Logo's met transparante achtergrond. De optische hoogte verschilt sterk per
- * logo — een breed woordmerk mag lager dan een rond beeldmerk — dus die staat
- * er per stuk bij in plaats van één vaste maat.
+ * Logo's met transparante achtergrond, allemaal even zwaar in beeld. Eén vaste
+ * hoogte werkt niet: een breed woordmerk oogt dan veel groter dan een vierkant
+ * beeldmerk, en een liggend logo met veel loze ruimte juist veel kleiner. De
+ * hoogte hieronder is daarom per logo uitgerekend op gelijk oppervlak
+ * (`50 / verhouding^0.4`, na het wegsnijden van de doorzichtige rand), zodat
+ * geen enkel logo eruit springt of wegvalt.
  */
 const logos = {
-  otl: { src: "/logo-one-ticket-left-t.png", name: "ONETICKETLEFT", height: 54 },
-  eo: { src: "/logo-eo-t.png", name: "EO", height: 48 },
-  tgb: { src: "/logo-tgb-t.png", name: "The Groundbreakers", height: 60 },
-  che: { src: "/logo-che-t.png", name: "CHE", height: 64 },
-  m410: { src: "/logo-410-mgmt-t.png", name: "410 MGMT Co.", height: 48 },
-  spruit: { src: "/logo-bureau-spruit-t.png", name: "Bureau Spruit", height: 54 },
-  nji: { src: "/logo-nji-t.png", name: "NJi", height: 46 },
-  fair: { src: "/logo-fairspace-t.png", name: "Fairspace", height: 64 },
-  div: { src: "/logo-diversiteitsland-t.png", name: "Stichting Diversiteitsland", height: 48 },
-  hop: { src: "/logo-hour-of-power-t.png", name: "Hour of Power", height: 56 },
-  gat: { src: "/logo-go-and-tell-t.png", name: "Go and Tell", height: 80 },
+  otl: { src: "/logo-one-ticket-left-t.png", name: "ONETICKETLEFT", height: 48 },
+  eo: { src: "/logo-eo-t.png", name: "EO", height: 42 },
+  tgb: { src: "/logo-tgb-t.png", name: "The Groundbreakers", height: 50 },
+  che: { src: "/logo-che-t.png", name: "CHE", height: 43 },
+  m410: { src: "/logo-410-mgmt-t.png", name: "410 MGMT Co.", height: 37 },
+  spruit: { src: "/logo-bureau-spruit-t.png", name: "Bureau Spruit", height: 44 },
+  nji: { src: "/logo-nji-t.png", name: "NJi", height: 50 },
+  fair: { src: "/logo-fairspace-t.png", name: "Fairspace", height: 56 },
+  div: { src: "/logo-diversiteitsland-t.png", name: "Stichting Diversiteitsland", height: 32 },
+  hop: { src: "/logo-hour-of-power-t.png", name: "Hour of Power", height: 50 },
+  gat: { src: "/logo-go-and-tell-t.png", name: "Go and Tell", height: 50 },
 } as const;
 
 type LogoKey = keyof typeof logos;
@@ -33,50 +36,45 @@ type Mark = {
   project?: string;
   slug?: string;
   role: string;
-  /** Optisch groter, voor een blok met maar één opdrachtgever. */
-  scale?: number;
-  /** Vaste plek in het logoveld: x in procent, y in px. Geen willekeur, anders
-   *  levert de prerender een andere pagina op dan de browser. */
-  pos: [number, number];
 };
 
 const blocks: { rotate: number; marks: Mark[] }[] = [
   {
     rotate: -2,
     marks: [
-      { logos: ["spruit", "nji"], project: "DiscoverEU Learning Cycle", slug: "discovereu-learning-cycle", role: "Producer", pos: [0, 44] },
-      { logos: ["fair"], project: "#DoeMeeMet5D", slug: "fairspace-doemeemet5d", role: "Eventmanager", pos: [40, 96] },
-      { logos: ["div"], project: "Indische Buurt Run 2026", slug: "indische-buurt-run-2026", role: "Projectleider", pos: [68, 36] },
-      { logos: ["tgb"], project: "PostNL, Hoog Catharijne & Veronica", slug: "the-groundbreakers-brand-experiences", role: "Project- en eventmanager", pos: [6, 120] },
+      { logos: ["spruit", "nji"], project: "DiscoverEU Learning Cycle", slug: "discovereu-learning-cycle", role: "Producer" },
+      { logos: ["fair"], project: "#DoeMeeMet5D", slug: "fairspace-doemeemet5d", role: "Eventmanager" },
+      { logos: ["div"], project: "Indische Buurt Run 2026", slug: "indische-buurt-run-2026", role: "Projectleider" },
+      { logos: ["tgb"], project: "PostNL, Hoog Catharijne & Veronica", slug: "the-groundbreakers-brand-experiences", role: "Project- en eventmanager" },
     ],
   },
   {
     rotate: 1.5,
     marks: [
-      { logos: ["otl", "eo"], project: "EO-Jongerendag", slug: "eo-jongerendag", role: "Artiestenbegeleider", pos: [0, 42] },
-      { logos: ["che"], project: "CHE70 Festival", slug: "che70-festival", role: "Artiestenbegeleider", pos: [58, 104] },
-      { logos: ["tgb"], project: "Oud & Nieuw Utrecht", slug: "oud-en-nieuw-utrecht", role: "Artiestenbegeleider", pos: [62, 30] },
-      { logos: ["m410"], project: "The Paper Kites", slug: "the-paper-kites-tourcoordinatie", role: "Tourtransport coördinator", pos: [16, 124] },
+      { logos: ["otl", "eo"], project: "EO-Jongerendag", slug: "eo-jongerendag", role: "Artiestenbegeleider" },
+      { logos: ["che"], project: "CHE70 Festival", slug: "che70-festival", role: "Artiestenbegeleider" },
+      { logos: ["tgb"], project: "Oud & Nieuw Utrecht", slug: "oud-en-nieuw-utrecht", role: "Artiestenbegeleider" },
+      { logos: ["m410"], project: "The Paper Kites", slug: "the-paper-kites-tourcoordinatie", role: "Tourtransport coördinator" },
     ],
   },
   {
     rotate: -1.2,
     marks: [
-      { logos: ["otl", "eo"], project: "EO-Jongerendag", slug: "eo-jongerendag", role: "Artiestenboeker", scale: 1.35, pos: [2, 58] },
+      { logos: ["otl", "eo"], project: "EO-Jongerendag", slug: "eo-jongerendag", role: "Artiestenboeker" },
     ],
   },
   {
     rotate: 1.8,
     marks: [
-      { logos: ["hop"], project: "Hour of Power Live", slug: "hour-of-power-live-2024", role: "Stagemanager", pos: [0, 40] },
-      { logos: ["otl"], project: "Crown Events", slug: "crown-events", role: "Stagemanager", pos: [36, 110] },
-      { name: "Next-Gen Security Conference", role: "Stagemanager", pos: [62, 34] },
+      { logos: ["hop"], project: "Hour of Power Live", slug: "hour-of-power-live-2024", role: "Stagemanager" },
+      { logos: ["otl"], project: "Crown Events", slug: "crown-events", role: "Stagemanager" },
+      { name: "Next-Gen Security Conference", role: "Stagemanager" },
     ],
   },
   {
     rotate: -1.5,
     marks: [
-      { logos: ["gat"], project: "Theatertour RAUW", slug: "theatertour-rauw", role: "Showcaller", scale: 1.3, pos: [2, 52] },
+      { logos: ["gat"], project: "Theatertour RAUW", slug: "theatertour-rauw", role: "Showcaller" },
     ],
   },
 ];
@@ -152,13 +150,12 @@ export default function ServiceBlocks() {
   }, [reduce]);
 
   return (
-    <div className="service-blocks pt-5 pb-[140px]">
+    <div className="service-blocks pt-5 pb-[56px]">
       {blocks.map((block, i) => {
         const service = services[i];
         const state = states[i];
         const active = state.on;
         const ice = i % 2 === 1;
-        const solo = block.marks.length === 1;
 
         return (
           <div
@@ -210,7 +207,6 @@ export default function ServiceBlocks() {
                     }`}
                   >
                     {String(i + 1).padStart(2, "0")}
-                    {service.isNew && " · NIEUW"}
                   </span>
 
                   <h2 className="text-[length:clamp(36px,4.2vw,62px)] leading-[0.98] tracking-[-0.03em]">
@@ -239,7 +235,6 @@ export default function ServiceBlocks() {
                         key={mark.project ? `${mark.project}-${mark.role}` : mark.name}
                         mark={mark}
                         index={j}
-                        solo={solo}
                         state={state}
                         reduce={reduce}
                       />
@@ -266,14 +261,15 @@ export default function ServiceBlocks() {
 }
 
 /**
- * Eén logo (of een duo) dat vrij op het blok staat: geen kader, alleen een
+ * Eén logo (of een duo) op een vaste plek in de rij: geen kader, alleen een
  * slagschaduw. Het komt vanuit de foto links aanvliegen, zweeft daarna in eigen
- * tempo en toont bij hover het project met de rol.
+ * tempo op en neer en toont bij hover het project met de rol. Ook een blok met
+ * maar één opdrachtgever werkt zo; anders staat de projectnaam daar meteen al
+ * uitgeschreven terwijl je hem bij de rest nog moet ontdekken.
  */
-function LogoMark({ mark, index, solo, state, reduce }: {
+function LogoMark({ mark, index, state, reduce }: {
   mark: Mark;
   index: number;
-  solo: boolean;
   state: BlockState;
   reduce: boolean;
 }) {
@@ -282,10 +278,10 @@ function LogoMark({ mark, index, solo, state, reduce }: {
   const fly = 520 + index * 50;
 
   const flyAnimation = visible
-    ? { opacity: 1, x: 0, y: 0, rotate: 0, scale: 1 }
+    ? { opacity: 1, x: 0, y: 0, rotate: 0 }
     : state.gone
-      ? { opacity: 0, x: -fly, y: 60, rotate: 0, scale: 0.7 }
-      : { opacity: 0, x: -fly, y: 40, rotate: -14, scale: 0.7 };
+      ? { opacity: 0, x: -fly, y: 60, rotate: 0 }
+      : { opacity: 0, x: -fly, y: 40, rotate: -14 };
 
   const content = (
     <>
@@ -322,8 +318,8 @@ function LogoMark({ mark, index, solo, state, reduce }: {
                 src={logos[key].src}
                 alt={logos[key].name}
                 draggable={false}
-                style={{ height: logos[key].height * (mark.scale ?? 1) }}
-                className="w-auto max-w-[190px] object-contain [filter:drop-shadow(0_10px_18px_rgba(0,0,0,0.18))]"
+                style={{ height: logos[key].height }}
+                className="w-auto max-w-[160px] object-contain [filter:drop-shadow(0_10px_18px_rgba(0,0,0,0.18))]"
               />
             </span>
           ))
@@ -339,12 +335,9 @@ function LogoMark({ mark, index, solo, state, reduce }: {
     </>
   );
 
-  const className = `mark group flex items-center gap-[14px] ${solo ? "mark-solo" : ""}`;
-
   return (
     <motion.div
-      className={className}
-      style={{ left: `${mark.pos[0]}%`, top: `${mark.pos[1]}px` }}
+      className="mark group flex items-center gap-[14px]"
       initial={false}
       animate={flyAnimation}
       transition={

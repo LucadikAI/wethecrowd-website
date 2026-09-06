@@ -46,7 +46,6 @@ type Card = {
   image: string | null;
   /** Uitsnede van de foto. Standaard "center"; per kaart bij te stellen als de titel op een druk deel valt. */
   objectPosition?: string;
-  isNew?: boolean;
   rotate: number;
   y: number;
   float: Float;
@@ -58,6 +57,7 @@ const cards: Card[] = [
     cta: "Meer over productie",
     description: opening(eventmanagement.description),
     image: "/dienst-eventmanagement.jpg",
+    objectPosition: "center 42%",
     rotate: -5,
     y: 22,
     float: { x: [0, 9, -6, 0], y: [0, -14, 5, 0], xDuration: 7.4, yDuration: 5.6 },
@@ -67,6 +67,7 @@ const cards: Card[] = [
     cta: "Meer over begeleiding",
     description: opening(artiestenbegeleiding.description),
     image: "/dienst-artiestenbegeleiding.jpg",
+    objectPosition: "center 38%",
     rotate: 3,
     y: -12,
     float: { x: [0, -8, 7, 0], y: [0, 10, -12, 0], xDuration: 6.3, yDuration: 7.1 },
@@ -77,7 +78,7 @@ const cards: Card[] = [
     // Voluit, niet ingekort: deze tekst is kort genoeg voor de open kaart.
     description: artiestenboeking.description,
     image: "/dienst-artiesten.jpg",
-    isNew: true,
+    objectPosition: "78% center",
     rotate: -2,
     y: 30,
     float: { x: [0, 7, -9, 0], y: [0, -16, 4, 0], xDuration: 8.2, yDuration: 6.4 },
@@ -87,6 +88,7 @@ const cards: Card[] = [
     cta: "Meer over stagemanagement",
     description: opening(stagemanagement.description),
     image: "/dienst-stagemanagement.jpg",
+    objectPosition: "42% center",
     rotate: 4,
     y: 0,
     float: { x: [0, -10, 5, 0], y: [0, -8, 12, 0], xDuration: 6.9, yDuration: 7.8 },
@@ -96,6 +98,7 @@ const cards: Card[] = [
     cta: "Meer over showcalling",
     description: opening(showcalling.description),
     image: "/dienst-showcalling.jpg",
+    objectPosition: "64% center",
     rotate: -4,
     y: 18,
     float: { x: [0, 6, -8, 0], y: [0, -12, 6, 0], xDuration: 7.7, yDuration: 5.9 },
@@ -424,13 +427,8 @@ export default function ServiceCards() {
                         style={{ background: isOpen ? SHADE_OPEN : SHADE_CLOSED }}
                       />
 
-                      <span
-                        className={`absolute left-4 top-[14px] z-[1] rounded-full px-[9px] py-[5px] font-display text-[11px] font-bold uppercase tracking-[0.14em] text-white backdrop-blur-[6px] ${
-                          card.isNew ? "bg-brand-accent" : "bg-black/35"
-                        }`}
-                      >
+                      <span className="absolute left-4 top-[14px] z-[1] rounded-full bg-black/35 px-[9px] py-[5px] font-display text-[11px] font-bold uppercase tracking-[0.14em] text-white backdrop-blur-[6px]">
                         {String(i + 1).padStart(2, "0")}
-                        {card.isNew && " · nieuw"}
                       </span>
 
                       {/* Tekst staat op de foto; de 76px onderpadding houdt hem boven de bergen.
@@ -498,8 +496,9 @@ export default function ServiceCards() {
         <Mountains className="absolute inset-x-0 bottom-0 z-10 h-(--mountain-h)" />
       </div>
 
-      {/* Overgang naar de volgende sectie. */}
-      <div aria-hidden="true" className="h-[90px] bg-linear-to-b from-brand-accent to-brand-deep" />
+      {/* Overgang naar wit: de opdrachtgeversbalk hoort op een witte achtergrond
+          te staan, dus het blauw van de bergen lost hier op in wit. */}
+      <div aria-hidden="true" className="h-[90px] bg-linear-to-b from-brand-accent to-white" />
     </section>
   );
 }

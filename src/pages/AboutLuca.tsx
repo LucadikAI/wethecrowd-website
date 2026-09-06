@@ -18,7 +18,10 @@ const quoteWords = "Van festivals tot bedrijfsevenementen, als freelancer sta ik
 
 const quote2Words = "Wat mij drijft? Het grotere plaatje. Ik word enthousiast van de strategische puzzel: creatieve vraagstukken oplossen, een sterke marketingstrategie neerzetten en alles laten kloppen binnen een bredere visie. Tegelijkertijd volg ik de nieuwste AI-ontwikkelingen in de evenementensector op de voet en denk ik graag actief mee over hoe jouw organisatie hier slim gebruik van kan maken.".split(' ');
 
-/** Een woord in het manifest dat met een foto gevuld is in plaats van met zwart. */
+/**
+ * Een woord in het manifest dat met een foto gevuld is in plaats van met zwart.
+ * De omschrijving is alleen alt-tekst; onder de foto komt niets te staan.
+ */
 type Photo = { image: string; caption: string };
 type PhotoWordSpec = Photo & { phrase: string };
 
@@ -27,22 +30,25 @@ const paragraphs: { eyebrow: string; words: string[]; photoWords: PhotoWordSpec[
     eyebrow: "Wat ik doe",
     words: quoteWords,
     photoWords: [
-      { phrase: "festivals", image: "/luca-werk-6.jpg", caption: "Showcalling in de kerk" },
-      { phrase: "creatief denken", image: "/luca-werk-9.jpg", caption: "Concepting met het team" },
+      { phrase: "festivals", image: "/eo-jongerendag-foh.jpg", caption: "De EO-Jongerendag gezien vanaf de regieplek" },
+      { phrase: "creatief denken", image: "/indische-buurt-run-publiek.jpg", caption: "Deelnemers onderweg tijdens de Indische Buurt Run" },
     ],
   },
   {
     eyebrow: "Wat mij drijft",
     words: quote2Words,
     photoWords: [
-      { phrase: "Het grotere plaatje.", image: "/luca-werk-7.jpg", caption: "Met het team na de show" },
+      { phrase: "Het grotere plaatje.", image: "/luca-werk-3.png", caption: "Op locatie" },
     ],
   },
 ];
 
-const strips: { items: Photo[]; startNumber: number; reverse: boolean }[] = [
+/**
+ * De twee stroken. Geen enkele foto hieruit staat ook achter een beeldwoord:
+ * dezelfde foto twee keer op de pagina haalt de verrassing eruit.
+ */
+const strips: { items: Photo[]; reverse: boolean }[] = [
   {
-    startNumber: 1,
     reverse: false,
     items: [
       { image: "/luca-werk-6.jpg", caption: "Showcalling in de kerk" },
@@ -54,15 +60,14 @@ const strips: { items: Photo[]; startNumber: number; reverse: boolean }[] = [
     ],
   },
   {
-    startNumber: 7,
     reverse: true,
     items: [
       { image: "/luca-quote2-2.jpg", caption: "Regie tijdens de show" },
       { image: "/luca-quote2-3.jpg", caption: "Volle bak" },
       { image: "/luca-quote2-4.jpg", caption: "Vlak voor doors" },
-      { image: "/luca-werk-3.png", caption: "Op locatie" },
+      { image: "/luca-werk-9.jpg", caption: "Buitenpodium bij het Olympisch Stadion" },
       { image: "/luca-quote2-5.jpg", caption: "Podium in opbouw" },
-      { image: "/luca-nu.jpg", caption: "Nu" },
+      { image: "/luca-joram-en-tim.jpg", caption: "Backstage met Joram en Tim" },
     ],
   },
 ];
@@ -239,23 +244,49 @@ function ManifestParagraph({ eyebrow, words, photoWords, openPhoto, dimmed, onOp
   );
 }
 
+/** Zo ver in de scroll begint en eindigt de verschuiving van een strook. */
+const STRIP_FROM = 0.12;
+const STRIP_TO = 0.88;
+
 /**
- * Een full-bleed rij foto's die tegen de scrollrichting in schuift. De tweede
- * strook op de pagina loopt de andere kant op, zodat de twee elkaar kruisen.
+ * Een full-bleed rij foto's die met de scroll meeschuift. De tweede strook op
+ * de pagina loopt de andere kant op, zodat de twee elkaar kruisen.
+ *
+ * De verschuiving is precies zo groot als de rij buiten beeld steekt: eerder
+ * was dat een vaste 12%, waardoor de laatste foto van een strook nooit in beeld
+ * kwam. Nu staat de eerste foto aan het begin volledig links en de laatste aan
+ * het eind volledig rechts.
  */
-function PhotoStrip({ items, startNumber, reverse, prefersReducedMotion }: {
+function PhotoStrip({ items, reverse, prefersReducedMotion }: {
   items: Photo[];
-  startNumber: number;
   reverse: boolean;
   prefersReducedMotion: boolean | null;
 }) {
   const stripRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const [overflow, setOverflow] = useState(0);
+
+  useEffect(() => {
+    const strip = stripRef.current;
+    const track = trackRef.current;
+    if (!strip || !track) return;
+    const measure = () => setOverflow(Math.max(0, track.scrollWidth - strip.clientWidth));
+    measure();
+    const observer = new ResizeObserver(measure);
+    observer.observe(strip);
+    observer.observe(track);
+    return () => observer.disconnect();
+  }, []);
+
   const { scrollYProgress } = useScroll({ target: stripRef, offset: ["start end", "end start"] });
-  const x = useTransform(scrollYProgress, [0, 1], reverse ? ["-12%", "12%"] : ["12%", "-12%"]);
+  const x = useTransform(scrollYProgress, (p) => {
+    const t = Math.min(1, Math.max(0, (p - STRIP_FROM) / (STRIP_TO - STRIP_FROM)));
+    return reverse ? -overflow * (1 - t) : -overflow * t;
+  });
 
   return (
     <div ref={stripRef} className="relative my-[90px] overflow-hidden">
-      <motion.div style={{ x: prefersReducedMotion ? 0 : x }} className="flex w-max gap-[18px]">
+      <motion.div ref={trackRef} style={{ x: prefersReducedMotion ? 0 : x }} className="flex w-max gap-[18px]">
         {items.map((item, i) => (
           <figure key={item.image} className="w-[clamp(240px,26vw,380px)] shrink-0">
             {/* Om en om liggend en staand; dat geeft de rij ritme. */}
@@ -267,12 +298,6 @@ function PhotoStrip({ items, startNumber, reverse, prefersReducedMotion }: {
                 i % 2 === 1 ? "ml-[10%] aspect-[3/4] w-[80%]" : "aspect-[4/3] w-full"
               }`}
             />
-            <figcaption className="mt-2.5 flex items-center gap-2 text-[12px] font-medium text-gray-500">
-              <span className="font-display text-[11px] font-bold tracking-[0.1em] text-brand-accent">
-                {String(startNumber + i).padStart(2, '0')}
-              </span>
-              {item.caption}
-            </figcaption>
           </figure>
         ))}
       </motion.div>
@@ -330,7 +355,9 @@ export default function AboutLuca() {
     >
       {/* Photo + Text */}
       <div className="container mx-auto px-6">
-        <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-end">
+        {/* De kop begint gelijk met de bovenkant van de foto; de twee alinea's
+            staan daaronder verticaal gecentreerd in de resterende hoogte. */}
+        <div className="grid items-stretch gap-16 lg:grid-cols-2 lg:gap-24">
           {/* Left Side: Photo */}
           <motion.div
             initial={prefersReducedMotion ? false : { opacity: 0, x: -30, scale: 0.95 }}
@@ -364,11 +391,12 @@ export default function AboutLuca() {
             initial={prefersReducedMotion ? false : { opacity: 0, x: 30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ ...springEnter, delay: 0.12 }}
+            className="flex flex-col"
           >
-            <h1 className="text-6xl md:text-8xl font-bold mb-12 tracking-tight">
+            <h1 className="text-6xl md:text-8xl font-bold tracking-tight">
               Ik ben Luca.
             </h1>
-            <div className="space-y-8 text-xl md:text-2xl text-gray-800 leading-relaxed font-light">
+            <div className="flex flex-1 flex-col justify-center space-y-8 py-12 text-xl md:text-2xl text-gray-800 leading-relaxed font-light">
               <p>
                 Als klein jongetje werd ik regelmatig door mijn vader meegenomen naar het GelreDome in Arnhem. Als projectleider bij grote evenementen moest hij er dagen van tevoren aanwezig zijn voor de voorbereidingen. Terwijl hij aan het werk was, raakte ik gefascineerd door de wereld achter de schermen: de opbouw van het podium, de aankomst van artiesten, de generale repetities en uiteindelijk de duizenden bezoekers die de zaal vulden.
               </p>
@@ -566,17 +594,12 @@ export default function AboutLuca() {
         className="pointer-events-none fixed right-[4vw] top-1/2 z-50 aspect-[4/5] w-[min(280px,60vw)] overflow-hidden rounded-[28px] shadow-[0_50px_100px_-40px_rgba(0,0,0,0.5)] md:w-[min(420px,32vw)]"
       >
         {lastPhoto && (
-          <>
-            <img
-              src={lastPhoto.image}
-              alt=""
-              draggable={false}
-              className="h-full w-full object-cover"
-            />
-            <span className="absolute bottom-4 left-[18px] text-[12px] font-semibold text-white [text-shadow:0_2px_8px_rgba(0,0,0,0.6)]">
-              {lastPhoto.caption}
-            </span>
-          </>
+          <img
+            src={lastPhoto.image}
+            alt=""
+            draggable={false}
+            className="h-full w-full object-cover"
+          />
         )}
       </motion.div>
 

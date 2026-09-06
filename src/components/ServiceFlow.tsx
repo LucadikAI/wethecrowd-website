@@ -66,10 +66,10 @@ export default function ServiceFlow() {
   const tap = (id: string) => setActive((prev) => (prev === id ? null : id));
 
   return (
-    <section className="py-20 bg-white">
+    <section className="bg-white pt-6 pb-20">
       <div className="container mx-auto px-6">
         {/* Label */}
-        <p className="text-xs font-semibold tracking-[0.25em] uppercase text-gray-400 mb-12">
+        <p className="mb-10 text-xs font-semibold uppercase tracking-[0.25em] text-gray-400">
           hulp nodig bij:
         </p>
 
