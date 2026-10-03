@@ -113,6 +113,19 @@ Als eventmanager op locatie zorgde ik dat de op- en afbouw strak verliep, dat de
     galleryCredits: ["Martin Hols", null, null]
   },
   {
+    id: 17,
+    slug: "amsterdam-business-forum-pre-event",
+    title: "Amsterdam Business Forum — Pre-event",
+    role: "Eventmanager",
+    client: "DenkProducties",
+    impact: "Een pre-event met spreker en 5-gangen walking dinner in de SKYY Bar van WestCord Fashion Hotel Amsterdam, de avond voor het Amsterdam Business Forum.",
+    description: "Een deel van de bezoekers van het Amsterdam Business Forum overnacht in WestCord Fashion Hotel Amsterdam. Voor hen organiseerden we de avond ervoor een pre-event in de SKYY Bar: een inhoudelijk moment met een spreker, gevolgd door een 5-gangen walking dinner. Voor nieuwe opdrachtgever DenkProducties deed ik als eventmanager zowel de voorbereiding als de uitvoering, van de afstemming met hotel en spreker tot de briefing, de techniek en de regie op de avond zelf.",
+    image: "/amsterdam-business-forum-pre-event.jpg",
+    year: "2026",
+    location: "WestCord Fashion Hotel Amsterdam",
+    gallery: []
+  },
+  {
     id: 16,
     slug: "nationale-viering-bevrijding",
     title: "Nationale Viering van de Bevrijding",
