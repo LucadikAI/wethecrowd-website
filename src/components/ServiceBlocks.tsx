@@ -25,6 +25,7 @@ const logos = {
   hop: { src: "/logo-hour-of-power-t.png", name: "Hour of Power", height: 50 },
   ngsc: { src: "/logo-next-gen-security-t.png", name: "Next Gen Security Conference The Hague", height: 34 },
   gat: { src: "/logo-go-and-tell-t.png", name: "Go and Tell", height: 50 },
+  denk: { src: "/logo-denk-producties-t.png", name: "DenkProducties", height: 49 },
 } as const;
 
 type LogoKey = keyof typeof logos;
@@ -47,6 +48,7 @@ const blocks: { rotate: number; marks: Mark[] }[] = [
       { logos: ["fair"], project: "#DoeMeeMet5D", slug: "fairspace-doemeemet5d", role: "Eventmanager" },
       { logos: ["div"], project: "Indische Buurt Run 2026", slug: "indische-buurt-run-2026", role: "Projectleider" },
       { logos: ["tgb"], project: "PostNL, Hoog Catharijne & Veronica", slug: "the-groundbreakers-brand-experiences", role: "Project- en eventmanager" },
+      { logos: ["denk"], project: "Amsterdam Business Forum — Pre-event", slug: "amsterdam-business-forum-pre-event", role: "Eventmanager" },
     ],
   },
   {
