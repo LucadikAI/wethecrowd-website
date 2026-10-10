@@ -128,6 +128,11 @@
   transition: opacity 0.25s, transform 0.25s;
 }
 
+.service-blocks .mark-label-flip {
+  left: auto;
+  right: 0;
+}
+
 .service-blocks .mark-label small {
   display: block;
   font-family: var(--font-sans);

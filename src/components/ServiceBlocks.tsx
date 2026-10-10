@@ -279,6 +279,17 @@ function LogoMark({ mark, index, state, reduce }: {
   reduce: boolean;
 }) {
   const visible = state.on && !state.gone;
+  const labelRef = useRef<HTMLSpanElement>(null);
+  // Past het label niet meer binnen het blok (laatste logo van een rij), dan
+  // hangt het rechts onder het logo in plaats van links.
+  const [flip, setFlip] = useState(false);
+  const checkFit = (event: React.SyntheticEvent<HTMLElement>) => {
+    const label = labelRef.current;
+    const article = event.currentTarget.closest("article");
+    if (!label || !article) return;
+    const markLeft = event.currentTarget.getBoundingClientRect().left;
+    setFlip(markLeft + label.offsetWidth > article.getBoundingClientRect().right - 16);
+  };
   // Elk logo komt van iets verder weg, zodat ze niet als één rij binnenkomen.
   const fly = 520 + index * 50;
 
@@ -332,7 +343,7 @@ function LogoMark({ mark, index, state, reduce }: {
       </motion.span>
 
       {mark.project && (
-        <span className="mark-label">
+        <span ref={labelRef} className={`mark-label${flip ? " mark-label-flip" : ""}`}>
           {mark.project}
           <small>{mark.role}</small>
         </span>
@@ -343,6 +354,8 @@ function LogoMark({ mark, index, state, reduce }: {
   return (
     <motion.div
       className="mark group flex items-center gap-[14px]"
+      onMouseEnter={checkFit}
+      onFocus={checkFit}
       initial={false}
       animate={flyAnimation}
       transition={
