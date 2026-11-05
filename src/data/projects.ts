@@ -38,8 +38,12 @@ export const projects: Project[] = [
     title: "PostNL, Hoog Catharijne & Veronica",
     role: "Project- en eventmanager",
     client: "The Groundbreakers",
-    impact: "Diverse activaties en events voor The Groundbreakers: een Sinterklaasviering voor PostNL in Assen, Badeendjesbaai met een 8 meter hoge badeend in Hoog Catharijne en de guerrilla-tour van de Radio Veronica Cheersquad.",
+    impact: "Diverse activaties en events voor The Groundbreakers: een Yum Yum × One Piece-piratenhaven in Hoog Catharijne, een Sinterklaasviering voor PostNL in Assen, Badeendjesbaai met een 8 meter hoge badeend in Hoog Catharijne en de guerrilla-tour van de Radio Veronica Cheersquad.",
     description: `Voor The Groundbreakers werk ik als project- en eventmanager aan uiteenlopende brand experiences en events. Van kinderfeest tot zomeractivatie en guerrilla-tour: steeds met dezelfde opdracht, namelijk het voortraject strak houden en op locatie zorgen dat het plan ook echt gebeurt.
+
+## Yum Yum × One Piece pop-up — Hoog Catharijne, Utrecht
+
+Ter ere van de samenwerking tussen Yum Yum en One Piece zetten we in Hoog Catharijne een complete piratenhaven neer. Bezoekers konden er op ontdekking: noodles proeven, aan het rad draaien, prijzen winnen en op de foto bij het WANTED-fotoframe. Als projectmanager zette ik de activatie de afgelopen maanden op touw voor The Groundbreakers en Heuschen & Schrouff Oriental Food, van ontwerp en drukwerk tot leveranciers, hosts en draaiboek. Drie dagen lang stond er geen moment stil: wat een drukte en wat een enthousiasme van alle noodle- en One Piece-fans.
 
 ## Badeendjesbaai — Hoog Catharijne, Utrecht
 
@@ -57,7 +61,7 @@ Als eventmanager op locatie zorgde ik dat de op- en afbouw strak verliep, dat de
     year: "2025-2026",
     location: "Utrecht, Den Haag, Nijmegen & Assen",
     gallery: [
-      "/tgb-gallery-1.jpg",
+      "/yumyum-one-piece.jpg",
       "/veronica-cheersquad.jpg",
       "/postnl-sinterklaas.jpg"
     ],
