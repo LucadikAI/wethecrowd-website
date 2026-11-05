@@ -47,7 +47,7 @@ const blocks: { rotate: number; marks: Mark[] }[] = [
       { logos: ["spruit", "nji"], project: "DiscoverEU Learning Cycle", slug: "discovereu-learning-cycle", role: "Producer" },
       { logos: ["fair"], project: "#DoeMeeMet5D", slug: "fairspace-doemeemet5d", role: "Eventmanager" },
       { logos: ["div"], project: "Indische Buurt Run 2026", slug: "indische-buurt-run-2026", role: "Projectleider" },
-      { logos: ["tgb"], project: "PostNL, Hoog Catharijne & Veronica", slug: "the-groundbreakers-brand-experiences", role: "Project- en eventmanager" },
+      { logos: ["tgb"], project: "Yum Yum, Hoog Catharijne, PostNL & Veronica", slug: "the-groundbreakers-brand-experiences", role: "Project- en eventmanager" },
       { logos: ["denk"], project: "Amsterdam Business Forum — Pre-event", slug: "amsterdam-business-forum-pre-event", role: "Eventmanager" },
     ],
   },

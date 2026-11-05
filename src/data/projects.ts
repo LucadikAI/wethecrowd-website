@@ -35,7 +35,7 @@ export const projects: Project[] = [
   {
     id: 8,
     slug: "the-groundbreakers-brand-experiences",
-    title: "PostNL, Hoog Catharijne & Veronica",
+    title: "Yum Yum, Hoog Catharijne, PostNL & Veronica",
     role: "Project- en eventmanager",
     client: "The Groundbreakers",
     impact: "Diverse activaties en events voor The Groundbreakers: een Yum Yum × One Piece-piratenhaven in Hoog Catharijne, een Sinterklaasviering voor PostNL in Assen, Badeendjesbaai met een 8 meter hoge badeend in Hoog Catharijne en de guerrilla-tour van de Radio Veronica Cheersquad.",
