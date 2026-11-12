@@ -160,19 +160,23 @@ function PhotoWord({ text, photo, isOpen, onOpen, onClose }: {
           isOpen ? onClose() : onOpen(photo);
         }}
         className="relative inline-block cursor-pointer text-left align-baseline outline-offset-4 focus-visible:outline-3 focus-visible:outline-brand-accent"
-        style={{
-          backgroundImage: `url('${photo.image}')`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundClip: 'text',
-          WebkitBackgroundClip: 'text',
-          color: 'transparent',
-          WebkitTextFillColor: 'transparent',
-          // Zonder deze correctie blijven de letters te donker om te lezen.
-          filter: 'saturate(1.4) contrast(1.15) brightness(1.2)',
-        }}
       >
-        {text}
+        {/* De foto zit op een eigen span, zonder CSS-filter: Safari op de iPhone
+            tekent tekst met background-clip niet zodra er een filter op staat
+            (dan bleef alleen het streepje over). */}
+        <span
+          style={{
+            backgroundImage: `url('${photo.image}')`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundClip: 'text',
+            WebkitBackgroundClip: 'text',
+            color: 'transparent',
+            WebkitTextFillColor: 'transparent',
+          }}
+        >
+          {text}
+        </span>
         <span aria-hidden="true" className="absolute inset-x-0 -bottom-1 h-1 rounded-[2px] bg-brand-accent opacity-70" />
       </button>{' '}
     </>
