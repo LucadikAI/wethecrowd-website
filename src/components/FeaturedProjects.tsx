@@ -18,6 +18,8 @@ const SWIPE_THRESHOLD = 50;
 
 /** Verloop van links naar rechts, zodat de tekst linksonder op elke foto leesbaar blijft. */
 const SPOT_SHADE = "linear-gradient(to right, rgba(0,0,0,.78), rgba(0,0,0,.35) 50%, rgba(0,0,0,.05))";
+/** Op de telefoon loopt de tekst over de hele breedte: daar donkert het verloop van onder naar boven. */
+const SPOT_SHADE_MOBILE = "linear-gradient(to top, rgba(0,0,0,.85), rgba(0,0,0,.55) 55%, rgba(0,0,0,.1))";
 
 /**
  * Eén project beeldvullend in de schijnwerper, met een strip van zes thumbnails
@@ -129,11 +131,12 @@ export default function FeaturedProjects() {
                     isActive ? "motion-safe:scale-100" : "motion-safe:scale-[1.06]"
                   }`}
                 />
-                <div aria-hidden="true" className="absolute inset-0" style={{ background: SPOT_SHADE }} />
+                <div aria-hidden="true" className="absolute inset-0 md:hidden" style={{ background: SPOT_SHADE_MOBILE }} />
+                <div aria-hidden="true" className="absolute inset-0 hidden md:block" style={{ background: SPOT_SHADE }} />
 
                 <span
                   aria-hidden="true"
-                  className="absolute right-10 top-7 font-display font-bold leading-none tracking-[-0.05em] text-white/[.14] text-[length:clamp(80px,12vw,160px)]"
+                  className="absolute right-5 top-4 md:right-10 md:top-7 font-display font-bold leading-none tracking-[-0.05em] text-white/[.14] text-[64px] md:text-[length:clamp(80px,12vw,160px)]"
                 >
                   {String(i + 1).padStart(2, "0")}
                 </span>
@@ -145,7 +148,7 @@ export default function FeaturedProjects() {
                 )}
 
                 <div
-                  className={`absolute bottom-0 left-0 max-w-[640px] px-[48px] py-[44px] transition-[opacity,transform] duration-700 delay-200 motion-reduce:transition-none ${
+                  className={`absolute bottom-0 left-0 max-w-[640px] px-6 py-7 md:px-[48px] md:py-[44px] transition-[opacity,transform] duration-700 delay-200 motion-reduce:transition-none ${
                     isActive ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0"
                   }`}
                 >
@@ -153,10 +156,10 @@ export default function FeaturedProjects() {
                     <span className="font-bold text-brand-glacier">{project.role}</span>{" "}
                     <span className="font-medium text-white/60">· {project.client}</span>
                   </p>
-                  <h3 className="mt-3 mb-3.5 font-bold leading-none text-[length:clamp(30px,3.4vw,50px)]">
+                  <h3 className="mt-3 mb-3.5 font-bold leading-[1.05] text-[28px] [hyphens:manual] [text-wrap:balance] md:leading-none md:text-[length:clamp(30px,3.4vw,50px)]">
                     {project.title}
                   </h3>
-                  <p className="mb-[22px] text-[16px] leading-[1.6] text-white/82">{project.impact}</p>
+                  <p className="mb-[22px] text-[15px] leading-[1.55] text-white/82 line-clamp-5 md:line-clamp-none md:text-[16px] md:leading-[1.6]">{project.impact}</p>
                   <Link
                     to={`/projecten/${project.slug}`}
                     tabIndex={isActive ? 0 : -1}
@@ -172,7 +175,7 @@ export default function FeaturedProjects() {
         </div>
 
         {/* Thumbnailstrip: springen naar een project en tegelijk de teller van zes seconden. */}
-        <div className="mt-[18px] grid grid-cols-3 gap-[14px] md:grid-cols-6">
+        <div className="mt-3 grid grid-cols-6 gap-2 md:mt-[18px] md:gap-[14px]">
           {featuredProjects.map((project, i) => {
             const isActive = i === active;
 
@@ -184,7 +187,7 @@ export default function FeaturedProjects() {
                 aria-label={`Toon ${project.title}`}
                 onClick={() => setActive(i)}
                 onPointerEnter={(e) => { if (e.pointerType === "mouse") setActive(i); }}
-                className={`relative aspect-[16/10] cursor-pointer overflow-hidden rounded-[16px] transition-opacity duration-300 outline-brand-accent outline-offset-2 focus-visible:outline-3 ${
+                className={`relative aspect-square md:aspect-[16/10] cursor-pointer overflow-hidden rounded-[10px] md:rounded-[16px] transition-opacity duration-300 outline-brand-accent outline-offset-2 focus-visible:outline-3 ${
                   isActive ? "opacity-100 outline-3" : "opacity-55 hover:opacity-90"
                 }`}
               >
@@ -195,10 +198,17 @@ export default function FeaturedProjects() {
                   referrerPolicy="no-referrer"
                   className="h-full w-full object-cover"
                 />
+                {/* Op de telefoon zijn de thumbnails te klein voor een titel: daar
+                    alleen het nummer, de titel staat al groot in de spot. */}
                 <span
-                  // Rechts begrensd en afbreekbaar: op drie kolommen past een lange
-                  // projectnaam anders niet in de thumbnail.
-                  className="absolute bottom-2.5 left-3 right-3 text-left text-[12px] font-bold text-white [overflow-wrap:anywhere]"
+                  aria-hidden="true"
+                  className="absolute inset-0 flex items-center justify-center bg-black/25 font-display text-[15px] font-bold text-white md:hidden"
+                  style={{ textShadow: "0 1px 6px rgba(0,0,0,.6)" }}
+                >
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <span
+                  className="absolute bottom-2.5 left-3 right-3 hidden text-left text-[12px] font-bold text-white md:block"
                   style={{ textShadow: "0 1px 6px rgba(0,0,0,.6)" }}
                 >
                   {project.title}
