@@ -117,7 +117,9 @@ export default function FeaturedProjects() {
                 key={project.slug}
                 aria-hidden={!isActive}
                 className={`absolute inset-0 transition-opacity duration-[800ms] motion-reduce:transition-none ${
-                  isActive ? "opacity-100" : "opacity-0"
+                  // Onzichtbare slides liggen er nog wel bovenop: zonder
+                  // pointer-events-none vangt de laatste (bovenste) elke klik op.
+                  isActive ? "opacity-100" : "pointer-events-none opacity-0"
                 }`}
               >
                 <img
